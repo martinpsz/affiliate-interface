@@ -1,6 +1,9 @@
 
 import { createContext} from '@lit-labs/context'
 
+
+export const appContext = createContext(Symbol('app-context'))
+
 export const dataContext = createContext<affiliateData>({agr_id: Number});
 
 interface Contact {

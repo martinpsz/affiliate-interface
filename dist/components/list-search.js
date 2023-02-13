@@ -5,15 +5,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 let ListSearch = class ListSearch extends LitElement {
     render() {
         return html `
-            <p>Hello from list search</p>
+            <label></label>
+            <input placeholder=""/>
         
         `;
     }
 };
+__decorate([
+    property()
+], ListSearch.prototype, "render", null);
 ListSearch = __decorate([
     customElement('list-search')
 ], ListSearch);

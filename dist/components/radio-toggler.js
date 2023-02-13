@@ -6,15 +6,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
-let RadioToggle = class RadioToggle extends LitElement {
+let RadioToggler = class RadioToggler extends LitElement {
     constructor() {
-        super();
+        super(...arguments);
         this._checkedItem = () => {
             var _a;
             const inputOptions = Array.from((_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelectorAll('.option input'));
             let selection = inputOptions.filter(val => val.checked && val)[0].id;
         };
-        this.prompt = '';
     }
     render() {
         return html `
@@ -24,9 +23,10 @@ let RadioToggle = class RadioToggle extends LitElement {
                     ${this.labels.map(label => html `
                         <div class="option">
                             ${label === this.defaultChecked ?
-            html `<input id=${label} type="radio" @input=${this._checkedItem} checked name="option"/>` :
-            html `<input id=${label} type="radio" @input=${this._checkedItem} name="option"/>`}
-                            <label for=${label}>${label}</label>
+            html `
+                                <input id=${label} type="radio" @input=${this._checkedItem} checked name="option"/>` :
+            html `
+                                <input id=${label} type="radio" @input=${this._checkedItem} name="option"/>`}
                         </div>
                     `)}
                 </div>
@@ -35,7 +35,7 @@ let RadioToggle = class RadioToggle extends LitElement {
         `;
     }
 };
-RadioToggle.styles = css `
+RadioToggler.styles = css `
         div{
             display: flex;
         }
@@ -44,43 +44,41 @@ RadioToggle.styles = css `
             flex-direction: column;
         }
 
-        .radio-options{
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
+        .vertical span{
+            margin-bottom: 0.25em;
         }
 
-        .option{
-            display: flex;
-            align-items: center;
+        .radio-options{
+            display: inline-flex;
         }
 
         .option input{
-            margin: 0 0.25em 0 0;
+            margin: 0;
+            border: 1px solid var(--blue);
             appearance: none;
-            background: rgb(var(--blue));
-            border: 1px solid rgb(var(--white));
-            height: 0.8em;
-            width: 0.8em;
-            
+            background: white;
+            width: 100%;
+            height: 2em;
+            padding: 0 2em;
+            position: relative;
         }
 
         .option input:checked{
-            background: rgb(var(--red));
+            background: var(--blue);
+            color: white;
         }
 
-        span, label{
+        span {
             font-family: var(--font);
-            color: rgb(var(--white));
+            color: var(--black);
             font-size: 0.8em;
             text-transform: uppercase;
         }
-
     `;
 __decorate([
     property()
-], RadioToggle.prototype, "prompt", void 0);
-RadioToggle = __decorate([
-    customElement('radio-toggle')
-], RadioToggle);
-export { RadioToggle };
+], RadioToggler.prototype, "prompt", void 0);
+RadioToggler = __decorate([
+    customElement('radio-toggler')
+], RadioToggler);
+export { RadioToggler };

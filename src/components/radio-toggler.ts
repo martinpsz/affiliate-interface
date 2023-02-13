@@ -1,8 +1,8 @@
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
-@customElement('radio-toggle')
-export class RadioToggle extends LitElement{
+@customElement('radio-toggler')
+export class RadioToggler extends LitElement{
     static styles = css`
         div{
             display: flex;
@@ -12,50 +12,44 @@ export class RadioToggle extends LitElement{
             flex-direction: column;
         }
 
-        .radio-options{
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
+        .vertical span{
+            margin-bottom: 0.25em;
         }
 
-        .option{
-            display: flex;
-            align-items: center;
+        .radio-options{
+            display: inline-flex;
         }
 
         .option input{
-            margin: 0 0.25em 0 0;
+            margin: 0;
+            border: 1px solid var(--blue);
             appearance: none;
-            background: rgb(var(--blue));
-            border: 1px solid rgb(var(--white));
-            height: 0.8em;
-            width: 0.8em;
-            
+            background: white;
+            width: 100%;
+            height: 2em;
+            padding: 0 2em;
+            position: relative;
         }
 
         .option input:checked{
-            background: rgb(var(--red));
+            background: var(--blue);
+            color: white;
         }
 
-        span, label{
+        span {
             font-family: var(--font);
-            color: rgb(var(--white));
+            color: var(--black);
             font-size: 0.8em;
             text-transform: uppercase;
         }
-
     `
 
     @property()
-    prompt: String
+    prompt?: String
     labels!: []
     defaultChecked!: String
     columnDirection!: String;
 
-    constructor() {
-        super();
-        this.prompt = '';
-    }
 
     render() {
         return html`
@@ -65,10 +59,11 @@ export class RadioToggle extends LitElement{
                     ${this.labels.map(label => html`
                         <div class="option">
                             ${label === this.defaultChecked ? 
-                                html`<input id=${label} type="radio" @input=${this._checkedItem} checked name="option"/>` :
-                                html`<input id=${label} type="radio" @input=${this._checkedItem} name="option"/>`
+                                html`
+                                <input id=${label} type="radio" @input=${this._checkedItem} checked name="option"/>` :
+                                html`
+                                <input id=${label} type="radio" @input=${this._checkedItem} name="option"/>`
                             }
-                            <label for=${label}>${label}</label>
                         </div>
                     `)}
                 </div>
@@ -86,6 +81,6 @@ export class RadioToggle extends LitElement{
 
 declare global {
     interface HTMLElementTagName {
-        'radio-toggle': RadioToggle;
+        'radio-toggler': RadioToggler;
     }
 }

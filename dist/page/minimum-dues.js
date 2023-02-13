@@ -5,10 +5,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
-import { provide } from "@lit-labs/context";
-import { dataContext } from "../context/data";
-import data from '../test-data.json' assert { type: "json" };
+import { customElement, state } from "lit/decorators.js";
 import '../sections/header-section';
 import '../sections/footer-section';
 import '../sections/list-section';
@@ -16,11 +13,9 @@ import '../sections/form-section';
 let MinimumDues = class MinimumDues extends LitElement {
     constructor() {
         super();
-        this.data = data;
         this._windowWidth = window.innerWidth;
     }
     render() {
-        console.log(this._windowWidth);
         return html `
             <div class="container">
                 <header-section></header-section>
@@ -29,7 +24,7 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `
                     <main>
                         <list-section></list-section>
-                        <form-section></form-section>
+                        <form-section ></form-section>
                     </main>`}
                 <footer-section></footer-section>
             </div>
@@ -38,12 +33,15 @@ let MinimumDues = class MinimumDues extends LitElement {
 };
 MinimumDues.styles = css `
         :host{
-            --green: rgb(8,172,82);
-            --blue: rgb(21, 50, 67);
-            --white: rgb(252, 252, 252);
-            --red: rgb(164, 14, 76);
-            --black: rgb(25, 21, 22);
-            --font: 'Montserrat', sans-serif;
+            --green: 8,172,82;
+            --white: 252, 252, 252;
+            --red: 164, 14, 76;
+            --black: 21, 50, 67;
+            --blue: 5, 87, 164;
+            --font: 'Poppins', sans-serif;
+
+            background: var(--white);
+
         }
 
         .container{
@@ -52,7 +50,6 @@ MinimumDues.styles = css `
             align-items: center;
             height: 100%;
             justify-content: space-between;
-            background: var(--white);
         }
 
         #mobile-msg{
@@ -68,7 +65,6 @@ MinimumDues.styles = css `
         }
 
         main{
-            border: 1px solid red;
             height: 100%;
             width: calc(100% - 2em);
             max-width: 1200px;
@@ -78,23 +74,13 @@ MinimumDues.styles = css `
 
         list-section{
             flex: 30%;
-            padding: 0 0.5em;
-            outline: 1px solid green;
+            background: rgb(var(--blue));
         }
 
         form-section{
             flex: 70%;
-            padding: 0 0.5em;
-            border: 1px solid blue;
         }
-
-
-
     `;
-__decorate([
-    provide({ context: dataContext }),
-    property({ attribute: false })
-], MinimumDues.prototype, "data", void 0);
 __decorate([
     state()
 ], MinimumDues.prototype, "_windowWidth", void 0);

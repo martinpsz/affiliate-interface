@@ -7,6 +7,7 @@
     "es-dev-server": "^2.1.0"
   },
   "scripts": {
+    "compile": "tsc --watch",
     "start": "npx es-dev-server --node-resolve --watch"
   }
 }
