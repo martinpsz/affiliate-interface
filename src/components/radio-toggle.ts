@@ -1,5 +1,5 @@
 import { LitElement, html, css, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 
 @customElement('radio-toggle')
 export class RadioToggle extends LitElement{
@@ -26,7 +26,7 @@ export class RadioToggle extends LitElement{
         .option input{
             margin: 0 0.25em 0 0;
             appearance: none;
-            background: rgb(var(--blue));
+            background: rgb(var(--black));
             border: 1px solid rgb(var(--white));
             height: 0.8em;
             width: 0.8em;
@@ -47,15 +47,10 @@ export class RadioToggle extends LitElement{
     `
 
     @property()
-    prompt: String
+    prompt?: String
     labels!: []
     defaultChecked!: String
     columnDirection!: String;
-
-    constructor() {
-        super();
-        this.prompt = '';
-    }
 
     render() {
         return html`
@@ -73,14 +68,19 @@ export class RadioToggle extends LitElement{
                     `)}
                 </div>
             </div>
-
         `
     }
 
+    //make sure to assign a unique name to each dispatch instance.
     _checkedItem = () => {
         const inputOptions = Array.from(this.renderRoot?.querySelectorAll('.option input')) as Array<HTMLInputElement>
-        let selection = inputOptions.filter(val => val.checked && val)[0].id
-        //dispatch value of selection or set context state to value. Set the default state to true and update on user input.
+        let _selection = inputOptions.filter(val => val.checked && val)[0].id
+        
+        this.dispatchEvent(new CustomEvent('status_selection', {
+            detail : _selection,
+            bubbles: true,
+            composed: true
+        }))
     }
 }
 

@@ -22,7 +22,7 @@ let ListNav = class ListNav extends LitElement {
 ListNav.styles = css `
        div{
          width: 100%;
-         background: var(--blue);
+         margin: 1em 0;
        }
 
        text-field{

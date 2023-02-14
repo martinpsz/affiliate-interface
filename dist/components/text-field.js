@@ -10,8 +10,8 @@ let TextField = class TextField extends LitElement {
     constructor() {
         super(...arguments);
         this._captureInput = () => {
-            const _searchTerm = this.renderRoot.querySelector('input').value;
-            this.dispatchEvent(new CustomEvent('unit-search', { detail: _searchTerm, bubbles: true, composed: true }));
+            const _unitSearchTerm = this.renderRoot.querySelector('input').value;
+            this.dispatchEvent(new CustomEvent('unit-search', { detail: _unitSearchTerm, bubbles: true, composed: true }));
         };
     }
     render() {

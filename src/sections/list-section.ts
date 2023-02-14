@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import '../components/list-nav'
+import '../components/list-container'
 
 @customElement('list-section')
 export class ListSection extends LitElement {
@@ -9,12 +10,17 @@ export class ListSection extends LitElement {
             padding: 0.5em 1em;
 
         }   
-    
     `
+
+    @state()
+    _payload = []
+
+
     render(){
         return html`
             <section>
                 <list-nav></list-nav>
+                <list-container ._payload=${this._payload}></list-container>
             </section>
         `
     }

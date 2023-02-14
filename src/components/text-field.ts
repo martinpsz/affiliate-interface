@@ -47,10 +47,10 @@ export class TextField extends LitElement {
         `
     }
 
+    //make sure to distinguish between the text passed from different instances...
     _captureInput = () => {
-        const _searchTerm = this.renderRoot.querySelector('input')!.value
-        //add dispatch event or update the context value with the above value.
-        this.dispatchEvent(new CustomEvent('unit-search', {detail: _searchTerm, bubbles: true, composed: true}))
+        const _unitSearchTerm = this.renderRoot.querySelector('input')!.value
+        this.dispatchEvent(new CustomEvent('unit-search', {detail: _unitSearchTerm, bubbles: true, composed: true}))
     }
 }
 

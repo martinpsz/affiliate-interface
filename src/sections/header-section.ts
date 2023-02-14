@@ -1,7 +1,5 @@
 import { LitElement, html, css } from "lit";
 import { property, customElement} from 'lit/decorators.js'
-import {consume} from '@lit-labs/context';
-import { dataContext, affiliateData } from "../context/data";
 
 const afscmeLogo = 'src/static/afscme.webp'
 
@@ -31,9 +29,7 @@ export class HeaderSection extends LitElement {
     
     `
 
-    @consume({context: dataContext, subscribe: true})
     @property({attribute: false})
-    data!:affiliateData;
     affiliate!: string;
 
 

@@ -8,13 +8,17 @@ import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 let RadioToggle = class RadioToggle extends LitElement {
     constructor() {
-        super();
+        super(...arguments);
         this._checkedItem = () => {
             var _a;
             const inputOptions = Array.from((_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelectorAll('.option input'));
-            let selection = inputOptions.filter(val => val.checked && val)[0].id;
+            let _selection = inputOptions.filter(val => val.checked && val)[0].id;
+            this.dispatchEvent(new CustomEvent('status_selection', {
+                detail: _selection,
+                bubbles: true,
+                composed: true
+            }));
         };
-        this.prompt = '';
     }
     render() {
         return html `
@@ -31,7 +35,6 @@ let RadioToggle = class RadioToggle extends LitElement {
                     `)}
                 </div>
             </div>
-
         `;
     }
 };
@@ -58,7 +61,7 @@ RadioToggle.styles = css `
         .option input{
             margin: 0 0.25em 0 0;
             appearance: none;
-            background: rgb(var(--blue));
+            background: rgb(var(--black));
             border: 1px solid rgb(var(--white));
             height: 0.8em;
             width: 0.8em;

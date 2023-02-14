@@ -8,7 +8,7 @@ export class ListNav extends LitElement {
     static styles = css`
        div{
          width: 100%;
-         background: var(--blue);
+         margin: 1em 0;
        }
 
        text-field{
@@ -24,5 +24,11 @@ export class ListNav extends LitElement {
             </div>
         
         `
+    }
+}
+
+declare global {
+    interface HTMLElementTagName {
+        'list-nav': ListNav;
     }
 }

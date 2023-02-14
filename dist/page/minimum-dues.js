@@ -10,10 +10,23 @@ import '../sections/header-section';
 import '../sections/footer-section';
 import '../sections/list-section';
 import '../sections/form-section';
+import { getSession, saveSession } from "../data";
+const data = saveSession("src/test-data.json");
+let localData = getSession();
 let MinimumDues = class MinimumDues extends LitElement {
     constructor() {
         super();
+        this._updateUnitSearchTerm = (e) => {
+            let searchTerm = e.detail.trim().toLowerCase();
+            this._unitSearchResults = localData.filter((val) => val.employer.toLowerCase().includes(searchTerm));
+        };
+        this._updateStatusSelection = (e) => {
+            let unitStatus = e.detail.toLowerCase();
+            (unitStatus === 'all' || typeof unitStatus === 'undefined') ? this._unitSearchResults = localData :
+                this._unitSearchResults = localData.filter((val) => val.status.toLowerCase() === unitStatus);
+        };
         this._windowWidth = window.innerWidth;
+        this._unitSearchResults = localData;
     }
     render() {
         return html `
@@ -23,8 +36,10 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
             html `
                     <main>
-                        <list-section></list-section>
-                        <form-section ></form-section>
+                        <list-section @unit-search=${this._updateUnitSearchTerm} 
+                                      @status_selection=${this._updateStatusSelection}
+                                      ._payload=${this._unitSearchResults}></list-section>
+                        <form-section></form-section>
                     </main>`}
                 <footer-section></footer-section>
             </div>
@@ -74,7 +89,8 @@ MinimumDues.styles = css `
 
         list-section{
             flex: 30%;
-            background: rgb(var(--blue));
+            background: rgb(var(--black));
+            border-radius: 2px;
         }
 
         form-section{
@@ -84,6 +100,9 @@ MinimumDues.styles = css `
 __decorate([
     state()
 ], MinimumDues.prototype, "_windowWidth", void 0);
+__decorate([
+    state()
+], MinimumDues.prototype, "_unitSearchResults", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);

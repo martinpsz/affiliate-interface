@@ -6,32 +6,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import '../components/list-nav';
-import '../components/list-container';
-let ListSection = class ListSection extends LitElement {
+let ListResults = class ListResults extends LitElement {
     constructor() {
         super(...arguments);
         this._payload = [];
     }
     render() {
         return html `
-            <section>
-                <list-nav></list-nav>
-                <list-container ._payload=${this._payload}></list-container>
-            </section>
-        `;
+            <div class="results-container">
+                
+            </div>`;
     }
 };
-ListSection.styles = css `
-        section {
-            padding: 0.5em 1em;
-
-        }   
+ListResults.styles = css `
+    
+    
     `;
 __decorate([
     state()
-], ListSection.prototype, "_payload", void 0);
-ListSection = __decorate([
-    customElement('list-section')
-], ListSection);
-export { ListSection };
+], ListResults.prototype, "_payload", void 0);
+ListResults = __decorate([
+    customElement('list-results')
+], ListResults);
+export { ListResults };

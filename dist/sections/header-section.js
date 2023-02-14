@@ -6,8 +6,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css } from "lit";
 import { property, customElement } from 'lit/decorators.js';
-import { consume } from '@lit-labs/context';
-import { dataContext } from "../context/data";
 const afscmeLogo = 'src/static/afscme.webp';
 let HeaderSection = class HeaderSection extends LitElement {
     render() {
@@ -43,9 +41,8 @@ HeaderSection.styles = css `
     
     `;
 __decorate([
-    consume({ context: dataContext, subscribe: true }),
     property({ attribute: false })
-], HeaderSection.prototype, "data", void 0);
+], HeaderSection.prototype, "affiliate", void 0);
 HeaderSection = __decorate([
     customElement('header-section')
 ], HeaderSection);
