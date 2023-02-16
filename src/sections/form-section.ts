@@ -1,13 +1,21 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement('form-section')
 export class FormSection extends LitElement {
+    static styles = css`
+        section{
+            
+        }
+    `
+
+    @state()
+    _unitData!: []
+
     render() {
         return html`
-            <section>
-                <p>Hello from the unit form area</p>
-            </section>
+
+            <form></form>
         `
     }
 }

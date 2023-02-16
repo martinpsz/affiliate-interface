@@ -25,8 +25,15 @@ let MinimumDues = class MinimumDues extends LitElement {
             (unitStatus === 'all' || typeof unitStatus === 'undefined') ? this._unitSearchResults = localData :
                 this._unitSearchResults = localData.filter((val) => val.status.toLowerCase() === unitStatus);
         };
+        this._updateUnitSelection = (e) => {
+            this._unitIdSelected !== e.detail ? this._unitIdSelected = e.detail : this._unitIdSelected;
+        };
+        this._unitDataFilter = (id) => {
+            return this._unitSearchResults.filter(item => item['agr_id'] === id);
+        };
         this._windowWidth = window.innerWidth;
         this._unitSearchResults = localData;
+        this._unitIdSelected = localData[0]['agr_id'];
     }
     render() {
         return html `
@@ -37,9 +44,12 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `
                     <main>
                         <list-section @unit-search=${this._updateUnitSearchTerm} 
-                                      @status_selection=${this._updateStatusSelection}
+                                      @status-selection=${this._updateStatusSelection}
+                                      @unit-selection=${this._updateUnitSelection}
                                       ._payload=${this._unitSearchResults}></list-section>
-                        <form-section></form-section>
+                        <form-section 
+                            ._unitData=${this._unitDataFilter(this._unitIdSelected)}>
+                        </form-section>
                     </main>`}
                 <footer-section></footer-section>
             </div>
@@ -90,11 +100,15 @@ MinimumDues.styles = css `
         list-section{
             flex: 30%;
             background: rgb(var(--black));
-            border-radius: 2px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
         }
 
         form-section{
             flex: 70%;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border: 1px solid rgb(var(--black));
         }
     `;
 __decorate([
@@ -103,6 +117,9 @@ __decorate([
 __decorate([
     state()
 ], MinimumDues.prototype, "_unitSearchResults", void 0);
+__decorate([
+    state()
+], MinimumDues.prototype, "_unitIdSelected", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);

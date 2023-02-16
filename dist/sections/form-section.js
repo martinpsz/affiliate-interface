@@ -4,17 +4,24 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { LitElement, html } from "lit";
-import { customElement } from "lit/decorators.js";
+import { LitElement, html, css } from "lit";
+import { customElement, state } from "lit/decorators.js";
 let FormSection = class FormSection extends LitElement {
     render() {
         return html `
-            <section>
-                <p>Hello from the unit form area</p>
-            </section>
+
+            <form></form>
         `;
     }
 };
+FormSection.styles = css `
+        section{
+            
+        }
+    `;
+__decorate([
+    state()
+], FormSection.prototype, "_unitData", void 0);
 FormSection = __decorate([
     customElement('form-section')
 ], FormSection);

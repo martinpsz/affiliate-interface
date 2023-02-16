@@ -58,11 +58,15 @@ export class MinimumDues extends LitElement{
         list-section{
             flex: 30%;
             background: rgb(var(--black));
-            border-radius: 2px;
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
         }
 
         form-section{
             flex: 70%;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border: 1px solid rgb(var(--black));
         }
     `
 
@@ -72,10 +76,14 @@ export class MinimumDues extends LitElement{
     @state()
     private _unitSearchResults!: [];
 
+    @state()
+    private _unitIdSelected!: Number;
+
     constructor(){
         super();
         this._windowWidth = window.innerWidth
         this._unitSearchResults = localData
+        this._unitIdSelected = localData[0]['agr_id']
     }
     
     render(){
@@ -87,9 +95,12 @@ export class MinimumDues extends LitElement{
                     html`
                     <main>
                         <list-section @unit-search=${this._updateUnitSearchTerm} 
-                                      @status_selection=${this._updateStatusSelection}
+                                      @status-selection=${this._updateStatusSelection}
+                                      @unit-selection=${this._updateUnitSelection}
                                       ._payload=${this._unitSearchResults}></list-section>
-                        <form-section></form-section>
+                        <form-section 
+                            ._unitData=${this._unitDataFilter(this._unitIdSelected)}>
+                        </form-section>
                     </main>`
                 }
                 <footer-section></footer-section>
@@ -108,6 +119,14 @@ export class MinimumDues extends LitElement{
         (unitStatus === 'all' || typeof unitStatus === 'undefined') ? this._unitSearchResults = localData :
         this._unitSearchResults = localData.filter((val: { status: string; }) => val.status.toLowerCase() === unitStatus)
     }
+
+    _updateUnitSelection = (e: { detail: Number; }) => {
+        this._unitIdSelected !== e.detail ? this._unitIdSelected = e.detail : this._unitIdSelected
+    }
+
+    _unitDataFilter = (id:Number) => {
+        return this._unitSearchResults.filter(item => item['agr_id'] === id)
+    } 
 
 
 }

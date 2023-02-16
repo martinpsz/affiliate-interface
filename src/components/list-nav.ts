@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import '../components/text-field'
 import '../components/radio-toggle';
 
@@ -16,15 +16,26 @@ export class ListNav extends LitElement {
        }
     
     `
+
+    @state()
+    _enteredText!: String;
+
     render() {
+        console.log(this._enteredText)
         return html`
             <div .columnDirection=${true}>
-                <text-field .label=${"Search:"} .placeholder=${"Start entering a unit name"}></text-field>
+                <text-field .label=${"Search:"} .placeholder=${"Start entering a unit name"} @input=${this._getInput}></text-field>
                 <radio-toggle .columnDirection=${"vertical"} .prompt=${"Unit status:"} .labels=${['All', 'Needs Review', 'Submitted', 'Active']} .defaultChecked=${'All'}></radio-toggle>
             </div>
         
         `
     }
+
+    _getInput = () => {
+        console.log(this)
+        //this._enteredText = this.renderRoot.querySelector('input')!.value
+    }
+
 }
 
 declare global {

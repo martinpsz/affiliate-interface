@@ -6,8 +6,27 @@ import '../components/list-item';
 export class ListContainer extends LitElement {
     static styles = css`
         .list-container{
-            height: 60vh;
+            height: 57.5vh;
             overflow-y: scroll;
+            padding: 0 0.25em 0 0;
+            margin: 0;
+        }
+
+        .list-container::-webkit-scrollbar{
+            width: 0.25em;
+        }
+
+        .list-container::-webkit-scrollbar-track{
+            box-shadow: inset 0 0 6px rgba(var(--white), 0.25);
+        }
+
+        .list-container::-webkit-scrollbar-thumb{
+            background: rgb(var(--green));
+        }
+
+        #review-needed{
+            background: rgb(var(--red));
+            padding: 0.25em 0;
         }
     
     `
@@ -17,19 +36,20 @@ export class ListContainer extends LitElement {
 
 
     render() {
-        console.log(this._payload)
         return html`
             <div class="list-container">
                 <div id="review-needed">
                     ${this._payload.filter(item => item['status'] === 'Needs Review').map(item => {
                         return html` 
-                            <list-item .employer=${item['employer']}
+                            <list-item 
+                                       .unitId=${item['agr_id']}
+                                       .employer=${item['employer']}
                                        .master=${item['master']}
                                        .local=${item['local']}
                                        .council=${item['council']}
                                        .subunit=${item['subunit']}
-                                       .members=${item['number of members']}
-                                       .state=${'state'}></list-item>   
+                                       .members=${item['number_of_members']}
+                                       .state=${item['state']}></list-item>   
                         `
                     })}
                 </div>

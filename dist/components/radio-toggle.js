@@ -13,7 +13,7 @@ let RadioToggle = class RadioToggle extends LitElement {
             var _a;
             const inputOptions = Array.from((_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelectorAll('.option input'));
             let _selection = inputOptions.filter(val => val.checked && val)[0].id;
-            this.dispatchEvent(new CustomEvent('status_selection', {
+            this.dispatchEvent(new CustomEvent('status-selection', {
                 detail: _selection,
                 bubbles: true,
                 composed: true

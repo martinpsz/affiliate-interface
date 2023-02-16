@@ -76,7 +76,7 @@ export class RadioToggle extends LitElement{
         const inputOptions = Array.from(this.renderRoot?.querySelectorAll('.option input')) as Array<HTMLInputElement>
         let _selection = inputOptions.filter(val => val.checked && val)[0].id
         
-        this.dispatchEvent(new CustomEvent('status_selection', {
+        this.dispatchEvent(new CustomEvent('status-selection', {
             detail : _selection,
             bubbles: true,
             composed: true
