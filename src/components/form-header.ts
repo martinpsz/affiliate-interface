@@ -6,7 +6,7 @@ export class FormHeader extends LitElement {
     static styles = css`
         h2{
             font-family: var(--font);
-            font-size: 1.2em;
+            font-size: 1.1em;
             font-weight: 200;
             text-transform: uppercase;
             color: rgb(var(--blue));

@@ -7,10 +7,39 @@ import '../sections/form-section'
 import { getSession, saveSession, FetchData } from "../data";
 
 //Put passed JSON into session storage
-const data = saveSession("src/test-data.json");
+const data = saveSession("src/test-8.json");
 
 //Grabs data from session storage
 let localData = getSession()
+
+
+interface Reporter {
+    email: string,
+    name: string,
+    phone: string,
+}
+
+interface Unit{
+    affiliate_id: string,
+    agr_id: number,
+    agreement_eff_date: string | null,
+    agreement_exp_date: string | null,
+    contact: Reporter | null,
+    council: number | null,
+    employer: string | null,
+    local: number | null,
+    master: boolean,
+    master_name: string | null,
+    number_of_members: number | null,
+    period_id: number,
+    state: string,
+    status: string,
+    subunit: string | number | null,
+    unit_name: string | null,
+    year: number
+}
+
+interface UnitList extends Array<Unit>{}
 
 @customElement('minimum-dues')
 export class MinimumDues extends LitElement{
@@ -69,21 +98,35 @@ export class MinimumDues extends LitElement{
             border: 1px solid rgb(var(--black));
         }
     `
+    @state()
+    private _initialListLength: number;
 
     @state()
-    private _windowWidth: Number;
+    private _windowWidth: number;
 
     @state()
-    private _unitSearchResults!: [];
+    private _textSearchValue?: RegExp;
 
     @state()
-    private _unitIdSelected!: Number;
+    private _unitStatusValue = 'all';
+
+    @state()
+    private _initialList!: UnitList;
+
+    @state()
+    private _filteredList!: UnitList;
+
+    @state()
+    private _unitIdSelected!: number;
 
     constructor(){
         super();
-        this._windowWidth = window.innerWidth
-        this._unitSearchResults = localData
-        this._unitIdSelected = localData[0]['agr_id']
+        this._windowWidth = window.innerWidth;
+        this._initialList = [...localData];
+        this._initialListLength = this._initialList.length;
+        this._unitIdSelected = this._initialList[0]['agr_id'];
+        
+        
     }
     
     render(){
@@ -94,12 +137,12 @@ export class MinimumDues extends LitElement{
                     html`<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
                     html`
                     <main>
-                        <list-section @entered-text=${this._updateUnitSearchTerm} 
-                                      @radio-selection=${this._updateStatusSelection}
-                                      @unit-selection=${this._updateUnitSelection}
-                                      ._payload=${this._unitSearchResults}></list-section>
-                        <form-section 
-                            ._unitData=${this._unitDataFilter(this._unitIdSelected)}>
+                        <list-section @entered-input=${this._updateUnitSearchTerm} 
+                                      @retrieve-selection=${this._updateStatusSelection}
+                                      ._payload=${this._filteredList === undefined ? this._initialList : this._filteredList}
+                                      .initialListSize=${this._initialListLength}>
+                        </list-section>
+                        <form-section>
                         </form-section>
                     </main>`
                 }
@@ -108,16 +151,23 @@ export class MinimumDues extends LitElement{
         `
     }
 
-    _updateUnitSearchTerm = (e: { detail: String; }) => {
-        let searchTerm = e.detail.trim().toLowerCase();      
-        this._unitSearchResults = localData.filter((val: { employer: { toLowerCase: () => String[]; }; }) => val.employer.toLowerCase().includes(searchTerm))
+    //To do: set up way to have status selection work off of search term results.
+
+    _updateUnitSearchTerm = (e: { detail: string; }) => {  
+        this._textSearchValue = new RegExp(`^${e.detail}`, "gi")
+        
+        this._filteredList = [...this._initialList].filter(item => 
+            item['employer']?.toLowerCase().match(<RegExp>this._textSearchValue))    
+    }
+   
+    _updateStatusSelection = (e: { detail: String; }) => {
+        this._unitStatusValue = e.detail.toLowerCase();
+        this._filteredList = [...this._initialList].filter(item => item['status'].toLowerCase() === this._unitStatusValue)
     }
 
-    _updateStatusSelection = (e: { detail: String; }) => {
-        let unitStatus = e.detail.toLowerCase();
-        (unitStatus === 'all' || typeof unitStatus === 'undefined') ? this._unitSearchResults = localData :
-        this._unitSearchResults = localData.filter((val: { status: string; }) => val.status.toLowerCase() === unitStatus)
-    }
+    
+
+    /*
 
     _updateUnitSelection = (e: { detail: Number; }) => {
         this._unitIdSelected !== e.detail ? this._unitIdSelected = e.detail : this._unitIdSelected
@@ -125,7 +175,7 @@ export class MinimumDues extends LitElement{
 
     _unitDataFilter = (id:Number) => {
         return this._unitSearchResults.filter(item => item['agr_id'] === id)[0]
-    } 
+    }*/
 
 
 }

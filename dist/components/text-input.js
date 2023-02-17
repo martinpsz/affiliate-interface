@@ -13,11 +13,11 @@ let TextInput = class TextInput extends LitElement {
         this.lightMode = false;
         this._textInputEmitter = () => {
             var _a;
-            const inputText = (_a = this.renderRoot.querySelector('input')) === null || _a === void 0 ? void 0 : _a.value;
-            this.dispatchEvent(new CustomEvent('retrieve-input', {
-                detail: inputText === null || inputText === void 0 ? void 0 : inputText.trim().toLowerCase(),
+            const inputText = (_a = this.renderRoot.querySelector('input')) === null || _a === void 0 ? void 0 : _a.value.trim().toLowerCase();
+            this.dispatchEvent(new CustomEvent('entered-input', {
+                detail: inputText,
                 bubbles: true,
-                composed: true,
+                composed: true
             }));
         };
     }
@@ -45,6 +45,7 @@ TextInput.styles = css `
             text-transform: uppercase;
             color: rgb(var(--white));
             margin-bottom: 0.25em;
+            font-size: 0.8em;
         }
 
         input{

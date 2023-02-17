@@ -18,6 +18,7 @@ export class TextInput extends LitElement{
             text-transform: uppercase;
             color: rgb(var(--white));
             margin-bottom: 0.25em;
+            font-size: 0.8em;
         }
 
         input{
@@ -67,11 +68,11 @@ export class TextInput extends LitElement{
     }
 
     _textInputEmitter = () => {
-        const inputText = this.renderRoot.querySelector('input')?.value
-        this.dispatchEvent(new CustomEvent('retrieve-input', {
-            detail: inputText?.trim().toLowerCase(),
+        const inputText = this.renderRoot.querySelector('input')?.value.trim().toLowerCase()
+        this.dispatchEvent(new CustomEvent('entered-input', {
+            detail: inputText,
             bubbles: true,
-            composed: true,
+            composed: true
         }))
     }
 }

@@ -12,8 +12,11 @@ export class RadioInput extends LitElement {
 
         .radio-input p{
             margin: 0;
-            margin-right: 0.5em;
+            margin-right: 0.5em;  
+        }
 
+        .radio-input label{
+            font-size: 0.8em;
         }
 
         .darkMode {
