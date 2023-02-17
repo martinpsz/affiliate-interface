@@ -22,9 +22,7 @@ export class FormSection extends LitElement {
         //console.log(this._unitData)
         return html`
             <form id="unit-form">
-                <radio-input prompt="Is the unit active?" 
-                             .labels=${['Yes', 'No']} 
-                             .defaultCheck=${'Yes'}></radio-input>
+
             </form>
         `
     }

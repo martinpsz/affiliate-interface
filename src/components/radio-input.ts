@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 
 @customElement('radio-input')
 export class RadioInput extends LitElement {
@@ -12,8 +13,32 @@ export class RadioInput extends LitElement {
         .radio-input p{
             margin: 0;
             margin-right: 0.5em;
+
         }
 
+        .darkMode {
+            color: rgb(var(--white));
+            flex-direction: column;
+        }
+
+        .darkMode p{
+            margin-right: 0;
+            margin-bottom: 0.25em;
+            text-transform: uppercase;
+        }
+
+        .darkMode label{
+            font-size: 1em;
+        }
+
+        .darkMode input{
+            margin: 0;
+            accent-color: rgb(var(--red));
+        }
+
+        
+
+        
 
     
     `
@@ -27,10 +52,14 @@ export class RadioInput extends LitElement {
     @property()
     defaultCheck!: string;
 
+    @property({type:Boolean})
+    darkMode = false;
+
 
     render() {
+        const classes = {darkMode : this.darkMode}
         return html`
-            <div class="radio-input">
+            <div class="radio-input ${classMap(classes)}">
                 <p>${this.prompt}</p>
                 <div>
                     ${this.labels?.length > 1 && this.labels.map(label => {

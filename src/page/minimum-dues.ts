@@ -56,14 +56,14 @@ export class MinimumDues extends LitElement{
         }
 
         list-section{
-            flex: 30%;
+            flex: 33%;
             background: rgb(var(--black));
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
         }
 
         form-section{
-            flex: 70%;
+            flex: 67%;
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
             border: 1px solid rgb(var(--black));

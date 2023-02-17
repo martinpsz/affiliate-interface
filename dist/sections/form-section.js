@@ -12,9 +12,7 @@ let FormSection = class FormSection extends LitElement {
     render() {
         return html `
             <form id="unit-form">
-                <radio-input prompt="Is the unit active?" 
-                             .labels=${['Yes', 'No']} 
-                             .defaultCheck=${'Yes'}></radio-input>
+
             </form>
         `;
     }

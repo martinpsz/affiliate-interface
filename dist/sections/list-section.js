@@ -7,6 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
 import '../components/text-input';
+import '../components/radio-input';
 let ListSection = class ListSection extends LitElement {
     constructor() {
         super(...arguments);
@@ -21,6 +22,7 @@ let ListSection = class ListSection extends LitElement {
                 ${this._payload.length >= 24 && html `
                     <div class="list-filter">
                         <text-input label="Search:" placeholder="Start entering a unit/employer name" @retrieve-input=${true}></text-input>
+                        <radio-input darkMode prompt="Status:" .labels=${['All', 'Needs Review', 'Submitted', 'Active']} .defaultCheck=${'All'}></radio-input>
                     </div>
                 `}
             </section>
@@ -29,14 +31,15 @@ let ListSection = class ListSection extends LitElement {
 };
 ListSection.styles = css `
         section {
-            padding: 0.5em;
-            
-            
+            padding: 0.5em;   
         }   
 
         .list-filter{
-
+            display: flex;
+            flex-direction: column;
+            row-gap: 0.5em;
         }
+        
 
     `;
 __decorate([
