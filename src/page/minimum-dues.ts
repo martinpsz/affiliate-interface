@@ -94,8 +94,8 @@ export class MinimumDues extends LitElement{
                     html`<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
                     html`
                     <main>
-                        <list-section @unit-search=${this._updateUnitSearchTerm} 
-                                      @status-selection=${this._updateStatusSelection}
+                        <list-section @entered-text=${this._updateUnitSearchTerm} 
+                                      @radio-selection=${this._updateStatusSelection}
                                       @unit-selection=${this._updateUnitSelection}
                                       ._payload=${this._unitSearchResults}></list-section>
                         <form-section 
@@ -115,7 +115,6 @@ export class MinimumDues extends LitElement{
 
     _updateStatusSelection = (e: { detail: String; }) => {
         let unitStatus = e.detail.toLowerCase();
-
         (unitStatus === 'all' || typeof unitStatus === 'undefined') ? this._unitSearchResults = localData :
         this._unitSearchResults = localData.filter((val: { status: string; }) => val.status.toLowerCase() === unitStatus)
     }
@@ -125,7 +124,7 @@ export class MinimumDues extends LitElement{
     }
 
     _unitDataFilter = (id:Number) => {
-        return this._unitSearchResults.filter(item => item['agr_id'] === id)
+        return this._unitSearchResults.filter(item => item['agr_id'] === id)[0]
     } 
 
 

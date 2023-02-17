@@ -5,30 +5,33 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from "lit";
-import { customElement, state } from "lit/decorators.js";
-import '../components/form-header';
-import '../components/radio-input';
-let FormSection = class FormSection extends LitElement {
+import { customElement, property } from "lit/decorators.js";
+let FormHeader = class FormHeader extends LitElement {
     render() {
         return html `
-            <form id="unit-form">
-                <radio-input prompt="Is the unit active?" 
-                             .labels=${['Yes', 'No']} 
-                             .defaultCheck=${'Yes'}></radio-input>
-            </form>
+            <h2>${this.title}</h2>
+            <p>${this.warning}</p>
         `;
     }
 };
-FormSection.styles = css `
-        form{
-            padding: 1em;
+FormHeader.styles = css `
+        h2{
+            font-family: var(--font);
+            font-size: 1.2em;
+            font-weight: 200;
+            text-transform: uppercase;
+            color: rgb(var(--blue));
+            border-bottom: 4px solid rgb(var(--green));
         }
-
+    
     `;
 __decorate([
-    state()
-], FormSection.prototype, "_unitData", void 0);
-FormSection = __decorate([
-    customElement('form-section')
-], FormSection);
-export { FormSection };
+    property()
+], FormHeader.prototype, "title", void 0);
+__decorate([
+    property()
+], FormHeader.prototype, "warning", void 0);
+FormHeader = __decorate([
+    customElement('form-header')
+], FormHeader);
+export { FormHeader };

@@ -26,11 +26,13 @@ export class RadioToggle extends LitElement{
         .option input{
             margin: 0 0.25em 0 0;
             appearance: none;
+            background: white;
             background: rgb(var(--black));
+            border: none;
             border: 1px solid rgb(var(--white));
             height: 0.8em;
             width: 0.8em;
-            
+
         }
 
         .option input:checked{
@@ -76,11 +78,12 @@ export class RadioToggle extends LitElement{
         const inputOptions = Array.from(this.renderRoot?.querySelectorAll('.option input')) as Array<HTMLInputElement>
         let _selection = inputOptions.filter(val => val.checked && val)[0].id
         
-        this.dispatchEvent(new CustomEvent('status-selection', {
+        this.dispatchEvent(new CustomEvent('radio-selection', {
             detail : _selection,
             bubbles: true,
             composed: true
         }))
+
     }
 }
 

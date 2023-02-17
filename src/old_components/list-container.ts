@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import '../components/list-item';
+import './list-item';
 
 @customElement('list-container')
 export class ListContainer extends LitElement {

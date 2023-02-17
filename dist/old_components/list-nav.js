@@ -6,8 +6,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import '../components/text-field';
-import '../components/radio-toggle';
+import './text-field';
+import './radio-toggle';
 let ListNav = class ListNav extends LitElement {
     render() {
         return html `

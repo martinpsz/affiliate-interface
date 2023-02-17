@@ -29,7 +29,7 @@ let MinimumDues = class MinimumDues extends LitElement {
             this._unitIdSelected !== e.detail ? this._unitIdSelected = e.detail : this._unitIdSelected;
         };
         this._unitDataFilter = (id) => {
-            return this._unitSearchResults.filter(item => item['agr_id'] === id);
+            return this._unitSearchResults.filter(item => item['agr_id'] === id)[0];
         };
         this._windowWidth = window.innerWidth;
         this._unitSearchResults = localData;
@@ -43,8 +43,8 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
             html `
                     <main>
-                        <list-section @unit-search=${this._updateUnitSearchTerm} 
-                                      @status-selection=${this._updateStatusSelection}
+                        <list-section @entered-text=${this._updateUnitSearchTerm} 
+                                      @radio-selection=${this._updateStatusSelection}
                                       @unit-selection=${this._updateUnitSelection}
                                       ._payload=${this._unitSearchResults}></list-section>
                         <form-section 

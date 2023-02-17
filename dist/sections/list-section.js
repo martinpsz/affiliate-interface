@@ -6,8 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 import { LitElement, html, css } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import '../components/list-nav';
-import '../components/list-container';
+import '../components/text-input';
 let ListSection = class ListSection extends LitElement {
     constructor() {
         super(...arguments);
@@ -16,17 +15,29 @@ let ListSection = class ListSection extends LitElement {
     render() {
         return html `
             <section>
-                <list-nav></list-nav>
-                <list-container ._payload=${this._payload}></list-container>
+                <!--<list-nav></list-nav>
+                <list-container ._payload=${this._payload}></list-container>-->
+
+                ${this._payload.length >= 24 && html `
+                    <div class="list-filter">
+                        <text-input label="Search:" placeholder="Start entering a unit/employer name" @retrieve-input=${true}></text-input>
+                    </div>
+                `}
             </section>
         `;
     }
 };
 ListSection.styles = css `
         section {
-            padding: 0.5em 1em;
-
+            padding: 0.5em;
+            
+            
         }   
+
+        .list-filter{
+
+        }
+
     `;
 __decorate([
     state()
