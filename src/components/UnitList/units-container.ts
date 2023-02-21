@@ -1,15 +1,14 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import {repeat} from 'lit/directives/repeat.js';
+import { customElement, state, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import '../UnitList/unit-element'
 
 @customElement('units-container')
 export class UnitsContainer extends LitElement{
     static styles = css`
         .container{
-            max-height: 57.5vh;
+            max-height: 55vh;
             overflow-y: scroll;
-            margin: 1em 0;
         }
 
         .container::-webkit-scrollbar{
@@ -24,17 +23,29 @@ export class UnitsContainer extends LitElement{
             background: rgb(var(--green));
         }
     
+        .shortList{
+            max-height: 80vh;
+        }
+
     `
 
-    @property()
-    payload!: []
+    @state()
+    _payload!: []
 
+    @state()
+    _unitSelected!: number
+
+    @property({type: Boolean})
+    shortList= false;
+    
     render() {
+        const classes = {shortList: this.shortList}
         return html`
-           <div class="container">
-            ${this.payload.map(item => {
+           <div class="container ${classMap(classes)}">
+            ${this._payload.map(item => {
                     return html`
-                        <unit-element
+                        <unit-element @click=${this._unitSelection}
+                                     @unit-list-selection=${this._getUnitSelection}
                                     .employer=${item['employer']}
                                     .agr_id=${item['agr_id']}
                                     .master=${item['master']}
@@ -45,14 +56,29 @@ export class UnitsContainer extends LitElement{
                                     .status=${item['status']}
                                     >
                         </unit-element>
-                    
                     `
             })}
            </div>
         `
     }
 
+    _unitSelection = () => {
+        let units = this.renderRoot?.querySelector('.container')?.querySelectorAll('unit-element')
 
+
+        //for(let i=0; i<units?.length; i++){
+           // console.log(units[i])
+           /* if(units[i][agr_id] === this._unitSelected){
+                units[i][agr_id].classList.add('selected')
+            } else{
+                units[i][agr_id].classList.remove('selected')
+            }*/
+       // }
+    }
+
+    _getUnitSelection = (e: {detail: number}) => {
+        this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected
+    }
 }
 
 declare global {

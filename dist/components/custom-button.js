@@ -11,12 +11,13 @@ let CustomButton = class CustomButton extends LitElement {
     constructor() {
         super(...arguments);
         this.primary = false;
+        this.secondary = false;
         this.warning = false;
         this.primaryMuted = false;
         this.warningMuted = false;
     }
     render() {
-        const classes = { primary: this.primary, warning: this.warning, primaryMuted: this.primaryMuted, warningMuted: this.warningMuted };
+        const classes = { primary: this.primary, warning: this.warning, primaryMuted: this.primaryMuted, warningMuted: this.warningMuted, secondary: this.secondary };
         return html `
             <button class=${classMap(classes)}>${this.buttonText}</button>
 
@@ -35,7 +36,10 @@ CustomButton.styles = css `
 
         .primary{
             background: rgb(var(--blue));
-            box-shadow: 0 2px 4px rgb(var(--black));
+        }
+
+        .secondary{
+            background: rgb(var(--green));
         }
 
         .primaryMuted{
@@ -44,7 +48,6 @@ CustomButton.styles = css `
 
         .warning{
             background: rgb(var(--red));
-            box-shadow: 0 2px 4px rgb(var(--black));
         }
 
         .warningMuted{
@@ -58,6 +61,9 @@ __decorate([
 __decorate([
     property({ type: Boolean })
 ], CustomButton.prototype, "primary", void 0);
+__decorate([
+    property({ type: Boolean })
+], CustomButton.prototype, "secondary", void 0);
 __decorate([
     property({ type: Boolean })
 ], CustomButton.prototype, "warning", void 0);

@@ -5,15 +5,29 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, state, property } from "lit/decorators.js";
+import { classMap } from "lit/directives/class-map.js";
 import '../UnitList/unit-element';
 let UnitsContainer = class UnitsContainer extends LitElement {
+    constructor() {
+        super(...arguments);
+        this.shortList = false;
+        this._unitSelection = () => {
+            var _a, _b;
+            let units = (_b = (_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelector('.container')) === null || _b === void 0 ? void 0 : _b.querySelectorAll('unit-element');
+        };
+        this._getUnitSelection = (e) => {
+            this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;
+        };
+    }
     render() {
+        const classes = { shortList: this.shortList };
         return html `
-           <div class="container">
-            ${this.payload.map(item => {
+           <div class="container ${classMap(classes)}">
+            ${this._payload.map(item => {
             return html `
-                        <unit-element
+                        <unit-element @click=${this._unitSelection}
+                                     @unit-list-selection=${this._getUnitSelection}
                                     .employer=${item['employer']}
                                     .agr_id=${item['agr_id']}
                                     .master=${item['master']}
@@ -24,7 +38,6 @@ let UnitsContainer = class UnitsContainer extends LitElement {
                                     .status=${item['status']}
                                     >
                         </unit-element>
-                    
                     `;
         })}
            </div>
@@ -33,9 +46,8 @@ let UnitsContainer = class UnitsContainer extends LitElement {
 };
 UnitsContainer.styles = css `
         .container{
-            max-height: 57.5vh;
+            max-height: 55vh;
             overflow-y: scroll;
-            margin: 1em 0;
         }
 
         .container::-webkit-scrollbar{
@@ -50,10 +62,20 @@ UnitsContainer.styles = css `
             background: rgb(var(--green));
         }
     
+        .shortList{
+            max-height: 80vh;
+        }
+
     `;
 __decorate([
-    property()
-], UnitsContainer.prototype, "payload", void 0);
+    state()
+], UnitsContainer.prototype, "_payload", void 0);
+__decorate([
+    state()
+], UnitsContainer.prototype, "_unitSelected", void 0);
+__decorate([
+    property({ type: Boolean })
+], UnitsContainer.prototype, "shortList", void 0);
 UnitsContainer = __decorate([
     customElement('units-container')
 ], UnitsContainer);

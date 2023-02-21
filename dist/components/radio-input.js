@@ -54,6 +54,7 @@ RadioInput.styles = css `
         .radio-input{
             display: flex;
             font-family: var(--font);
+            accent-color: rgb(var(--blue));
         }
 
         .radio-input p{
@@ -62,7 +63,11 @@ RadioInput.styles = css `
         }
 
         .radio-input label{
-            font-size: 0.8em;
+            font-size: 1em;
+        }
+
+        .radio-input input:nth-of-type(n+2){
+            margin-left: 0.5em;
         }
 
         .darkMode {
@@ -74,10 +79,11 @@ RadioInput.styles = css `
             margin-right: 0;
             margin-bottom: 0.25em;
             text-transform: uppercase;
+            font-size: 0.8em;
         }
 
         .darkMode label{
-            font-size: 1em;
+            font-weight: 200;
         }
 
         .darkMode input{
@@ -85,11 +91,6 @@ RadioInput.styles = css `
             accent-color: rgb(var(--red));
         }
 
-        
-
-        
-
-    
     `;
 __decorate([
     property()

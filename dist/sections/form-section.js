@@ -12,21 +12,63 @@ import '../components/custom-button';
 import '../components/text-input';
 import '../components/date-input';
 let FormSection = class FormSection extends LitElement {
+    constructor() {
+        super(...arguments);
+        this._activeStatus = 'Yes';
+        this._bargainStatus = 'No';
+        this._getActiveStatus = (e) => {
+            this._activeStatus = e.detail;
+        };
+        this._getBargainingStatus = (e) => {
+            this._bargainStatus = e.detail;
+        };
+    }
     render() {
+        console.log(`The active status: ${this._activeStatus} and bargaining status: ${this._bargainStatus}`);
         return html `
             <form id="unit-form">
                 <div id="employerID">
-                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"}></text-input>
-                    <text-input lightMode .type=${"number"} label=${"Local:"}></text-input>
+                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"} .value=${this._unitData[0]['employer']}></text-input>
+                    <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this._unitData[0]['local']}></text-input>
                 </div>
                 <form-header .title=${'Reporting for Unit'}></form-header>
                 <div id="reporter">
-                    <text-input lightMode .type=${"text"} label=${"Full Name:"}></text-input>
-                    <text-input lightMode .type=${"email"} label=${"Email:"}></text-input>
-                    <text-input lightMode .type=${"tel"} label=${"Phone:"}></text-input>
+                    <text-input lightMode .type=${"text"} label=${"Full Name:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['name']}></text-input>
+                    <text-input lightMode .type=${"email"} label=${"Email:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['email']}></text-input>
+                    <text-input lightMode .type=${"tel"} label=${"Phone:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['phone']}></text-input>
                 </div>
                 <form-header .title=${'Unit Status'}></form-header>
-                    <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${'Yes'}></radio-input>
+                    <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${'Yes'} @retrieve-selection=${this._getActiveStatus}></radio-input>
+
+                    ${this._activeStatus === 'No' ?
+            html `
+                        <custom-button warning .buttonText=${"Submit for Review"}></custom-button>` :
+            html `
+                        <radio-input .prompt=${'Is the unit in bargaining in the period 8/1/22-7/31/23?'} .labels=${['Yes', 'No']} @retrieve-selection=${this._getBargainingStatus}></radio-input>
+                        `}
+
+                    ${this._bargainStatus !== 'No' && this._activeStatus !== 'No' ?
+            html `
+                        <custom-button warning .buttonText=${"Submit for Review"}></custom-button>` :
+            html `
+                        
+                        <date-input .prompt=${"Contract Effective:"} 
+                                    .type=${'date-range'}
+                                    .labelFrom=${'From:'}
+                                    .labelTo=${'To:'}>
+                        </date-input>
+                        `}
+
+                    
+
+
+
+
+                    
+
+
+                    
+                    
             </form>
         `;
     }
@@ -34,6 +76,8 @@ let FormSection = class FormSection extends LitElement {
 FormSection.styles = css `
         form{
             padding: 1em;
+            display: flex;
+            flex-direction: column;
         }
 
         #employerID{
@@ -48,10 +92,21 @@ FormSection.styles = css `
             grid-column-gap: 0.5em;
         }
 
+        custom-button{
+            align-self: flex-end;
+            margin: 1em 0;
+        }
+
     `;
 __decorate([
     state()
 ], FormSection.prototype, "_unitData", void 0);
+__decorate([
+    state()
+], FormSection.prototype, "_activeStatus", void 0);
+__decorate([
+    state()
+], FormSection.prototype, "_bargainStatus", void 0);
 FormSection = __decorate([
     customElement('form-section')
 ], FormSection);

@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 
 @customElement('radio-input')
@@ -8,6 +8,7 @@ export class RadioInput extends LitElement {
         .radio-input{
             display: flex;
             font-family: var(--font);
+            accent-color: rgb(var(--blue));
         }
 
         .radio-input p{
@@ -16,7 +17,11 @@ export class RadioInput extends LitElement {
         }
 
         .radio-input label{
-            font-size: 0.8em;
+            font-size: 1em;
+        }
+
+        .radio-input input:nth-of-type(n+2){
+            margin-left: 0.5em;
         }
 
         .darkMode {
@@ -28,10 +33,11 @@ export class RadioInput extends LitElement {
             margin-right: 0;
             margin-bottom: 0.25em;
             text-transform: uppercase;
+            font-size: 0.8em;
         }
 
         .darkMode label{
-            font-size: 1em;
+            font-weight: 200;
         }
 
         .darkMode input{
@@ -39,11 +45,6 @@ export class RadioInput extends LitElement {
             accent-color: rgb(var(--red));
         }
 
-        
-
-        
-
-    
     `
 
     @property()
@@ -57,7 +58,6 @@ export class RadioInput extends LitElement {
 
     @property({type:Boolean})
     darkMode = false;
-
 
     render() {
         const classes = {darkMode : this.darkMode}
@@ -82,9 +82,8 @@ export class RadioInput extends LitElement {
     }
 
     _getInput = () => {
-        let selection; 
+        let selection;
         const inputs = this.renderRoot.querySelectorAll('input')
-
         for (let i=0; i<inputs.length; i++){
             if (inputs[i].checked) {
                 selection = inputs[i].id
@@ -96,11 +95,7 @@ export class RadioInput extends LitElement {
             composed: true,
             bubbles: true,
         }))
-
-        
     }
-
-   
 }
 
 declare global {

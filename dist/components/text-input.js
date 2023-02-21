@@ -26,7 +26,8 @@ let TextInput = class TextInput extends LitElement {
         return html `
             <div class=${classMap(classes)}>
                 <label for=${this.label}>${this.label}</label>
-                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}/>
+                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}
+                value=${this.value}/>
             </div>
         `;
     }
@@ -80,6 +81,9 @@ __decorate([
 __decorate([
     property()
 ], TextInput.prototype, "type", void 0);
+__decorate([
+    property()
+], TextInput.prototype, "value", void 0);
 __decorate([
     property({ type: Boolean })
 ], TextInput.prototype, "lightMode", void 0);

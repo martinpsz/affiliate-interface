@@ -16,7 +16,10 @@ export class CustomButton extends LitElement {
 
         .primary{
             background: rgb(var(--blue));
-            box-shadow: 0 2px 4px rgb(var(--black));
+        }
+
+        .secondary{
+            background: rgb(var(--green));
         }
 
         .primaryMuted{
@@ -25,7 +28,6 @@ export class CustomButton extends LitElement {
 
         .warning{
             background: rgb(var(--red));
-            box-shadow: 0 2px 4px rgb(var(--black));
         }
 
         .warningMuted{
@@ -41,6 +43,9 @@ export class CustomButton extends LitElement {
     primary = false;
 
     @property({type:Boolean})
+    secondary = false;
+
+    @property({type:Boolean})
     warning = false;
 
     @property({type:Boolean})
@@ -51,7 +56,7 @@ export class CustomButton extends LitElement {
 
 
     render() {
-        const classes = {primary: this.primary, warning: this.warning, primaryMuted: this.primaryMuted, warningMuted: this.warningMuted}
+        const classes = {primary: this.primary, warning: this.warning, primaryMuted: this.primaryMuted, warningMuted: this.warningMuted, secondary: this.secondary}
         return html`
             <button class=${classMap(classes)}>${this.buttonText}</button>
 

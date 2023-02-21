@@ -16,19 +16,34 @@ let localData = getSession();
 let MinimumDues = class MinimumDues extends LitElement {
     constructor() {
         super();
-        this._unitStatusValue = 'all';
-        this._updateUnitSearchTerm = (e) => {
-            this._textSearchValue = new RegExp(`^${e.detail}`, "gi");
-            this._filteredList = [...this._initialList].filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(this._textSearchValue); });
+        this._filterWithSearchValues = (e) => {
+            let searchTerm = e.detail.searchTerm;
+            let statusSelected = e.detail.statusSelected;
+            let searchTermRegExp = new RegExp("^" + searchTerm, 'gi');
+            if (statusSelected === 'all') {
+                this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
+                    [...this._initialList].filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
+            }
+            else if (statusSelected === 'needs review') {
+                this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review') :
+                    [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
+            }
+            else if (statusSelected === 'submitted') {
+                this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted') :
+                    [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
+            }
+            else if (statusSelected === 'active') {
+                this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive') :
+                    [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
+            }
         };
-        this._updateStatusSelection = (e) => {
-            this._unitStatusValue = e.detail.toLowerCase();
-            this._filteredList = [...this._initialList].filter(item => item['status'].toLowerCase() === this._unitStatusValue);
+        this._getUnitSelection = (e) => {
+            this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;
         };
         this._windowWidth = window.innerWidth;
         this._initialList = [...localData];
         this._initialListLength = this._initialList.length;
-        this._unitIdSelected = this._initialList[0]['agr_id'];
+        this._unitSelected = this._initialList[0]['agr_id'];
     }
     render() {
         return html `
@@ -38,12 +53,12 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
             html `
                     <main>
-                        <list-section @entered-input=${this._updateUnitSearchTerm} 
-                                      @retrieve-selection=${this._updateStatusSelection}
-                                      ._payload=${this._filteredList === undefined ? this._initialList : this._filteredList}
-                                      .initialListSize=${this._initialListLength}>
+                        <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList}
+                                      @search-values=${this._filterWithSearchValues}
+                                      @unit-list-selection=${this._getUnitSelection}
+                                      ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section>
+                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected) : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)}>
                         </form-section>
                     </main>`}
                 <footer-section></footer-section>
@@ -60,7 +75,7 @@ MinimumDues.styles = css `
             --blue: 5, 87, 164;
             --font: 'Poppins', sans-serif;
 
-            background: var(--white);
+            background: rgb(var(--white));
 
         }
 
@@ -73,9 +88,9 @@ MinimumDues.styles = css `
         }
 
         #mobile-msg{
-            font-family: var(--font);
+            font-family: rgb(var(--font));
             color: white;
-            background: var(--red);
+            background: rgb(var(--red));
             padding: 2em 2em;
             line-height: 1.44;
             height: 25%;
@@ -114,19 +129,13 @@ __decorate([
 ], MinimumDues.prototype, "_windowWidth", void 0);
 __decorate([
     state()
-], MinimumDues.prototype, "_textSearchValue", void 0);
-__decorate([
-    state()
-], MinimumDues.prototype, "_unitStatusValue", void 0);
-__decorate([
-    state()
 ], MinimumDues.prototype, "_initialList", void 0);
 __decorate([
     state()
 ], MinimumDues.prototype, "_filteredList", void 0);
 __decorate([
     state()
-], MinimumDues.prototype, "_unitIdSelected", void 0);
+], MinimumDues.prototype, "_unitSelected", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);

@@ -54,6 +54,9 @@ export class TextInput extends LitElement{
     @property()
     type!: string;
 
+    @property()
+    value!: string | number | null;
+
     @property({type:Boolean})
     lightMode = false;
 
@@ -62,7 +65,8 @@ export class TextInput extends LitElement{
         return html`
             <div class=${classMap(classes)}>
                 <label for=${this.label}>${this.label}</label>
-                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}/>
+                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}
+                value=${this.value}/>
             </div>
         `
     }

@@ -29,6 +29,7 @@ export class UnitElement extends LitElement{
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            
         }
 
         .NeedsReview{
@@ -53,8 +54,9 @@ export class UnitElement extends LitElement{
             background: rgba(var(--blue), 0.25);
         }
 
-
-    
+        .Inactive.selected{
+            background: rgba(var(--blue), 0.5);
+        }
     `
 
     @property()
@@ -83,7 +85,9 @@ export class UnitElement extends LitElement{
 
     render() {
         return html`
-            <div data-key=${this.agr_id} class=${this.status.replace(' ', '')}>
+            <div  
+                 class=${this.status.replace(' ', '')}
+                 @click=${this._selectedUnit}>
                 <p>
                     ${this.master ? html`<span>Master</span>` : nothing}
                     <span>${`State: ${this.state}`}</span>
@@ -99,6 +103,13 @@ export class UnitElement extends LitElement{
         `
     }
 
+    _selectedUnit = () => {
+        this.dispatchEvent(new CustomEvent('unit-list-selection', {
+            detail: this.agr_id,
+            bubbles: true,
+            composed: true
+        }))
+    }
 }
 
 declare global {

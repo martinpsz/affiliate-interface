@@ -66,7 +66,7 @@ DateInput.styles = css `
         .date-input p{
             margin: 0;
             margin-bottom: 0.25em;
-            font-size: 0.8em;
+            font-size: 1em;
         }
 
         .date{

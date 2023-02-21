@@ -7,9 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 let UnitElement = class UnitElement extends LitElement {
+    constructor() {
+        super(...arguments);
+        this._selectedUnit = () => {
+            this.dispatchEvent(new CustomEvent('unit-list-selection', {
+                detail: this.agr_id,
+                bubbles: true,
+                composed: true
+            }));
+        };
+    }
     render() {
         return html `
-            <div data-key=${this.agr_id} class=${this.status.replace(' ', '')}>
+            <div  
+                 class=${this.status.replace(' ', '')}
+                 @click=${this._selectedUnit}>
                 <p>
                     ${this.master ? html `<span>Master</span>` : nothing}
                     <span>${`State: ${this.state}`}</span>
@@ -51,6 +63,7 @@ UnitElement.styles = css `
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            
         }
 
         .NeedsReview{
@@ -75,8 +88,9 @@ UnitElement.styles = css `
             background: rgba(var(--blue), 0.25);
         }
 
-
-    
+        .Inactive.selected{
+            background: rgba(var(--blue), 0.5);
+        }
     `;
 __decorate([
     property()
