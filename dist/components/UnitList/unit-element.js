@@ -23,13 +23,14 @@ let UnitElement = class UnitElement extends LitElement {
                  class=${this.status.replace(' ', '')}
                  @click=${this._selectedUnit}>
                 <p>
-                    ${this.master ? html `<span>Master</span>` : nothing}
-                    <span>${`State: ${this.state}`}</span>
-                    ${this.local ? html `Local: <span>${this.local}</span>` : nothing}
-                    ${this.council ? html `Council: <span>${this.council}</span>` : nothing}
-                    ${this.subunit ? html `Chapter/Unit: <span>${this.subunit}</span>` : nothing}
+                    ${this.master ? html `<span id="master">Master</span>` : nothing}
+                    <span>${this.state}</span>
+                    ${this.local ? html `<span>&centerdot; Loc ${this.local}</span>` : nothing}
+                    ${this.council ? html `<span>&centerdot; Coun ${this.council}</span>` : nothing}
+                    ${this.subunit ? html `<span>&centerdot; Chap ${this.subunit}</span>` : nothing}
+                    ${this.members ? html `<span>&centerdot; Members ${this.members}</span>` : nothing}
                 </p>
-                <h2>
+                <h2 title=${this.employer}>
                     ${this.employer}
                 </h2>
 
@@ -42,10 +43,15 @@ UnitElement.styles = css `
             font-family: var(--font);
             color: rgb(var(--white));
             margin: 0.5em 0.5em 0.5em 0.25em;
-            padding: 0.25em;
+            padding: 0.5em 0 0.5em 0.5em;
             background: red;
             border-radius: 2px;
             cursor: pointer;
+        }
+
+        #master{
+            background: rgb(var(--green));
+            padding: 0 0.25em;
         }
 
         p, span, h2{
@@ -58,12 +64,12 @@ UnitElement.styles = css `
         }
 
         h2{
-            font-weight: 200;
             max-width: 320px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            
+            font-size: 1.2em;
+            margin-top: 0.25em;
         }
 
         .NeedsReview{
@@ -82,14 +88,6 @@ UnitElement.styles = css `
         .Submitted.selected{
             background: rgb(var(--white));
             color: rgb(var(--blue));
-        }
-
-        .Inactive{
-            background: rgba(var(--blue), 0.25);
-        }
-
-        .Inactive.selected{
-            background: rgba(var(--blue), 0.5);
         }
     `;
 __decorate([
@@ -116,6 +114,9 @@ __decorate([
 __decorate([
     property()
 ], UnitElement.prototype, "status", void 0);
+__decorate([
+    property()
+], UnitElement.prototype, "members", void 0);
 UnitElement = __decorate([
     customElement('unit-element')
 ], UnitElement);

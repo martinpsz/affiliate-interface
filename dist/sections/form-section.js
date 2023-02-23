@@ -24,7 +24,6 @@ let FormSection = class FormSection extends LitElement {
         };
     }
     render() {
-        console.log(`The active status: ${this._activeStatus} and bargaining status: ${this._bargainStatus}`);
         return html `
             <form id="unit-form">
                 <div id="employerID">
@@ -58,17 +57,6 @@ let FormSection = class FormSection extends LitElement {
                                     .labelTo=${'To:'}>
                         </date-input>
                         `}
-
-                    
-
-
-
-
-                    
-
-
-                    
-                    
             </form>
         `;
     }

@@ -15,6 +15,15 @@ let UnitsContainer = class UnitsContainer extends LitElement {
         this._unitSelection = () => {
             var _a, _b;
             let units = (_b = (_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelector('.container')) === null || _b === void 0 ? void 0 : _b.querySelectorAll('unit-element');
+            units === null || units === void 0 ? void 0 : units.forEach(unit => {
+                var _a, _b, _c, _d;
+                if (this._unitSelected === unit['__agr_id']) {
+                    (_b = (_a = unit.shadowRoot) === null || _a === void 0 ? void 0 : _a.querySelector('div')) === null || _b === void 0 ? void 0 : _b.classList.add('selected');
+                }
+                else {
+                    (_d = (_c = unit.shadowRoot) === null || _c === void 0 ? void 0 : _c.querySelector('div')) === null || _d === void 0 ? void 0 : _d.classList.remove('selected');
+                }
+            });
         };
         this._getUnitSelection = (e) => {
             this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;
@@ -36,6 +45,7 @@ let UnitsContainer = class UnitsContainer extends LitElement {
                                     .council=${item['council']}
                                     .subunit=${item['subunit']}
                                     .status=${item['status']}
+                                    .members=${item['number_of_members']}
                                     >
                         </unit-element>
                     `;

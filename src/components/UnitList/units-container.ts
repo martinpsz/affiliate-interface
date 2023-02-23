@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement, state, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import '../UnitList/unit-element'
@@ -54,6 +54,7 @@ export class UnitsContainer extends LitElement{
                                     .council=${item['council']}
                                     .subunit=${item['subunit']}
                                     .status=${item['status']}
+                                    .members=${item['number_of_members']}
                                     >
                         </unit-element>
                     `
@@ -63,18 +64,18 @@ export class UnitsContainer extends LitElement{
     }
 
     _unitSelection = () => {
-        let units = this.renderRoot?.querySelector('.container')?.querySelectorAll('unit-element')
+        let units = this.renderRoot?.querySelector('.container')?.querySelectorAll('unit-element') as NodeListOf<any>
 
-
-        //for(let i=0; i<units?.length; i++){
-           // console.log(units[i])
-           /* if(units[i][agr_id] === this._unitSelected){
-                units[i][agr_id].classList.add('selected')
-            } else{
-                units[i][agr_id].classList.remove('selected')
-            }*/
-       // }
+        units?.forEach(unit => {
+            if (this._unitSelected === unit['__agr_id']){
+                unit.shadowRoot?.querySelector('div')?.classList.add('selected')
+            } else {
+                unit.shadowRoot?.querySelector('div')?.classList.remove('selected')
+            }
+        })
     }
+
+
 
     _getUnitSelection = (e: {detail: number}) => {
         this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected

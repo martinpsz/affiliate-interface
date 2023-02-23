@@ -55,7 +55,6 @@ export class FormSection extends LitElement {
     _bargainStatus = 'No';
 
     render() {
-        console.log(`The active status: ${this._activeStatus} and bargaining status: ${this._bargainStatus}`)
         return html`
             <form id="unit-form">
                 <div id="employerID">
@@ -91,26 +90,15 @@ export class FormSection extends LitElement {
                         </date-input>
                         `
                     }
-
-                    
-
-
-
-
-                    
-
-
-                    
-                    
             </form>
         `
     }
 
-    _getActiveStatus = (e) => {
+    _getActiveStatus = (e: { detail: string; }) => {
         this._activeStatus = e.detail;
     }
 
-    _getBargainingStatus = (e) => {
+    _getBargainingStatus = (e: { detail: string; }) => {
         this._bargainStatus = e.detail
     }
 }
