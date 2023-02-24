@@ -26,6 +26,7 @@ export class DateInput extends LitElement {
         label{
             text-transform: uppercase;
             font-size: 0.8em;
+            margin-bottom: 0.25em;
         }
 
         input{
@@ -38,6 +39,11 @@ export class DateInput extends LitElement {
 
         input:focus{
             outline: transparent;
+        }
+
+        #date-range{
+            display: flex;
+            column-gap: 1em;
         }
     
     `
@@ -53,23 +59,31 @@ export class DateInput extends LitElement {
     @property()
     labelTo?: string;
 
+    @property()
+    valueFrom?: string;
+
+    @property()
+    valueTo?: string;
+
     render() {
         return html`
             <div class="date-input">
                 ${this.prompt && html`<p>${this.prompt}</p>`}
                 ${this.type === 'date-range' ? html`
-                    <div class="date">
-                        <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter}/>
-                    </div>
-                    <div class="date">
-                        <label for=${this.labelTo}>${this.labelTo}</label>
-                        <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter}/>
+                    <div id="date-range">
+                        <div class="date">
+                            <label for=${this.labelFrom}>${this.labelFrom}</label>
+                            <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        </div>
+                        <div class="date">
+                            <label for=${this.labelTo}>${this.labelTo}</label>
+                            <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                        </div>
                     </div>
                 `:html`
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter}/>
+                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                     </div>
                 `}
             </div>

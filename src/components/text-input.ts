@@ -6,8 +6,9 @@ import {classMap} from 'lit/directives/class-map.js';
 export class TextInput extends LitElement{
     static styles = css`
         div{
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
+            width: 100%;
         }
 
         label, input::placeholder, input{
@@ -41,6 +42,16 @@ export class TextInput extends LitElement{
 
         .lightMode input{
             border: 1px solid rgba(var(--black), 0.5);
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+
+        input[type=number] {
+        -moz-appearance: textfield;
         }
     
     `

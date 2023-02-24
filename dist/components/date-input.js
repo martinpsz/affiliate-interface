@@ -38,18 +38,20 @@ let DateInput = class DateInput extends LitElement {
             <div class="date-input">
                 ${this.prompt && html `<p>${this.prompt}</p>`}
                 ${this.type === 'date-range' ? html `
-                    <div class="date">
-                        <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter}/>
-                    </div>
-                    <div class="date">
-                        <label for=${this.labelTo}>${this.labelTo}</label>
-                        <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter}/>
+                    <div id="date-range">
+                        <div class="date">
+                            <label for=${this.labelFrom}>${this.labelFrom}</label>
+                            <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        </div>
+                        <div class="date">
+                            <label for=${this.labelTo}>${this.labelTo}</label>
+                            <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                        </div>
                     </div>
                 ` : html `
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter}/>
+                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                     </div>
                 `}
             </div>
@@ -77,6 +79,7 @@ DateInput.styles = css `
         label{
             text-transform: uppercase;
             font-size: 0.8em;
+            margin-bottom: 0.25em;
         }
 
         input{
@@ -89,6 +92,11 @@ DateInput.styles = css `
 
         input:focus{
             outline: transparent;
+        }
+
+        #date-range{
+            display: flex;
+            column-gap: 1em;
         }
     
     `;
@@ -104,6 +112,12 @@ __decorate([
 __decorate([
     property()
 ], DateInput.prototype, "labelTo", void 0);
+__decorate([
+    property()
+], DateInput.prototype, "valueFrom", void 0);
+__decorate([
+    property()
+], DateInput.prototype, "valueTo", void 0);
 DateInput = __decorate([
     customElement('date-input')
 ], DateInput);

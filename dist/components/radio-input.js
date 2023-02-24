@@ -11,6 +11,7 @@ let RadioInput = class RadioInput extends LitElement {
     constructor() {
         super(...arguments);
         this.darkMode = false;
+        this.dirColumn = false;
         this._getInput = () => {
             let selection;
             const inputs = this.renderRoot.querySelectorAll('input');
@@ -28,7 +29,7 @@ let RadioInput = class RadioInput extends LitElement {
     }
     render() {
         var _a;
-        const classes = { darkMode: this.darkMode };
+        const classes = { darkMode: this.darkMode, dirColumn: this.dirColumn };
         return html `
             <div class="radio-input ${classMap(classes)}">
                 <p>${this.prompt}</p>
@@ -70,9 +71,16 @@ RadioInput.styles = css `
             margin-left: 0.5em;
         }
 
+        .dirColumn{
+            flex-direction: column;
+        }
+
+        .dirColumn p{
+            margin-bottom: 0.5em;
+        }
+
         .darkMode {
             color: rgb(var(--white));
-            flex-direction: column;
         }
 
         .darkMode p{
@@ -104,6 +112,9 @@ __decorate([
 __decorate([
     property({ type: Boolean })
 ], RadioInput.prototype, "darkMode", void 0);
+__decorate([
+    property({ type: Boolean })
+], RadioInput.prototype, "dirColumn", void 0);
 RadioInput = __decorate([
     customElement('radio-input')
 ], RadioInput);

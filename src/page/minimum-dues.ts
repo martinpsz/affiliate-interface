@@ -53,7 +53,6 @@ export class MinimumDues extends LitElement{
             --font: 'Poppins', sans-serif;
 
             background: rgb(var(--white));
-
         }
 
         .container{
@@ -77,7 +76,7 @@ export class MinimumDues extends LitElement{
         }
 
         main{
-            height: 100%;
+            height: 80vh;
             width: calc(100% - 2em);
             max-width: 1200px;
             display: flex;
@@ -93,6 +92,7 @@ export class MinimumDues extends LitElement{
 
         form-section{
             flex: 67%;
+            height: calc(80vh - 2px);
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
             border: 1px solid rgb(var(--black));

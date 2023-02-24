@@ -71,7 +71,7 @@ export class ListSection extends LitElement {
                     <div class="list-filter">
                         <text-input label="Search:" placeholder="Search by unit/employer" @entered-input=${this._updateSearchTerm}></text-input>
 
-                        <radio-input darkMode prompt="Status:" .labels=${['All', 'Needs Review', 'Submitted']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
+                        <radio-input darkMode dirColumn prompt="Status:" .labels=${['All', 'Needs Review', 'Submitted']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
 
                         <div class="filter-btns">
                             <custom-button secondary 
