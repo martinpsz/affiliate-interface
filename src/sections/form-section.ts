@@ -72,10 +72,10 @@ export class FormSection extends LitElement {
         }
 
         .unit-info{
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            column-gap: 1em;
+            display: grid;
+            grid-template-columns: 160px 280px 240px;
+            grid-column-gap: 1em;
+            align-items: end;
         }
 
         .general, .special{
@@ -235,9 +235,10 @@ export class FormSection extends LitElement {
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Special Raises'}></form-header>
                      <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
-                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input>` : nothing}
+                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input>
+                                            ${this._specialRaiseHandler()}` : nothing}
                      
-                    ${this._specialRaiseHandler()}
+                    
             </form>
         `
     }

@@ -51,7 +51,7 @@ TextInput.styles = css `
         }
 
         input{
-            padding: 0.5em 0 0.5em 0.25em;
+            padding: 0.25em 0 0.25em 0.5em;
             border: none;
             border-radius: 4px;
         }
