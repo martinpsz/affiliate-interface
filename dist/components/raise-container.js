@@ -15,7 +15,7 @@ let RaiseContainer = class RaiseContainer extends LitElement {
         this._commonRaiseFields = () => {
             return html `
             <date-input id="effective" .type=${'date'} labelFrom=${"Effective From:"}></date-input>
-            <radio-input id="raiseType" dirColumn .labels=${['Percent', 'Hourly', 'Annually']} prompt=${'Type of increase:'} @retrieve-selection=${this._getRaiseType}></radio-input>
+            <radio-input raiseSelection id="raiseType" dirColumn .labels=${['Percent', 'Hourly', 'Annually']} prompt=${'Type of increase:'} @retrieve-selection=${this._getRaiseType}></radio-input>
             ${this._selectedRaiseType && html `<text-input id='raiseAmt' lightMode label=${'Amount of raise:'} type=${'number'}></text-input>
             `}
         `;
@@ -55,8 +55,6 @@ RaiseContainer.styles = css `
         }
 
         #special-raise{
-            width: 95%;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: 140px 280px 164px 164px;
             grid-column-gap: 0.5em;

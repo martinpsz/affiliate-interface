@@ -24,6 +24,12 @@ export class RadioInput extends LitElement {
             margin-left: 0.5em;
         }
 
+        .raiseSelection p{
+            margin-bottom: 0.25em;
+            text-transform: uppercase;
+            font-size: 0.8em;
+        }
+
         .dirColumn{
             flex-direction: column;
         }
@@ -69,8 +75,11 @@ export class RadioInput extends LitElement {
     @property({type:Boolean})
     dirColumn = false;
 
+    @property({type:Boolean})
+    raiseSelection = false;
+
     render() {
-        const classes = {darkMode : this.darkMode, dirColumn : this.dirColumn}
+        const classes = {darkMode : this.darkMode, dirColumn : this.dirColumn, raiseSelection : this.raiseSelection}
         return html`
             <div class="radio-input ${classMap(classes)}">
                 <p>${this.prompt}</p>
