@@ -69,7 +69,17 @@ let FormSection = class FormSection extends LitElement {
             this.requestUpdate();
         };
         this._removeRaise = () => {
-            console.log(this);
+            var _a, _b;
+            if (this.renderRoot.querySelectorAll('.raise').length >= 2) {
+                (_a = this.renderRoot.querySelector('.raise')) === null || _a === void 0 ? void 0 : _a.remove();
+            }
+            else {
+                (_b = this.renderRoot.querySelector('#atb')) === null || _b === void 0 ? void 0 : _b.setAttribute('warning', 'At least one increase needs to be recorded.');
+                setTimeout(() => {
+                    var _a;
+                    (_a = this.renderRoot.querySelector('#atb')) === null || _a === void 0 ? void 0 : _a.removeAttribute('warning');
+                }, 3500);
+            }
         };
         this.generalRaises = [];
     }
@@ -94,7 +104,7 @@ let FormSection = class FormSection extends LitElement {
                 ${this._activeStatusHandler()}
                 ${this._bargainStatusHandler()}
 
-                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html `<form-header .title=${'Across the Board Raises'}></form-header>
+                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html `<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
                      ${this._raisesHandler("GENERAL")}
                      ${this.generalRaises.map(item => item)}
                     <custom-button id="add-raise" secondary .buttonText=${'Add Raise'} @click=${this._addGeneralRaise}></custom-button>
@@ -164,7 +174,7 @@ FormSection.styles = css `
         .raise{
             display: grid;
             grid-template-columns: 1fr 5%;
-            padding: 0.75em 0;
+            padding: 0.25em 0 0.75em;
 
         }
 

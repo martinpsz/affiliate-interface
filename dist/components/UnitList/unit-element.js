@@ -18,9 +18,10 @@ let UnitElement = class UnitElement extends LitElement {
         };
     }
     render() {
+        console.log(this.status);
         return html `
             <div  
-                 class=${this.status.replace(' ', '')}
+                 class=${this.agr_id === this.initialUnitSelection ? `${this.status.replace(' ', '')} selected` : `${this.status.replace(' ', '')}`}
                  @click=${this._selectedUnit}>
                 <p>
                     ${this.master ? html `<span id="master">Master</span>` : nothing}
@@ -52,6 +53,10 @@ UnitElement.styles = css `
         #master{
             background: rgb(var(--green));
             padding: 0 0.25em;
+        }
+
+        .selected #master{
+            color: rgb(var(--white));
         }
 
         p, span, h2{
@@ -117,6 +122,9 @@ __decorate([
 __decorate([
     property()
 ], UnitElement.prototype, "members", void 0);
+__decorate([
+    property()
+], UnitElement.prototype, "initialUnitSelection", void 0);
 UnitElement = __decorate([
     customElement('unit-element')
 ], UnitElement);

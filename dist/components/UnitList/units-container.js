@@ -37,6 +37,7 @@ let UnitsContainer = class UnitsContainer extends LitElement {
             return html `
                         <unit-element @click=${this._unitSelection}
                                      @unit-list-selection=${this._getUnitSelection}
+                                     .initialUnitSelection=${this._initialUnitSelection}
                                     .employer=${item['employer']}
                                     .agr_id=${item['agr_id']}
                                     .master=${item['master']}
@@ -83,6 +84,9 @@ __decorate([
 __decorate([
     state()
 ], UnitsContainer.prototype, "_unitSelected", void 0);
+__decorate([
+    state()
+], UnitsContainer.prototype, "_initialUnitSelection", void 0);
 __decorate([
     property({ type: Boolean })
 ], UnitsContainer.prototype, "shortList", void 0);

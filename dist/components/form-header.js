@@ -22,6 +22,21 @@ FormHeader.styles = css `
             text-transform: uppercase;
             color: rgb(var(--blue));
             border-bottom: 4px solid rgb(var(--green));
+            margin: 1em 0;
+        }
+
+        p{
+            margin: 0;
+            background: rgba(var(--red), 0.75);
+            color: rgb(var(--white));
+            font-family: var(--font);
+            font-weight: 200;
+            text-align: center;
+        }
+
+        p:not(:empty){
+            margin-top: -1.1em;
+            //padding: 0.2em 0;
         }
     
     `;

@@ -54,6 +54,7 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `
                     <main>
                         <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList}
+                                      ._initialUnitSelection = ${typeof this._filteredList === 'undefined' ? this._initialList[0].agr_id : this._filteredList[0].agr_id}
                                       @search-values=${this._filterWithSearchValues}
                                       @unit-list-selection=${this._getUnitSelection}
                                       ._initialListSize=${this._initialListLength}>

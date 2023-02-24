@@ -50,10 +50,10 @@ let ListSection = class ListSection extends LitElement {
                         </div>
                         <hr/>
                     </div>
-                    <units-container ._payload=${this._payload}></units-container>
+                    <units-container ._payload=${this._payload} ._initialUnitSelection=${this._initialUnitSelection}></units-container>
                 ` : html `
                     <div class="short-list">
-                        <units-container ._payload=${this._payload} shortList></units-container>
+                        <units-container ._payload=${this._payload} shortList ._initialUnitSelection=${this._initialUnitSelection}></units-container>
                         <custom-button secondary .buttonText=${"Get Spreadsheet"}>></custom-button>
                     </div>
                     `}
@@ -112,6 +112,9 @@ __decorate([
 __decorate([
     state()
 ], ListSection.prototype, "_statusSelected", void 0);
+__decorate([
+    state()
+], ListSection.prototype, "_initialUnitSelection", void 0);
 ListSection = __decorate([
     customElement('list-section')
 ], ListSection);

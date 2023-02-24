@@ -59,6 +59,9 @@ export class ListSection extends LitElement {
     @state()
     _statusSelected: string;
 
+    @state()
+    _initialUnitSelection!: number;
+
     constructor(){
         super();
         this._statusSelected = 'all'
@@ -84,10 +87,10 @@ export class ListSection extends LitElement {
                         </div>
                         <hr/>
                     </div>
-                    <units-container ._payload=${this._payload}></units-container>
+                    <units-container ._payload=${this._payload} ._initialUnitSelection=${this._initialUnitSelection}></units-container>
                 ` : html`
                     <div class="short-list">
-                        <units-container ._payload=${this._payload} shortList></units-container>
+                        <units-container ._payload=${this._payload} shortList ._initialUnitSelection=${this._initialUnitSelection}></units-container>
                         <custom-button secondary .buttonText=${"Get Spreadsheet"}>></custom-button>
                     </div>
                     `}

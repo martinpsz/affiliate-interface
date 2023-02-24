@@ -14,9 +14,8 @@ let RaiseContainer = class RaiseContainer extends LitElement {
         super(...arguments);
         this._commonRaiseFields = () => {
             return html `
-            <date-input id="effective" .type=${'date'} labelFrom=${"Effective From:"}>
-            </date-input>
-            <radio-input id="raiseType" dirColumn .labels=${['Percent', 'Hourly', 'Annually']} prompt=${'Type of raise:'} @retrieve-selection=${this._getRaiseType}></radio-input>
+            <date-input id="effective" .type=${'date'} labelFrom=${"Effective From:"}></date-input>
+            <radio-input id="raiseType" dirColumn .labels=${['Percent', 'Hourly', 'Annually']} prompt=${'Type of increase:'} @retrieve-selection=${this._getRaiseType}></radio-input>
             ${this._selectedRaiseType && html `<text-input id='raiseAmt' lightMode label=${'Amount of raise:'} type=${'number'}></text-input>
             `}
         `;

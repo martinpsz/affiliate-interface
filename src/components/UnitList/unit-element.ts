@@ -19,6 +19,10 @@ export class UnitElement extends LitElement{
             padding: 0 0.25em;
         }
 
+        .selected #master{
+            color: rgb(var(--white));
+        }
+
         p, span, h2{
             margin: 0;
         }
@@ -83,10 +87,15 @@ export class UnitElement extends LitElement{
     @property()
     members!: number;
 
+    @property()
+    initialUnitSelection!: number;
+
+    //Need to update initial Selection to search result first 
     render() {
+        console.log(this.status)
         return html`
             <div  
-                 class=${this.status.replace(' ', '')}
+                 class=${this.agr_id === this.initialUnitSelection ? `${this.status.replace(' ', '')} selected` : `${this.status.replace(' ', '')}`}
                  @click=${this._selectedUnit}>
                 <p>
                     ${this.master ? html`<span id="master">Master</span>` : nothing}

@@ -81,7 +81,7 @@ export class FormSection extends LitElement {
         .raise{
             display: grid;
             grid-template-columns: 1fr 5%;
-            padding: 0.75em 0;
+            padding: 0.25em 0 0.75em;
 
         }
 
@@ -188,7 +188,7 @@ export class FormSection extends LitElement {
                 ${this._activeStatusHandler()}
                 ${this._bargainStatusHandler()}
 
-                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Across the Board Raises'}></form-header>
+                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
                      ${this._raisesHandler("GENERAL")}
                      ${this.generalRaises.map(item => item)}
                     <custom-button id="add-raise" secondary .buttonText=${'Add Raise'} @click=${this._addGeneralRaise}></custom-button>
@@ -216,8 +216,14 @@ export class FormSection extends LitElement {
     }
 
     _removeRaise = () => {
-         console.log(this)
-        
+        if(this.renderRoot.querySelectorAll('.raise').length >= 2){
+            this.renderRoot.querySelector('.raise')?.remove()
+        } else {
+            this.renderRoot.querySelector('#atb')?.setAttribute('warning', 'At least one increase needs to be recorded.')
+            setTimeout(() => {
+                this.renderRoot.querySelector('#atb')?.removeAttribute('warning')
+            }, 3500); 
+        }
     }
 
     
