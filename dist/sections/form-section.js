@@ -206,17 +206,24 @@ FormSection.styles = css `
         }
 
         .unit-info{
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            column-gap: 1em;
+            display: grid;
+            grid-template-columns: 140px 280px 240px;
+            grid-column-gap: 2em;
+            align-items: end;
         }
 
         .general, .special{
             display: grid;
             grid-template-columns: 1fr 5%;
-            padding: 0.25em 0 0.75em;
             margin-bottom: 1em;
+        }
+
+        .general{
+            padding: 0.25em 0 0.75em;
+        }
+
+        .special{
+            padding: 0.5em;
         }
 
         .general span, .special span{

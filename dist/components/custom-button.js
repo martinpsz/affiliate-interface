@@ -19,7 +19,7 @@ let CustomButton = class CustomButton extends LitElement {
     render() {
         const classes = { primary: this.primary, warning: this.warning, primaryMuted: this.primaryMuted, warningMuted: this.warningMuted, secondary: this.secondary };
         return html `
-            <button class=${classMap(classes)}>${this.buttonText}</button>
+            <button class=${classMap(classes)}>${this.icon}${this.buttonText}</button>
 
         `;
     }
@@ -58,6 +58,9 @@ CustomButton.styles = css `
 __decorate([
     property()
 ], CustomButton.prototype, "buttonText", void 0);
+__decorate([
+    property()
+], CustomButton.prototype, "icon", void 0);
 __decorate([
     property({ type: Boolean })
 ], CustomButton.prototype, "primary", void 0);

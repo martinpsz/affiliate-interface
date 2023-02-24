@@ -11,17 +11,23 @@ type RaiseType = 'GENERAL' | 'SPECIAL';
 export class RaiseContainer extends LitElement{
     static styles = css`
         #general-raise{
-            display: flex;
-            column-gap: 3em;
-            align-items: flex-end;
+            //display: flex;
+            //column-gap: 3em;
+            //align-items: flex-end;
+            //justify-content: center;
+            display: grid;
+            grid-template-columns: 140px 280px 140px;
+            grid-column-gap: 2em;
+            align-items: end;
             justify-content: center;
+
         }
 
         #special-raise{
-            max-width: 95%;
-            margin: 0 auto ;
+            width: 95%;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 140px 280px 180px 180px;
+            grid-template-columns: 140px 280px 164px 164px;
             grid-column-gap: 0.5em;
             grid-row-gap: 1em;
             align-items: end;

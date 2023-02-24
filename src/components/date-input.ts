@@ -30,7 +30,7 @@ export class DateInput extends LitElement {
         }
 
         input{
-            padding: 0.5em 0 0.5em 0.25em;
+            padding: 0.2em 0 0.2em 0.5em;
             font-family: inherit;
             border: 1px solid rgba(var(--black), 0.5);
             border-radius: 4px;

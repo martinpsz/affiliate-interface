@@ -20,7 +20,7 @@ let FooterSection = class FooterSection extends LitElement {
 };
 FooterSection.styles = css `
         footer{
-            margin: 0.5em 0;
+            margin: 0 0 0.25em 0;
         }
 
         small{
