@@ -77,7 +77,6 @@ RaiseContainer.styles = css `
 
         #special-raise #raiseAmt{
             grid-area: raiseAmt;
-            
         }
 
         #special-raise #numAffected{

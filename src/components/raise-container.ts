@@ -46,7 +46,6 @@ export class RaiseContainer extends LitElement{
 
         #special-raise #raiseAmt{
             grid-area: raiseAmt;
-            
         }
 
         #special-raise #numAffected{
