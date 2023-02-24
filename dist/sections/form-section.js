@@ -50,13 +50,40 @@ let FormSection = class FormSection extends LitElement {
             `;
             }
         };
-        this._raisesHandler = (typeOfRaise) => {
+        this._generalRaisesTemplate = () => {
             return html `
-            <div class="raise">
-                <raise-container typeOfRaise=${typeOfRaise}></raise-container>
-                <span @click=${this._removeRaise}>&#x2715;</span>
+            <div class='general'>
+                <raise-container typeOfRaise=${'GENERAL'}></raise-container>
+                <span @click=${this._removeATBRaise}>&#x2715;</span>
             </div>
         `;
+        };
+        this._specialRaisesTemplate = () => {
+            return html `
+            <div class='special'>
+                <raise-container typeOfRaise=${'SPECIAL'}></raise-container>
+                <span @click=${this._removeSpecialRaise}>&#x2715;</span>
+            </div>
+        `;
+        };
+        this._specialRaiseHandler = () => {
+            if (this._specialRaiseSelection === 'No') {
+                return html `<custom-button warning .buttonText=${"Submit for Review"}></custom-button>`;
+            }
+            else if (this._specialRaiseSelection === 'Yes') {
+                return html `
+                    ${this._specialRaisesTemplate()}
+                    ${this.specialRaises.map(item => item)}
+                    <div id="special-raise-btns">
+                        <custom-button id="add-raise" secondary .buttonText=${'Add Special Raise'} @click=${this._addSpecialRaise}></custom-button>
+                        <custom-button warning .buttonText=${"Submit for Review"}></custom-button>
+                    </div>
+                    
+                `;
+            }
+            else {
+                return nothing;
+            }
         };
         this._getActiveStatus = (e) => {
             this._activeStatus = e.detail;
@@ -65,13 +92,17 @@ let FormSection = class FormSection extends LitElement {
             this._bargainStatus = e.detail;
         };
         this._addGeneralRaise = () => {
-            this.generalRaises.push(html `${this._raisesHandler('GENERAL')}`);
+            this.generalRaises.push(html `${this._generalRaisesTemplate()}`);
             this.requestUpdate();
         };
-        this._removeRaise = () => {
+        this._addSpecialRaise = () => {
+            this.specialRaises.push(html `${this._specialRaisesTemplate()}`);
+            this.requestUpdate();
+        };
+        this._removeATBRaise = () => {
             var _a, _b;
-            if (this.renderRoot.querySelectorAll('.raise').length >= 2) {
-                (_a = this.renderRoot.querySelector('.raise')) === null || _a === void 0 ? void 0 : _a.remove();
+            if (this.renderRoot.querySelectorAll('.general').length >= 2) {
+                (_a = this.renderRoot.querySelector('.general')) === null || _a === void 0 ? void 0 : _a.remove();
             }
             else {
                 (_b = this.renderRoot.querySelector('#atb')) === null || _b === void 0 ? void 0 : _b.setAttribute('warning', 'At least one increase needs to be recorded.');
@@ -81,7 +112,15 @@ let FormSection = class FormSection extends LitElement {
                 }, 3500);
             }
         };
+        this._removeSpecialRaise = () => {
+            var _a;
+            (_a = this.renderRoot.querySelector('.special')) === null || _a === void 0 ? void 0 : _a.remove();
+        };
+        this._getSpecialRaiseSelection = (e) => {
+            this._specialRaiseSelection = e.detail;
+        };
         this.generalRaises = [];
+        this.specialRaises = [];
     }
     render() {
         return html `
@@ -105,15 +144,17 @@ let FormSection = class FormSection extends LitElement {
                 ${this._bargainStatusHandler()}
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html `<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
-                     ${this._raisesHandler("GENERAL")}
+                     ${this._generalRaisesTemplate()}
                      ${this.generalRaises.map(item => item)}
-                    <custom-button id="add-raise" secondary .buttonText=${'Add Raise'} @click=${this._addGeneralRaise}></custom-button>
+                    <custom-button id="add-raise" secondary .buttonText=${'Add General Raise'} @click=${this._addGeneralRaise}></custom-button>
                 
                 ` : nothing} 
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html `<form-header .title=${'Special Raises'}></form-header>
-                     <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} .labels=${['Yes', 'No']}></radio-input>
-                ` : nothing}
+                     <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
+                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input>` : nothing}
+                     
+                    ${this._specialRaiseHandler()}
             </form>
         `;
     }
@@ -171,29 +212,27 @@ FormSection.styles = css `
             column-gap: 1em;
         }
 
-        .raise{
+        .general, .special{
             display: grid;
             grid-template-columns: 1fr 5%;
             padding: 0.25em 0 0.75em;
-
+            margin-bottom: 1em;
         }
 
-        .raise span{
+        .general span, .special span{
             align-self: start;
             justify-self: center;
             cursor: pointer;
             padding: 0.25em;
         }
 
-        .raise:first-of-type{
-            background: red;
-        }
-
-        .raise:nth-of-type(2n+1){
+        .general:nth-of-type(2n+1), .special:nth-of-type(2n+1){
             background: rgb(var(--blue), 0.1);
         }
 
-        
+        #special-raise-btns{
+            margin-left: auto;
+        }
         
         
     `;
@@ -209,6 +248,12 @@ __decorate([
 __decorate([
     property()
 ], FormSection.prototype, "generalRaises", void 0);
+__decorate([
+    state()
+], FormSection.prototype, "_specialRaiseSelection", void 0);
+__decorate([
+    property()
+], FormSection.prototype, "specialRaises", void 0);
 FormSection = __decorate([
     customElement('form-section')
 ], FormSection);

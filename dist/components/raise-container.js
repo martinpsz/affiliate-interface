@@ -50,16 +50,16 @@ RaiseContainer.styles = css `
 
         #special-raise{
             max-width: 95%;
-            margin: 0;
+            margin: 0 auto ;
             display: grid;
-            grid-template-columns: 175px 1fr 1fr 175px;
+            grid-template-columns: 140px 280px 180px 180px;
             grid-column-gap: 0.5em;
             grid-row-gap: 1em;
             align-items: end;
             justify-content: center;
             grid-template-areas:
-                'effective raiseType raiseType raiseAmt'
-                'numAffected titlesAffected titlesAffected titlesAffected';
+                'effective raiseType raiseAmt numAffected'
+                'titlesAffected titlesAffected titlesAffected titlesAffected';
                 
         }
 
@@ -68,8 +68,7 @@ RaiseContainer.styles = css `
         }
 
         #special-raise #raiseType{
-            grid-area: raiseType;
-            
+            grid-area: raiseType;  
         }
 
         #special-raise #raiseAmt{

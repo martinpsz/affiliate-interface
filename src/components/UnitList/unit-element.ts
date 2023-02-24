@@ -92,7 +92,6 @@ export class UnitElement extends LitElement{
 
     //Need to update initial Selection to search result first 
     render() {
-        console.log(this.status)
         return html`
             <div  
                  class=${this.agr_id === this.initialUnitSelection ? `${this.status.replace(' ', '')} selected` : `${this.status.replace(' ', '')}`}

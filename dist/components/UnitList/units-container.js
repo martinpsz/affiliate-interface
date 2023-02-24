@@ -58,7 +58,7 @@ let UnitsContainer = class UnitsContainer extends LitElement {
 UnitsContainer.styles = css `
         .container{
             max-height: 55vh;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         .container::-webkit-scrollbar{

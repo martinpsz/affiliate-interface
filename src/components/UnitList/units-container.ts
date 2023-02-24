@@ -9,7 +9,7 @@ export class UnitsContainer extends LitElement{
     static styles = css`
         .container{
             max-height: 55vh;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
         .container::-webkit-scrollbar{

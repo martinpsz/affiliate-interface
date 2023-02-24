@@ -78,29 +78,27 @@ export class FormSection extends LitElement {
             column-gap: 1em;
         }
 
-        .raise{
+        .general, .special{
             display: grid;
             grid-template-columns: 1fr 5%;
             padding: 0.25em 0 0.75em;
-
+            margin-bottom: 1em;
         }
 
-        .raise span{
+        .general span, .special span{
             align-self: start;
             justify-self: center;
             cursor: pointer;
             padding: 0.25em;
         }
 
-        .raise:first-of-type{
-            background: red;
-        }
-
-        .raise:nth-of-type(2n+1){
+        .general:nth-of-type(2n+1), .special:nth-of-type(2n+1){
             background: rgb(var(--blue), 0.1);
         }
 
-        
+        #special-raise-btns{
+            margin-left: auto;
+        }
         
         
     `
@@ -115,6 +113,14 @@ export class FormSection extends LitElement {
 
     @property()
     generalRaises!: TemplateResult[];
+
+    @state()
+    _specialRaiseSelection!: string;
+
+    @property()
+    specialRaises!: TemplateResult[];
+
+
 
     _activeStatusHandler = () => {
         if(this._activeStatus === 'No'){
@@ -153,18 +159,50 @@ export class FormSection extends LitElement {
         }
     }
 
-    _raisesHandler = (typeOfRaise:string) => {
+    _generalRaisesTemplate = () => {
         return html`
-            <div class="raise">
-                <raise-container typeOfRaise=${typeOfRaise}></raise-container>
-                <span @click=${this._removeRaise}>&#x2715;</span>
+            <div class='general'>
+                <raise-container typeOfRaise=${'GENERAL'}></raise-container>
+                <span @click=${this._removeATBRaise}>&#x2715;</span>
             </div>
         `
+    }
+
+    _specialRaisesTemplate = () => {
+        return html`
+            <div class='special'>
+                <raise-container typeOfRaise=${'SPECIAL'}></raise-container>
+                <span @click=${this._removeSpecialRaise}>&#x2715;</span>
+            </div>
+        `
+    }
+
+    _specialRaiseHandler = () => {
+        if(this._specialRaiseSelection === 'No'){
+            return html`<custom-button warning .buttonText=${"Submit for Review"}></custom-button>`
+        } 
+
+        else if(this._specialRaiseSelection === 'Yes'){
+            return html `
+                    ${this._specialRaisesTemplate()}
+                    ${this.specialRaises.map(item => item)}
+                    <div id="special-raise-btns">
+                        <custom-button id="add-raise" secondary .buttonText=${'Add Special Raise'} @click=${this._addSpecialRaise}></custom-button>
+                        <custom-button warning .buttonText=${"Submit for Review"}></custom-button>
+                    </div>
+                    
+                `
+        }
+
+        else{
+            return nothing
+        }
     }
 
     constructor(){
         super()
         this.generalRaises = []
+        this.specialRaises = []
     }
 
     render() {
@@ -189,15 +227,17 @@ export class FormSection extends LitElement {
                 ${this._bargainStatusHandler()}
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
-                     ${this._raisesHandler("GENERAL")}
+                     ${this._generalRaisesTemplate()}
                      ${this.generalRaises.map(item => item)}
-                    <custom-button id="add-raise" secondary .buttonText=${'Add Raise'} @click=${this._addGeneralRaise}></custom-button>
+                    <custom-button id="add-raise" secondary .buttonText=${'Add General Raise'} @click=${this._addGeneralRaise}></custom-button>
                 
                 ` : nothing} 
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Special Raises'}></form-header>
-                     <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} .labels=${['Yes', 'No']}></radio-input>
-                ` : nothing}
+                     <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
+                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input>` : nothing}
+                     
+                    ${this._specialRaiseHandler()}
             </form>
         `
     }
@@ -211,13 +251,19 @@ export class FormSection extends LitElement {
     }
 
     _addGeneralRaise = () => {
-        this.generalRaises.push(html`${this._raisesHandler('GENERAL')}`)
+        this.generalRaises.push(html`${this._generalRaisesTemplate()}`)
         this.requestUpdate();
     }
 
-    _removeRaise = () => {
-        if(this.renderRoot.querySelectorAll('.raise').length >= 2){
-            this.renderRoot.querySelector('.raise')?.remove()
+    _addSpecialRaise = () => {
+        this.specialRaises.push(html`${this._specialRaisesTemplate()}`)
+        this.requestUpdate()
+    }
+  
+
+    _removeATBRaise = () => {
+        if(this.renderRoot.querySelectorAll('.general').length >= 2){
+            this.renderRoot.querySelector('.general')?.remove()
         } else {
             this.renderRoot.querySelector('#atb')?.setAttribute('warning', 'At least one increase needs to be recorded.')
             setTimeout(() => {
@@ -226,7 +272,13 @@ export class FormSection extends LitElement {
         }
     }
 
-    
+    _removeSpecialRaise = () => {
+        this.renderRoot.querySelector('.special')?.remove()
+    }
+
+    _getSpecialRaiseSelection = (e: { detail: any; }) => {
+        this._specialRaiseSelection = e.detail;
+    }
 
 }
 
