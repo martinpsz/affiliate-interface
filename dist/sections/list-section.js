@@ -10,6 +10,7 @@ import '../components/text-input';
 import '../components/radio-input';
 import '../components/UnitList/units-container';
 import '../components/custom-button';
+import { generateSpreadSheet } from "../utilities/generateSpreadsheet";
 let ListSection = class ListSection extends LitElement {
     constructor() {
         super();
@@ -41,11 +42,11 @@ let ListSection = class ListSection extends LitElement {
 
                         <div class="filter-btns">
                             <custom-button secondary 
-                                .buttonText=${"Get Spreadsheet"}>
+                                .buttonText=${"Edit in Spreadsheet"}
+                                @click=${() => generateSpreadSheet(this._payload)}>
                             </custom-button>
                             <custom-button primary 
-                                .buttonText=${"Search"}
-                                @click=${this._getSearchValues}>
+                                .buttonText=${"Add Unit"}>
                             </custom-button>
                         </div>
                         <hr/>

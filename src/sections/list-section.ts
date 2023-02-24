@@ -4,6 +4,7 @@ import '../components/text-input'
 import '../components/radio-input'
 import '../components/UnitList/units-container'
 import '../components/custom-button'
+import { generateSpreadSheet } from "../utilities/generateSpreadsheet";
 
 @customElement('list-section')
 export class ListSection extends LitElement {
@@ -68,6 +69,7 @@ export class ListSection extends LitElement {
     }
 
     render(){
+        
         return html`
             <section>
                 ${this._initialListSize >= 24 ? html`
@@ -78,11 +80,11 @@ export class ListSection extends LitElement {
 
                         <div class="filter-btns">
                             <custom-button secondary 
-                                .buttonText=${"Get Spreadsheet"}>
+                                .buttonText=${"Edit in Spreadsheet"}
+                                @click=${() => generateSpreadSheet(this._payload)}>
                             </custom-button>
                             <custom-button primary 
-                                .buttonText=${"Search"}
-                                @click=${this._getSearchValues}>
+                                .buttonText=${"Add Unit"}>
                             </custom-button>
                         </div>
                         <hr/>
