@@ -30,13 +30,12 @@ export class DateInput extends LitElement {
         }
 
         input{
-            padding: 0.2em 0 0.2em 0.5em;
+            padding: 0.5em 0 0.5em 0.25em;
             font-family: inherit;
             border: 1px solid rgba(var(--black), 0.5);
             border-radius: 4px;
             color: rgba(var(--black), 0.5);
         }
-
 
         input:focus{
             outline: transparent;
@@ -44,7 +43,7 @@ export class DateInput extends LitElement {
 
         #date-range{
             display: flex;
-            column-gap: 0.5em;
+            column-gap: 1em;
         }
     
     `

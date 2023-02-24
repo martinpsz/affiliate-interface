@@ -11,21 +11,17 @@ type RaiseType = 'GENERAL' | 'SPECIAL';
 export class RaiseContainer extends LitElement{
     static styles = css`
         #general-raise{
-            //display: flex;
-            //column-gap: 3em;
-            //align-items: flex-end;
-            //justify-content: center;
-
-            display: grid;
-            grid-template-columns: 140px 280px 140px;
-            align-items: end;
+            display: flex;
+            column-gap: 3em;
+            align-items: flex-end;
             justify-content: center;
-            grid-column-gap: 3em;
         }
 
         #special-raise{
+            max-width: 95%;
+            margin: 0 auto ;
             display: grid;
-            grid-template-columns: 140px 280px 164px 164px;
+            grid-template-columns: 140px 280px 180px 180px;
             grid-column-gap: 0.5em;
             grid-row-gap: 1em;
             align-items: end;
@@ -33,7 +29,6 @@ export class RaiseContainer extends LitElement{
             grid-template-areas:
                 'effective raiseType raiseAmt numAffected'
                 'titlesAffected titlesAffected titlesAffected titlesAffected';
-            padding: 0.25em;
                 
         }
 
