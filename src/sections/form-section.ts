@@ -90,6 +90,8 @@ export class FormSection extends LitElement {
 
         .special{
             padding: 0.5em;
+            margin: 1em auto;
+            width: 95%;
         }
 
         .general span, .special span{

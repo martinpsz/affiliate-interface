@@ -56,14 +56,14 @@ RaiseContainer.styles = css `
 
         #special-raise{
             display: grid;
-            grid-template-columns: 140px 280px 164px 164px;
+            grid-template-columns: 1fr 2fr 1fr;
             grid-column-gap: 0.5em;
             grid-row-gap: 1em;
             align-items: end;
             justify-content: center;
             grid-template-areas:
-                'effective raiseType raiseAmt numAffected'
-                'titlesAffected titlesAffected titlesAffected titlesAffected';
+                'effective raiseType raiseAmt '
+                'numAffected titlesAffected titlesAffected';
                 
         }
 

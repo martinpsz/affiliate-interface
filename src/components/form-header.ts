@@ -25,7 +25,6 @@ export class FormHeader extends LitElement {
 
         p:not(:empty){
             margin-top: -1.1em;
-            //padding: 0.2em 0;
         }
     
     `
