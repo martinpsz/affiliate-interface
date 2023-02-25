@@ -36,5 +36,7 @@ export const generateSpreadSheet = (data : UnitList) => {
     const link = document.createElement('a')
     link.setAttribute('href', objURL)
     link.setAttribute('download', 'unit-data.csv')
+
+    link.click()
     
 }
