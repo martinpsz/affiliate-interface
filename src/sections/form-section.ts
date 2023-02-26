@@ -134,7 +134,7 @@ export class FormSection extends LitElement {
     _activeStatusHandler = () => {
         if(this._activeStatus === 'No'){
             return html`
-            <custom-button warning .buttonText=${"Submit for Review"}></custom-button>`
+            <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>`
         } 
 
         if (this._activeStatus === 'Yes'){
@@ -147,7 +147,7 @@ export class FormSection extends LitElement {
         if (this._bargainStatus === 'Yes' && this._activeStatus === 'Yes'){
             return html`
                 <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData[0]['number_of_members'] ? this._unitData[0]['number_of_members'] : ''}></text-input>
-                <custom-button warning .buttonText=${"Submit for Review"}></custom-button> 
+                <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button> 
             `
         }
 
@@ -188,7 +188,7 @@ export class FormSection extends LitElement {
 
     _specialRaiseHandler = () => {
         if(this._specialRaiseSelection === 'No'){
-            return html`<custom-button warning .buttonText=${"Submit for Review"}></custom-button>`
+            return html`<custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>`
         } 
 
         else if(this._specialRaiseSelection === 'Yes'){
@@ -196,8 +196,13 @@ export class FormSection extends LitElement {
                     ${this._specialRaisesTemplate()}
                     ${this.specialRaises.map(item => item)}
                     <div id="special-raise-btns">
-                        <custom-button id="add-raise" secondary .buttonText=${'Add Special Raise'} @click=${this._addSpecialRaise}></custom-button>
-                        <custom-button warning .buttonText=${"Submit for Review"}></custom-button>
+                        <custom-button id="add-raise" 
+                                       secondary 
+                                       .buttonText=${'Add Special Raise'}
+                                       .icon=${html`<iconify-icon icon="ant-design:folder-add-outlined" style="color: white;" height="24px" width="24px" ></iconify-icon>`}
+                                       @click=${this._addSpecialRaise}>
+                        </custom-button>
+                        <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>
                     </div>
                     
                 `
@@ -238,15 +243,13 @@ export class FormSection extends LitElement {
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
                      ${this._generalRaisesTemplate()}
                      ${this.generalRaises.map(item => item)}
-                    <custom-button id="add-raise" secondary .buttonText=${'Add General Raise'} @click=${this._addGeneralRaise}></custom-button>
+                    <custom-button id="add-raise" secondary .icon=${html`<iconify-icon icon="ant-design:folder-add-outlined" style="color: white;" height="24px" width="24px" ></iconify-icon>`} .buttonText=${'Add General Raise'} @click=${this._addGeneralRaise}></custom-button>
                 
                 ` : nothing} 
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Special Raises'}></form-header>
                      <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
-                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input>` : nothing}
-                     
-                    ${this._specialRaiseHandler()}
+                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input> ${this._specialRaiseHandler()}` : nothing}
             </form>
         `
     }
