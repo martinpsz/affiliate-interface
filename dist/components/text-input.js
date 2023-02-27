@@ -7,13 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { classMap } from 'lit/directives/class-map.js';
+import { debounce } from "../utilities/searchDebounce";
 let TextInput = class TextInput extends LitElement {
     constructor() {
         super(...arguments);
         this.lightMode = false;
         this._textInputEmitter = () => {
             var _a;
-            const inputText = (_a = this.renderRoot.querySelector('input')) === null || _a === void 0 ? void 0 : _a.value.trim().toLowerCase();
+            let inputText = (_a = this.renderRoot.querySelector('input')) === null || _a === void 0 ? void 0 : _a.value.trim().toLowerCase();
             this.dispatchEvent(new CustomEvent('entered-input', {
                 detail: inputText,
                 bubbles: true,
@@ -26,7 +27,7 @@ let TextInput = class TextInput extends LitElement {
         return html `
             <div class=${classMap(classes)}>
                 <label for=${this.label}>${this.label}</label>
-                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}
+                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${debounce(this._textInputEmitter, 1000)}
                 value=${this.value}/>
             </div>
         `;

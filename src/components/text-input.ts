@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import {classMap} from 'lit/directives/class-map.js';
+import { debounce } from "../utilities/searchDebounce";
 
 @customElement('text-input')
 export class TextInput extends LitElement{
@@ -71,20 +72,20 @@ export class TextInput extends LitElement{
     @property({type:Boolean})
     lightMode = false;
 
-
     render() {
         const classes = {lightMode : this.lightMode }
         return html`
             <div class=${classMap(classes)}>
                 <label for=${this.label}>${this.label}</label>
-                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${this._textInputEmitter}
+                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${debounce(this._textInputEmitter, 1000)}
                 value=${this.value}/>
             </div>
         `
     }
 
     _textInputEmitter = () => {
-        const inputText = this.renderRoot.querySelector('input')?.value.trim().toLowerCase()
+        let inputText = this.renderRoot.querySelector('input')?.value.trim().toLowerCase() as string
+
         this.dispatchEvent(new CustomEvent('entered-input', {
             detail: inputText,
             bubbles: true,

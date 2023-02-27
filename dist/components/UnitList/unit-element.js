@@ -25,10 +25,10 @@ let UnitElement = class UnitElement extends LitElement {
                 <p>
                     ${this.master ? html `<span id="master">Master</span>` : nothing}
                     <span>${this.state}</span>
-                    ${this.local ? html `<span>&centerdot; Loc ${this.local}</span>` : nothing}
-                    ${this.council ? html `<span>&centerdot; Coun ${this.council}</span>` : nothing}
-                    ${this.subunit ? html `<span>&centerdot; Chap ${this.subunit}</span>` : nothing}
-                    ${this.members ? html `<span>&centerdot; Members ${this.members}</span>` : nothing}
+                    ${this.local ? html `<span>&centerdot; L ${this.local}</span>` : nothing}
+                    ${this.council ? html `<span>&centerdot; C ${this.council}</span>` : nothing}
+                    ${this.subunit ? html `<span>&centerdot; SU ${this.subunit}</span>` : nothing}
+                    ${this.members ? html `<span>&centerdot; Members: ${this.members}</span>` : nothing}
                 </p>
                 <h2 title=${this.employer}>
                     ${this.employer}

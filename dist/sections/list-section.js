@@ -14,20 +14,11 @@ import { generateSpreadSheet } from "../utilities/generateSpreadsheet";
 let ListSection = class ListSection extends LitElement {
     constructor() {
         super();
-        this._payload = [];
         this._updateSearchTerm = (e) => {
             this._searchTerm = e.detail.toLowerCase();
         };
         this._updatedStatusSelection = (e) => {
             this._statusSelected = e.detail.toLowerCase();
-        };
-        this._getSearchValues = () => {
-            let searchValues = { searchTerm: this._searchTerm, statusSelected: this._statusSelected };
-            this.dispatchEvent(new CustomEvent('search-values', {
-                detail: searchValues,
-                bubbles: true,
-                composed: true
-            }));
         };
         this._statusSelected = 'all';
     }
@@ -37,9 +28,7 @@ let ListSection = class ListSection extends LitElement {
                 ${this._initialListSize >= 24 ? html `
                     <div class="list-filter">
                         <text-input label="Search:" placeholder="Search by unit/employer" @entered-input=${this._updateSearchTerm}></text-input>
-
                         <radio-input darkMode dirColumn prompt="Status:" .labels=${['All', 'Needs Review', 'Submitted']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
-
                         <div class="filter-btns">
                             <custom-button secondary
                                 .icon=${html `<iconify-icon icon="simple-icons:microsoftexcel" style="color: white;" width="24" height="24"></iconify-icon>`}

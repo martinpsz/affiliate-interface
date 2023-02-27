@@ -16,10 +16,18 @@ let localData = getSession();
 let MinimumDues = class MinimumDues extends LitElement {
     constructor() {
         super();
-        this._filterWithSearchValues = (e) => {
-            let searchTerm = e.detail.searchTerm;
-            let statusSelected = e.detail.statusSelected;
+        this._getSearchParams = (e) => {
+            e.type === 'entered-input' ? this._searchParams.searchTerm = e.detail : this._searchParams.statusSelection = e.detail;
+            this._filterWithSearchValues();
+            this.requestUpdate();
+        };
+        this._getUnitSelection = (e) => {
+            this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;
+        };
+        this._filterWithSearchValues = () => {
+            let searchTerm = this._searchParams.searchTerm;
             let searchTermRegExp = new RegExp("^" + searchTerm, 'gi');
+            let statusSelected = this._searchParams.statusSelection;
             if (statusSelected === 'all') {
                 this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
                     [...this._initialList].filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
@@ -33,15 +41,14 @@ let MinimumDues = class MinimumDues extends LitElement {
                     [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
             }
         };
-        this._getUnitSelection = (e) => {
-            this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;
-        };
         this._windowWidth = window.innerWidth;
         this._initialList = [...localData];
         this._initialListLength = this._initialList.length;
         this._unitSelected = this._initialList[0]['agr_id'];
+        this._searchParams = { searchTerm: '', statusSelection: 'all' };
     }
     render() {
+        console.log(this._filteredList);
         return html `
             <div class="container">
                 <header-section></header-section>
@@ -50,9 +57,10 @@ let MinimumDues = class MinimumDues extends LitElement {
             html `
                     <main>
                         <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList}
-                                      ._initialUnitSelection = ${typeof this._filteredList === 'undefined' ? this._initialList[0].agr_id : this._filteredList[0].agr_id}
-                                      @search-values=${this._filterWithSearchValues}
+                                      ._initialUnitSelection = ${typeof this._filteredList === 'undefined' ? this._unitSelected : this._filteredList[0].agr_id}
                                       @unit-list-selection=${this._getUnitSelection}
+                                      @entered-input=${this._getSearchParams}
+                                      @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
                         <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected) : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)}>
@@ -133,6 +141,9 @@ __decorate([
 __decorate([
     state()
 ], MinimumDues.prototype, "_unitSelected", void 0);
+__decorate([
+    state()
+], MinimumDues.prototype, "_searchParams", void 0);
 MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);

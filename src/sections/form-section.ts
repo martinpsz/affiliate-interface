@@ -223,8 +223,8 @@ export class FormSection extends LitElement {
         return html`
             <form id="unit-form">
                 <div id="employerID">
-                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"} .value=${this._unitData[0]['employer']}></text-input>
-                    <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this._unitData[0]['local']}></text-input>
+                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"} .value=${this._unitData[0]['employer'] === undefined ? '' : this._unitData[0]['employer']}></text-input>
+                    <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this._unitData[0]['local'] === null ? '' : this._unitData[0]['local']}></text-input>
                 </div>
 
                 <form-header .title=${'Reporting for Unit'}></form-header>
