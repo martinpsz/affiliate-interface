@@ -69,7 +69,6 @@ export class ListSection extends LitElement {
     }
 
     render(){
-        
         return html`
             <section>
                 ${this._initialListSize >= 24 ? html`

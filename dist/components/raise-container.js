@@ -42,10 +42,6 @@ let RaiseContainer = class RaiseContainer extends LitElement {
 };
 RaiseContainer.styles = css `
         #general-raise{
-            //display: flex;
-            //column-gap: 3em;
-            //align-items: flex-end;
-            //justify-content: center;
             display: grid;
             grid-template-columns: 140px 280px 140px;
             grid-column-gap: 2em;

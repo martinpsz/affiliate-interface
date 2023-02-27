@@ -32,10 +32,6 @@ let MinimumDues = class MinimumDues extends LitElement {
                 this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted') :
                     [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
             }
-            else if (statusSelected === 'active') {
-                this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive') :
-                    [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive').filter(item => { var _a; return (_a = item['employer']) === null || _a === void 0 ? void 0 : _a.toLowerCase().match(searchTermRegExp); });
-            }
         };
         this._getUnitSelection = (e) => {
             this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected;

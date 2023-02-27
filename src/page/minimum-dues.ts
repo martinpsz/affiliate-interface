@@ -166,10 +166,10 @@ export class MinimumDues extends LitElement{
             [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
         }
 
-        else if(statusSelected === 'active'){
+        /*else if(statusSelected === 'active'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive') :
             [...this._initialList].filter(item => item['status'].toLowerCase() !== 'inactive').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
-        }      
+        }*/    
     }
     
 

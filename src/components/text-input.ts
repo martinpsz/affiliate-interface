@@ -71,6 +71,7 @@ export class TextInput extends LitElement{
     @property({type:Boolean})
     lightMode = false;
 
+
     render() {
         const classes = {lightMode : this.lightMode }
         return html`
