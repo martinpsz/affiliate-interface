@@ -64,7 +64,7 @@ export class MinimumDues extends LitElement{
         }
 
         #mobile-msg{
-            font-family: rgb(var(--font));
+            font-family: var(--font);
             color: white;
             background: rgb(var(--red));
             padding: 2em 2em;

@@ -21,7 +21,7 @@ export class RaiseContainer extends LitElement{
 
         #special-raise{
             display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-columns: 160px 320px 160px;
             grid-column-gap: 0.5em;
             grid-row-gap: 1em;
             align-items: end;
