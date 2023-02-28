@@ -4,6 +4,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 import { LitElement, html, css, nothing } from "lit";
 import { customElement, state, property } from "lit/decorators.js";
 import '../components/form-header';
@@ -12,6 +23,9 @@ import '../components/custom-button';
 import '../components/text-input';
 import '../components/date-input';
 import '../components/raise-container';
+import '../components/Form/employer-section';
+import '../components/Form/reporter-section';
+import '../components/Form/unit-status-section';
 let FormSection = class FormSection extends LitElement {
     constructor() {
         super();
@@ -30,20 +44,20 @@ let FormSection = class FormSection extends LitElement {
         this._bargainStatusHandler = () => {
             if (this._bargainStatus === 'Yes' && this._activeStatus === 'Yes') {
                 return html `
-                <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData[0]['number_of_members'] ? this._unitData[0]['number_of_members'] : ''}></text-input>
+                <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
                 <custom-button warning .buttonText=${"Submit for Review"} .icon=${html `<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button> 
             `;
             }
             if (this._bargainStatus === 'No' && this._activeStatus === 'Yes') {
                 return html `
                 <div class="unit-info">
-                    <text-input lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData[0]['number_of_members'] ? this._unitData[0]['number_of_members'] : ''}></text-input>
+                    <text-input lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
                     <date-input 
                                 .type=${'date-range'}
                                 .labelFrom=${'CBA Effective From:'}
                                 .labelTo=${'CBA Effective To:'}
-                                .valueFrom=${this._unitData[0]['agreement_eff_date'] ? this._unitData[0]['agreement_eff_date'] : ''}
-                                .valueTo=${this._unitData[0]['agreement_exp_date'] ? this._unitData[0]['agreement_exp_date'] : ''}>
+                                .valueFrom=${this._unitData['agreement_eff_date'] ? this._unitData['agreement_eff_date'] : ''}
+                                .valueTo=${this._unitData['agreement_exp_date'] ? this._unitData['agreement_exp_date'] : ''}>
                     </date-input>
                     <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
                 </div>
@@ -128,19 +142,20 @@ let FormSection = class FormSection extends LitElement {
         this.specialRaises = [];
     }
     render() {
+        let _a = this._unitData, { employer, local, subunit, contact, agreement_eff_date, agreement_exp_date, number_of_members } = _a, rest = __rest(_a, ["employer", "local", "subunit", "contact", "agreement_eff_date", "agreement_exp_date", "number_of_members"]);
         return html `
             <form id="unit-form">
-                <div id="employerID">
-                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"} .value=${this._unitData[0]['employer'] === undefined ? '' : this._unitData[0]['employer']}></text-input>
-                    <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this._unitData[0]['local'] === null ? '' : this._unitData[0]['local']}></text-input>
-                </div>
+                <employer-section employer=${employer} 
+                                  local=${local} 
+                                  subunit=${subunit}>
+                </employer-section>
 
-                <form-header .title=${'Reporting for Unit'}></form-header>
-                <div id="reporter">
-                    <text-input lightMode .type=${"text"} label=${"Full Name:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['name']}></text-input>
-                    <text-input lightMode .type=${"email"} label=${"Email:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['email']}></text-input>
-                    <text-input lightMode .type=${"tel"} label=${"Phone:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['phone']}></text-input>
-                </div>
+                <reporter-section .contact=${contact}></reporter-section>
+
+                <unit-status-section .memberNumber=${number_of_members}
+                                     .effectiveFrom=${agreement_eff_date}
+                                     .effectiveTo=${agreement_exp_date}>
+                </unit-status-section>
 
                 <form-header .title=${'Unit Status'}></form-header>
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
@@ -169,7 +184,7 @@ FormSection.styles = css `
             flex-direction: column;
             height: calc(80vh - (2em + 2px));
             overflow-y: auto;
-        }
+        } 
 
         form::-webkit-scrollbar{
             width: 0.25em;
@@ -183,25 +198,13 @@ FormSection.styles = css `
             background: rgb(var(--blue));
         }
 
-        #employerID{
-            display: grid;
-            grid-template-columns: 1fr 10%;
-            grid-column-gap: 0.5em;
-        }
-
-        #reporter{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-column-gap: 0.5em;
-        }
-
         custom-button{
             align-self: flex-end;
             margin-top: 1em;
         }
 
         radio-input{
-            margin-bottom: 1em;
+            //margin-bottom: 1em;
         }
 
         #member-num{

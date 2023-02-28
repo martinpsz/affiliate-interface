@@ -1,5 +1,4 @@
-import { UnitList } from "../interfaces/unit"
-
+import { UnitList } from "../interfaces/interfaces"
 
 export const generateSpreadSheet = (data : UnitList) => {
     const csv = [

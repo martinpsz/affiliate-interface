@@ -5,6 +5,7 @@ import '../sections/footer-section'
 import '../sections/list-section'
 import '../sections/form-section'
 import { getSession, saveSession} from "../data";
+import {UnitList} from '../interfaces/interfaces'
 
 //Put passed JSON into session storage
 const data = saveSession("src/test-8.json");
@@ -12,34 +13,6 @@ const data = saveSession("src/test-8.json");
 //Grabs data from session storage
 let localData = getSession()
 
-
-interface Reporter {
-    email: string,
-    name: string,
-    phone: string,
-}
-
-interface Unit{
-    affiliate_id: string,
-    agr_id: number,
-    agreement_eff_date: string | null,
-    agreement_exp_date: string | null,
-    contact: Reporter | null,
-    council: number | null,
-    employer: string | null,
-    local: number | null,
-    master: boolean,
-    master_name: string | null,
-    number_of_members: number | null,
-    period_id: number,
-    state: string,
-    status: string,
-    subunit: string | number | null,
-    unit_name: string | null,
-    year: number
-}
-
-interface UnitList extends Array<Unit>{}
 
 interface SearchParams{
     searchTerm: string,
@@ -121,8 +94,6 @@ export class MinimumDues extends LitElement{
     @state()
     private _searchParams: SearchParams;
 
-    
-
     constructor(){
         super();
         this._windowWidth = window.innerWidth;
@@ -134,7 +105,6 @@ export class MinimumDues extends LitElement{
 
     
     render(){
-        console.log(this._filteredList)
         return html`
             <div class="container">
                 <header-section></header-section>
@@ -149,7 +119,7 @@ export class MinimumDues extends LitElement{
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected) : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)}>
+                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0] : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)[0]}>
                         </form-section>
                     </main>`
                 }
@@ -191,8 +161,6 @@ export class MinimumDues extends LitElement{
         }
 
         
-
-
     }
 
 }

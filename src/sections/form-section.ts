@@ -6,23 +6,13 @@ import '../components/custom-button';
 import '../components/text-input';
 import '../components/date-input';
 import '../components/raise-container';
+import '../components/Form/employer-section';
+import '../components/Form/reporter-section';
+import '../components/Form/unit-status-section';
+import {getInputValue} from '../utilities/dispatchEventGetter';
+import {Unit} from '../interfaces/interfaces';
 
 
-interface Person {
-    name: string,
-    email: string,
-    phone: string
-}
-interface Unit {
-    employer: string,
-    local: number | null,
-    contact: Person | null,
-    number_of_members: number | null,
-    agreement_eff_date: string | null,
-    agreement_exp_date: string | null,
-}
-
-interface UnitList extends Array<Unit>{}
 @customElement('form-section')
 export class FormSection extends LitElement {
     static styles = css`
@@ -32,7 +22,7 @@ export class FormSection extends LitElement {
             flex-direction: column;
             height: calc(80vh - (2em + 2px));
             overflow-y: auto;
-        }
+        } 
 
         form::-webkit-scrollbar{
             width: 0.25em;
@@ -46,25 +36,13 @@ export class FormSection extends LitElement {
             background: rgb(var(--blue));
         }
 
-        #employerID{
-            display: grid;
-            grid-template-columns: 1fr 10%;
-            grid-column-gap: 0.5em;
-        }
-
-        #reporter{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-column-gap: 0.5em;
-        }
-
         custom-button{
             align-self: flex-end;
             margin-top: 1em;
         }
 
         radio-input{
-            margin-bottom: 1em;
+            //margin-bottom: 1em;
         }
 
         #member-num{
@@ -112,7 +90,7 @@ export class FormSection extends LitElement {
         
     `
     @state()
-    _unitData!: UnitList
+    _unitData!: Unit
 
     @state()
     _activeStatus = 'Yes'
@@ -146,7 +124,7 @@ export class FormSection extends LitElement {
     _bargainStatusHandler = () => {
         if (this._bargainStatus === 'Yes' && this._activeStatus === 'Yes'){
             return html`
-                <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData[0]['number_of_members'] ? this._unitData[0]['number_of_members'] : ''}></text-input>
+                <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
                 <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button> 
             `
         }
@@ -154,13 +132,13 @@ export class FormSection extends LitElement {
         if (this._bargainStatus === 'No' && this._activeStatus === 'Yes'){
             return html`
                 <div class="unit-info">
-                    <text-input lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData[0]['number_of_members'] ? this._unitData[0]['number_of_members'] : ''}></text-input>
+                    <text-input lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
                     <date-input 
                                 .type=${'date-range'}
                                 .labelFrom=${'CBA Effective From:'}
                                 .labelTo=${'CBA Effective To:'}
-                                .valueFrom=${this._unitData[0]['agreement_eff_date'] ? this._unitData[0]['agreement_eff_date'] : ''}
-                                .valueTo=${this._unitData[0]['agreement_exp_date'] ? this._unitData[0]['agreement_exp_date'] : ''}>
+                                .valueFrom=${this._unitData['agreement_eff_date'] ? this._unitData['agreement_eff_date'] : ''}
+                                .valueTo=${this._unitData['agreement_exp_date'] ? this._unitData['agreement_exp_date'] : ''}>
                     </date-input>
                     <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
                 </div>
@@ -217,22 +195,25 @@ export class FormSection extends LitElement {
         super()
         this.generalRaises = []
         this.specialRaises = []
+        
     }
 
     render() {
+        let {employer, local, subunit, contact, agreement_eff_date, agreement_exp_date, number_of_members, ...rest } = this._unitData
+
         return html`
             <form id="unit-form">
-                <div id="employerID">
-                    <text-input lightMode .type=${"text"} label=${"Unit/Employer:"} .value=${this._unitData[0]['employer'] === undefined ? '' : this._unitData[0]['employer']}></text-input>
-                    <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this._unitData[0]['local'] === null ? '' : this._unitData[0]['local']}></text-input>
-                </div>
+                <employer-section employer=${employer} 
+                                  local=${local} 
+                                  subunit=${subunit}>
+                </employer-section>
 
-                <form-header .title=${'Reporting for Unit'}></form-header>
-                <div id="reporter">
-                    <text-input lightMode .type=${"text"} label=${"Full Name:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['name']}></text-input>
-                    <text-input lightMode .type=${"email"} label=${"Email:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['email']}></text-input>
-                    <text-input lightMode .type=${"tel"} label=${"Phone:"} .value=${this._unitData[0]['contact'] === null ? '' : this._unitData[0]['contact']['phone']}></text-input>
-                </div>
+                <reporter-section .contact=${contact}></reporter-section>
+
+                <unit-status-section .memberNumber=${number_of_members}
+                                     .effectiveFrom=${agreement_eff_date}
+                                     .effectiveTo=${agreement_exp_date}>
+                </unit-status-section>
 
                 <form-header .title=${'Unit Status'}></form-header>
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
@@ -257,6 +238,7 @@ export class FormSection extends LitElement {
     _getActiveStatus = (e: { detail: string; }) => {
         this._activeStatus = e.detail;
     }
+
 
     _getBargainingStatus = (e: { detail: string; }) => {
         this._bargainStatus = e.detail

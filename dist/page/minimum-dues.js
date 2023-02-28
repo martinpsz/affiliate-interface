@@ -48,7 +48,6 @@ let MinimumDues = class MinimumDues extends LitElement {
         this._searchParams = { searchTerm: '', statusSelection: 'all' };
     }
     render() {
-        console.log(this._filteredList);
         return html `
             <div class="container">
                 <header-section></header-section>
@@ -63,7 +62,7 @@ let MinimumDues = class MinimumDues extends LitElement {
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected) : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)}>
+                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0] : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)[0]}>
                         </form-section>
                     </main>`}
                 <footer-section></footer-section>
