@@ -90,3 +90,4 @@ CustomButton = __decorate([
     customElement('custom-button')
 ], CustomButton);
 export { CustomButton };
+//# sourceMappingURL=custom-button.js.map

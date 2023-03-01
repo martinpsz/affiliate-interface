@@ -36,3 +36,4 @@ export const generateSpreadSheet = (data) => {
     link.setAttribute('download', 'unit-data.csv');
     link.click();
 };
+//# sourceMappingURL=generateSpreadsheet.js.map

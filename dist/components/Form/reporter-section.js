@@ -35,3 +35,4 @@ ReporterSection = __decorate([
     customElement('reporter-section')
 ], ReporterSection);
 export { ReporterSection };
+//# sourceMappingURL=reporter-section.js.map

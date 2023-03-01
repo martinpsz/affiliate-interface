@@ -8,3 +8,4 @@ export const debounce = (func, wait) => {
         }, wait);
     };
 };
+//# sourceMappingURL=searchDebounce.js.map

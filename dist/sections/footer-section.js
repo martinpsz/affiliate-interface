@@ -39,3 +39,4 @@ FooterSection = __decorate([
     customElement('footer-section')
 ], FooterSection);
 export { FooterSection };
+//# sourceMappingURL=footer-section.js.map

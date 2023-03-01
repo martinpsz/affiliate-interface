@@ -28,3 +28,4 @@ export const FetchData = (path) => __awaiter(void 0, void 0, void 0, function* (
     const resp = yield fetch(path);
     return resp.json();
 });
+//# sourceMappingURL=data.js.map

@@ -47,3 +47,4 @@ HeaderSection = __decorate([
     customElement('header-section')
 ], HeaderSection);
 export { HeaderSection };
+//# sourceMappingURL=header-section.js.map

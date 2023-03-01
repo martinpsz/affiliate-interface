@@ -147,3 +147,4 @@ MinimumDues = __decorate([
     customElement('minimum-dues')
 ], MinimumDues);
 export { MinimumDues };
+//# sourceMappingURL=minimum-dues.js.map
