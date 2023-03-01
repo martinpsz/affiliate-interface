@@ -10,20 +10,20 @@ let DateInput = class DateInput extends LitElement {
     constructor() {
         super(...arguments);
         this._dateInputEmitter = () => {
-            var _a, _b, _c;
+            var _a, _b, _c, _d;
             const dateFormatter = (date) => {
                 let [year, month, day] = date.split('-');
                 return [month, day, year].join('/');
             };
             let dateValue = {};
             if (this.type === 'date-range') {
-                const FromDate = (_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelector(`${'#' + this.labelFrom}`);
-                const ToDate = (_b = this.renderRoot) === null || _b === void 0 ? void 0 : _b.querySelector(`${'#' + this.labelTo}`);
+                const FromDate = (_a = this.renderRoot) === null || _a === void 0 ? void 0 : _a.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`);
+                const ToDate = (_b = this.renderRoot) === null || _b === void 0 ? void 0 : _b.querySelector(`${'#' + ((_c = this.labelTo) === null || _c === void 0 ? void 0 : _c.replace(/[\s+:]/g, ''))}`);
                 dateValue = { 'From': dateFormatter(FromDate.value),
                     'To': dateFormatter(ToDate.value) };
             }
             if (this.type === 'date') {
-                const FromDate = (_c = this.renderRoot) === null || _c === void 0 ? void 0 : _c.querySelector(`${'#' + this.labelFrom}`);
+                const FromDate = (_d = this.renderRoot) === null || _d === void 0 ? void 0 : _d.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`);
                 dateValue = { 'From': dateFormatter(FromDate.value) };
             }
             this.dispatchEvent(new CustomEvent('retrieve-dates', {
@@ -31,9 +31,11 @@ let DateInput = class DateInput extends LitElement {
                 bubbles: true,
                 composed: true,
             }));
+            console.log(dateValue);
         };
     }
     render() {
+        var _a;
         return html `
             <div class="date-input">
                 ${this.prompt && html `<p>${this.prompt}</p>`}
@@ -41,17 +43,17 @@ let DateInput = class DateInput extends LitElement {
                     <div id="date-range">
                         <div class="date">
                             <label for=${this.labelFrom}>${this.labelFrom}</label>
-                            <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                         </div>
                         <div class="date">
                             <label for=${this.labelTo}>${this.labelTo}</label>
-                            <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                            <input id=${(_a = this.labelTo) === null || _a === void 0 ? void 0 : _a.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
                         </div>
                     </div>
                 ` : html `
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                     </div>
                 `}
             </div>

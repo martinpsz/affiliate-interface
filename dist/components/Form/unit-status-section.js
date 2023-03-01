@@ -48,6 +48,7 @@ let UnitStatusSection = class UnitStatusSection extends LitElement {
                                 .labelTo=${'CBA Effective To:'}
                                 .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
                                 .valueTo=${this.effectiveTo ? this.effectiveTo : ''}
+                                @retrieve-dates=${(e) => this._getInputValue(e, 'DateRange')}
                                 >
                     </date-input>
                     <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
@@ -66,9 +67,20 @@ let UnitStatusSection = class UnitStatusSection extends LitElement {
                 case 'MemberCount':
                     this.memberNumber = e.detail;
                     break;
+                case 'DateRange':
+                    this.dateRange = e.detail;
+                    break;
                 default:
                     return true;
             }
+            this.dispatchEvent(new CustomEvent('unit-status-data', {
+                detail: { 'activeStatus': this._activeStatus,
+                    'bargainStatus': this._bargainingStatus,
+                    'memberCount': this.memberNumber,
+                    'cbaEffectiveDates': this.dateRange },
+                composed: true,
+                bubbles: true,
+            }));
         };
         this.status_prompts = {
             UnitActivePrompt: 'Is the unit active in the period 8/1/22-7/31/23?',
@@ -82,7 +94,6 @@ let UnitStatusSection = class UnitStatusSection extends LitElement {
         this._bargainingStatus = this.status_prompts['UnitBargainingDefault'];
     }
     render() {
-        console.log(this.dateRange);
         return html `
             <form-header title=${'Unit Status'}></form-header>
             <div id="unit-section">

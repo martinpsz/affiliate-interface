@@ -11,6 +11,10 @@ interface DateRange {
     effectiveTo: string | undefined;
 }
 
+interface EventType {
+    detail: string | number | DateRange;
+}
+
 @customElement('unit-status-section')
 export class UnitStatusSection extends LitElement{
     static styles = css`
@@ -92,7 +96,7 @@ export class UnitStatusSection extends LitElement{
                                 type=${"number"} 
                                 label=${"Number of Members:"} 
                                 value=${this.memberNumber} 
-                                @entered-input=${(e:{detail:number}) => this._getInputValue(e, 'MemberCount')}></text-input>
+                                @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
                     ${this._submit_button()}
                 </div>
             `
@@ -105,13 +109,14 @@ export class UnitStatusSection extends LitElement{
                                 type=${"number"} 
                                 label=${"Number of Members:"} 
                                 value=${this.memberNumber}
-                                @entered-input=${(e:{detail:number}) => this._getInputValue(e, 'MemberCount')}></text-input>
+                                @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
                     <date-input 
                                 .type=${'date-range'}
                                 .labelFrom=${'CBA Effective From:'}
                                 .labelTo=${'CBA Effective To:'}
                                 .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
                                 .valueTo=${this.effectiveTo? this.effectiveTo: ''}
+                                @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
                                 >
                     </date-input>
                     <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
@@ -122,14 +127,13 @@ export class UnitStatusSection extends LitElement{
     }
     
     render() {
-        console.log(this.dateRange)
         return html`
             <form-header title=${'Unit Status'}></form-header>
             <div id="unit-section">
             <radio-input prompt=${this.status_prompts.UnitActivePrompt} 
                         .labels=${this.status_prompts.UnitActiveOptions} 
                          defaultCheck=${this.status_prompts.UnitActiveDefault}
-                         @retrieve-selection=${(e:{detail:string}) => this._getInputValue(e, 'ActiveStatus')}
+                         @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}
                          class="prompt">
             </radio-input>
             ${this._activeStatus === 'No' ? 
@@ -137,7 +141,7 @@ export class UnitStatusSection extends LitElement{
                 html`<radio-input prompt=${this.status_prompts.UnitBargainingPrompt} 
                                   .labels=${this.status_prompts.UnitBargainingOptions} 
                                   defaultCheck=${this._bargainingStatus ? this._bargainingStatus : this.status_prompts.UnitBargainingDefault}
-                                  @retrieve-selection=${(e:{detail:string}) => this._getInputValue(e, 'BargainingStatus')}>
+                                  @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
                     </radio-input>
                     ${this._bargainStatusHandler()}
                     `}
@@ -145,7 +149,7 @@ export class UnitStatusSection extends LitElement{
             </div>
         `}
 
-    _getInputValue = (e: {detail: string | number} , label:string) => {
+    _getInputValue = (e: EventType, label:string) => {
         switch(label){
             case 'ActiveStatus':
                 this._activeStatus = e.detail as string;
@@ -156,16 +160,28 @@ export class UnitStatusSection extends LitElement{
             case 'MemberCount':
                 this.memberNumber = e.detail as number;
                 break;
+            case 'DateRange':
+                this.dateRange = e.detail as DateRange;
+                break;
             default:
                 return true;
         }
-    }
 
-
-
-
+        this.dispatchEvent(new CustomEvent('unit-status-data', {
+            detail: {'activeStatus': this._activeStatus, 
+                     'bargainStatus': this._bargainingStatus,
+                     'memberCount': this.memberNumber,
+                     'cbaEffectiveDates': this.dateRange},
+            composed: true,
+            bubbles: true,
+        }))
+    } 
     
 }
+
+//Add support for grabbing upload to CBA field.
+//Add checks to date fields and present warning if dates are out of range.
+//Add debounce on date fields and inputs.
 
 declare global {
     interface HTMLElementTagName {

@@ -34,7 +34,7 @@ let RaiseContainer = class RaiseContainer extends LitElement {
                 <div id='special-raise'>
                     ${this._commonRaiseFields()}
                     <text-input id='numAffected' lightMode .type=${'number'} label=${'# of workers affected:'}></text-input>
-                    <text-input id='titlesAffected' lightMode .type=${'text'} label=${'Titles receiving special raise:'}></text-input>
+                    <text-input id='titlesAffected' lightMode .type=${'text'} label=${'Describe group receiving this special raise:'}></text-input>
                 </div>
             `}
         `;

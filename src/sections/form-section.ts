@@ -42,7 +42,7 @@ export class FormSection extends LitElement {
         }
 
         radio-input{
-            //margin-bottom: 1em;
+            margin-bottom: 1em;
         }
 
         #member-num{
@@ -210,10 +210,10 @@ export class FormSection extends LitElement {
 
                 <reporter-section .contact=${contact}></reporter-section>
 
-                <unit-status-section .memberNumber=${number_of_members}
+                <!--<unit-status-section .memberNumber=${number_of_members}
                                      .effectiveFrom=${agreement_eff_date}
                                      .effectiveTo=${agreement_exp_date}>
-                </unit-status-section>
+                </unit-status-section>-->
 
                 <form-header .title=${'Unit Status'}></form-header>
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
