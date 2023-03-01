@@ -3,5 +3,5 @@ src/test-3299.json
 
 node_modules
 
-dist/*
+dist
 
