@@ -73,17 +73,17 @@ export class DateInput extends LitElement {
                     <div id="date-range">
                         <div class="date">
                             <label for=${this.labelFrom}>${this.labelFrom}</label>
-                            <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                         </div>
                         <div class="date">
                             <label for=${this.labelTo}>${this.labelTo}</label>
-                            <input id=${this.labelTo} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                            <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
                         </div>
                     </div>
                 `:html`
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
                     </div>
                 `}
             </div>
@@ -98,16 +98,16 @@ export class DateInput extends LitElement {
 
         let dateValue = {};
         if (this.type === 'date-range'){
-            const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom}`) as HTMLInputElement
+            const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
-            const ToDate = this.renderRoot?.querySelector(`${'#' + this.labelTo}`) as HTMLInputElement
+            const ToDate = this.renderRoot?.querySelector(`${'#' + this.labelTo?.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
             dateValue = {'From': dateFormatter(FromDate.value), 
                          'To': dateFormatter(ToDate.value)}
         }
 
         if (this.type === 'date'){
-            const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom}`) as HTMLInputElement
+            const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
             dateValue = {'From': dateFormatter(FromDate.value)}
         }
@@ -117,6 +117,8 @@ export class DateInput extends LitElement {
             bubbles: true,
             composed: true,
         }))
+
+        console.log(dateValue);
     }
 }
 
