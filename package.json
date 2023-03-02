@@ -8,6 +8,7 @@
   },
   "scripts": {
     "compile": "tsc --watch",
-    "start": "npx es-dev-server --node-resolve --watch"
+    "start": "npx es-dev-server --node-resolve --watch",
+    "build": "tsc"
   }
 }
