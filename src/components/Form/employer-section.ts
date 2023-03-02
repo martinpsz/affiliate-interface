@@ -12,7 +12,7 @@ export class EmployerSection extends LitElement{
     `
     
     @property()
-    employer!: string;
+    employer!: string | undefined;
 
     @property()
     local!: number | undefined;

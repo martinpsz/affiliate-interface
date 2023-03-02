@@ -4,15 +4,17 @@ import '../sections/header-section'
 import '../sections/footer-section'
 import '../sections/list-section'
 import '../sections/form-section'
-import { getSession, saveSession} from "../data";
+//import { getSession, saveSession} from "../data";
 import {UnitList} from '../interfaces/interfaces'
+import data from '../test-data.json' assert {type: "json"}
 
 //Put passed JSON into session storage
-const data = saveSession("src/test-8.json");
+//const data = saveSession("src/test-data.json");
 
 //Grabs data from session storage
-let localData = getSession()
+//let localData = getSession()
 
+const updatedData = data.map((val) => ({...val, 'employer': val['master'] ? val['master_name'] : val['unit_name'], 'status':'Needs Review'}))
 
 interface SearchParams{
     searchTerm: string,
@@ -97,9 +99,9 @@ export class MinimumDues extends LitElement{
     constructor(){
         super();
         this._windowWidth = window.innerWidth;
-        this._initialList = [...localData];
+        this._initialList = [...data].map((val) => ({...val, 'employer': val['master'] ? val['master_name'] : val['unit_name'], 'status':'Needs Review'}));
+        this._unitSelected = this._initialList[0]['agr_id']
         this._initialListLength = this._initialList.length;  
-        this._unitSelected = this._initialList[0]['agr_id'];
         this._searchParams = {searchTerm: '', statusSelection: 'all'} 
     }
 
@@ -136,7 +138,7 @@ export class MinimumDues extends LitElement{
     }
 
     _getUnitSelection = (e: { detail: number; }) => {
-        this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected
+        this._unitSelected = this._initialList[0]['agr_id'] !== e.detail ? e.detail : this._unitSelected;
     }
 
     _filterWithSearchValues = () => {

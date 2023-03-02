@@ -199,20 +199,18 @@ export class FormSection extends LitElement {
     }
 
     render() {
-        let {employer, local, subunit, contact, agreement_eff_date, agreement_exp_date, number_of_members, ...rest } = this._unitData
-
         return html`
             <form id="unit-form">
-                <employer-section employer=${employer} 
-                                  local=${local} 
-                                  subunit=${subunit}>
+                <employer-section employer=${this._unitData['employer']} 
+                                  local=${this._unitData['local']} 
+                                  subunit=${this._unitData['subunit']}>
                 </employer-section>
 
-                <reporter-section .contact=${contact}></reporter-section>
+                <reporter-section .contact=${this._unitData['contact']}></reporter-section>
 
-                <!--<unit-status-section .memberNumber=${number_of_members}
-                                     .effectiveFrom=${agreement_eff_date}
-                                     .effectiveTo=${agreement_exp_date}>
+                <!--<unit-status-section .memberNumber=${this._unitData['number_of_members']}
+                                     .effectiveFrom=${this._unitData['agreement_eff_date']}
+                                     .effectiveTo=${this._unitData['agreement_exp_date']}>
                 </unit-status-section>-->
 
                 <form-header .title=${'Unit Status'}></form-header>

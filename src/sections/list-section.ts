@@ -92,7 +92,7 @@ export class ListSection extends LitElement {
                 ` : html`
                     <div class="short-list">
                         <units-container ._payload=${this._payload} shortList ._initialUnitSelection=${this._initialUnitSelection}></units-container>
-                        <custom-button secondary .buttonText=${"Get Spreadsheet"}>></custom-button>
+                        <custom-button secondary .buttonText=${"Edit in Spreadsheet"}>></custom-button>
                     </div>
                     `}
             </section>
