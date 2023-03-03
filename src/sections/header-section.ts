@@ -1,7 +1,8 @@
 import { LitElement, html, css } from "lit";
 import { property, customElement} from 'lit/decorators.js'
 
-const afscmeLogo = 'src/static/afscme.webp'
+//const afscmeLogo = 'src/static/afscme.webp'
+import afscmeLogo from '../assets/afscme.webp'
 
 @customElement('header-section')
 export class HeaderSection extends LitElement {

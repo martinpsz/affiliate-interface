@@ -1,20 +1,12 @@
 import { LitElement, html, css } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, state } from "lit/decorators.js";
 import '../sections/header-section'
 import '../sections/footer-section'
 import '../sections/list-section'
 import '../sections/form-section'
-//import { getSession, saveSession} from "../data";
+
 import {UnitList} from '../interfaces/interfaces'
 import data from '../test-data.json' assert {type: "json"}
-
-//Put passed JSON into session storage
-//const data = saveSession("src/test-data.json");
-
-//Grabs data from session storage
-//let localData = getSession()
-
-const updatedData = data.map((val) => ({...val, 'employer': val['master'] ? val['master_name'] : val['unit_name'], 'status':'Needs Review'}))
 
 interface SearchParams{
     searchTerm: string,

@@ -1,7 +1,7 @@
 export interface Reporter {
-    email: string | undefined,
-    name: string | undefined,
-    phone: string | undefined,
+    email: string | null,
+    name: string | null,
+    phone: string | null,
 }
 
 export interface Unit {

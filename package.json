@@ -1,14 +1,28 @@
 {
+  "name": "affiliate-interface",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "module": "./dist/affiliate-interface.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/affiliate-interface.es.js"
+    }
+  },
+  "types": ".dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host"
+  },
   "dependencies": {
-    "iconify-icon": "^1.0.7",
     "lit": "^2.6.1"
   },
   "devDependencies": {
-    "es-dev-server": "^2.1.0"
-  },
-  "scripts": {
-    "compile": "tsc --watch",
-    "start": "npx es-dev-server --node-resolve --watch",
-    "build": "tsc"
+    "typescript": "^4.9.3",
+    "vite": "^4.1.4"
   }
 }

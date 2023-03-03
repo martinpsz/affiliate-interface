@@ -1,5 +1,5 @@
-import { LitElement, html, css, nothing } from "lit";
-import { customElement, state, property } from "lit/decorators.js";
+import { LitElement, html, css} from "lit";
+import { customElement, state } from "lit/decorators.js";
 import '../components/text-input'
 import '../components/radio-input'
 import '../components/UnitList/units-container'

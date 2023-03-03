@@ -9,7 +9,6 @@ import '../components/raise-container';
 import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
-import {getInputValue} from '../utilities/dispatchEventGetter';
 import {Unit} from '../interfaces/interfaces';
 
 
