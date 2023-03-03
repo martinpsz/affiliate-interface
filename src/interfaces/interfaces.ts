@@ -34,3 +34,4 @@ export interface Prompts {
     UnitBargainingOptions: string[],
     UnitBargainingDefault: string;
 }
+

@@ -1,4 +1,4 @@
-import { LitElement, html, css, nothing, TemplateResult } from "lit";
+import { LitElement, html, css, nothing, TemplateResult, PropertyValueMap } from "lit";
 import { customElement, state, property } from "lit/decorators.js";
 import '../components/form-header';
 import '../components/radio-input';
@@ -9,8 +9,7 @@ import '../components/raise-container';
 import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
-import {Unit} from '../interfaces/interfaces';
-
+import {Unit, Reporter} from '../interfaces/interfaces';
 
 @customElement('form-section')
 export class FormSection extends LitElement {
@@ -106,6 +105,9 @@ export class FormSection extends LitElement {
     @property()
     specialRaises!: TemplateResult[];
 
+    @state()
+    _reporterFieldValues!: Unit['contact'];
+
 
 
     _activeStatusHandler = () => {
@@ -194,10 +196,15 @@ export class FormSection extends LitElement {
         super()
         this.generalRaises = []
         this.specialRaises = []
+
         
     }
 
+    
+
     render() {
+        console.log(`Data in form comp:`, this._reporterFieldValues)
+        
         return html`
             <form id="unit-form">
                 <employer-section employer=${this._unitData['employer']} 
@@ -205,18 +212,21 @@ export class FormSection extends LitElement {
                                   subunit=${this._unitData['subunit']}>
                 </employer-section>
 
-                <reporter-section .contact=${this._unitData['contact']}></reporter-section>
+                <reporter-section .contact=${this._unitData['contact']} 
+                                  @reporter-field-values=${this._setReporterFieldValues}>
+                </reporter-section>
 
-                <!--<unit-status-section .memberNumber=${this._unitData['number_of_members']}
+                <unit-status-section .memberNumber=${this._unitData['number_of_members']}
                                      .effectiveFrom=${this._unitData['agreement_eff_date']}
-                                     .effectiveTo=${this._unitData['agreement_exp_date']}>
-                </unit-status-section>-->
+                                     .effectiveTo=${this._unitData['agreement_exp_date']}
+                                     @unit-status-values=${true}> 
+                </unit-status-section>
 
-                <form-header .title=${'Unit Status'}></form-header>
+                <!--<form-header .title=${'Unit Status'}></form-header>
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
 
                 ${this._activeStatusHandler()}
-                ${this._bargainStatusHandler()}
+                ${this._bargainStatusHandler()}-->
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
                      ${this._generalRaisesTemplate()}
@@ -230,6 +240,11 @@ export class FormSection extends LitElement {
                                             .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input> ${this._specialRaiseHandler()}` : nothing}
             </form>
         `
+    }
+
+
+    _setReporterFieldValues = (e: {detail: Reporter}) => {
+        this._reporterFieldValues = e.detail;
     }
 
     _getActiveStatus = (e: { detail: string; }) => {
@@ -270,6 +285,8 @@ export class FormSection extends LitElement {
     _getSpecialRaiseSelection = (e: { detail: any; }) => {
         this._specialRaiseSelection = e.detail;
     }
+
+    
 
 }
 

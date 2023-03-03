@@ -45,6 +45,18 @@ export class DateInput extends LitElement {
             display: flex;
             column-gap: 1em;
         }
+
+        small{
+            font-family: var(--font);
+            text-transform: uppercase;
+            text-align: center;
+            background: rgba(var(--red), 0.8);
+            color: rgb(var(--white));
+            font-size: 0.8em;
+            margin: 0 0.25em;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
     
     `
     @property()
@@ -65,6 +77,9 @@ export class DateInput extends LitElement {
     @property()
     valueTo?: string;
 
+    @property()
+    warning!: string;
+
     render() {
         return html`
             <div class="date-input">
@@ -74,16 +89,19 @@ export class DateInput extends LitElement {
                         <div class="date">
                             <label for=${this.labelFrom}>${this.labelFrom}</label>
                             <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                            <small>${this.warning}</small>
                         </div>
                         <div class="date">
                             <label for=${this.labelTo}>${this.labelTo}</label>
                             <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                            <small>${this.warning}</small>
                         </div>
                     </div>
                 `:html`
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
                         <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        <small>${this.warning}</small>
                     </div>
                 `}
             </div>

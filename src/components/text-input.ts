@@ -54,6 +54,18 @@ export class TextInput extends LitElement{
         input[type=number] {
         -moz-appearance: textfield;
         }
+
+        small{
+            font-family: var(--font);
+            text-transform: uppercase;
+            text-align: center;
+            background: rgba(var(--red), 0.8);
+            color: rgb(var(--white));
+            font-size: 0.8em;
+            margin: 0 0.25em;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
     
     `
 
@@ -69,6 +81,9 @@ export class TextInput extends LitElement{
     @property()
     value!: string | number | null;
 
+    @property()
+    warning!: string;
+
     @property({type:Boolean})
     lightMode = false;
 
@@ -79,6 +94,7 @@ export class TextInput extends LitElement{
                 <label for=${this.label}>${this.label}</label>
                 <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${debounce(this._textInputEmitter, 750)}
                 value=${this.value}/>
+                <small>${this.warning}</small>
             </div>
         `
     }

@@ -167,7 +167,7 @@ export class UnitStatusSection extends LitElement{
                 return true;
         }
 
-        this.dispatchEvent(new CustomEvent('unit-status-data', {
+        this.dispatchEvent(new CustomEvent('unit-status-values', {
             detail: {'activeStatus': this._activeStatus, 
                      'bargainStatus': this._bargainingStatus,
                      'memberCount': this.memberNumber,
