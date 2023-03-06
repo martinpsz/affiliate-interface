@@ -35,3 +35,8 @@ export interface Prompts {
     UnitBargainingDefault: string;
 }
 
+export interface Employer {
+    employer: string;
+    local: number | null;
+    subunit: number | string | null;
+}

@@ -61,7 +61,7 @@ export class TextInput extends LitElement{
             text-align: center;
             background: rgba(var(--red), 0.8);
             color: rgb(var(--white));
-            font-size: 0.8em;
+            font-size: 0.6em;
             margin: 0 0.25em;
             border-bottom-left-radius: 4px;
             border-bottom-right-radius: 4px;

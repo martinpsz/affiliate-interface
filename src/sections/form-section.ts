@@ -11,6 +11,9 @@ import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
 import {Unit, Reporter} from '../interfaces/interfaces';
 
+interface FormData {
+    contact: Reporter | {}
+}
 @customElement('form-section')
 export class FormSection extends LitElement {
     static styles = css`
@@ -106,9 +109,10 @@ export class FormSection extends LitElement {
     specialRaises!: TemplateResult[];
 
     @state()
-    _reporterFieldValues!: Unit['contact'];
+    _formData: {};
 
-
+    @state()
+    _warnings!: Reporter;
 
     _activeStatusHandler = () => {
         if(this._activeStatus === 'No'){
@@ -195,24 +199,26 @@ export class FormSection extends LitElement {
     constructor(){
         super()
         this.generalRaises = []
-        this.specialRaises = []
-
-        
+        this.specialRaises = [] 
+        this._formData = {}
     }
 
     
 
     render() {
-        console.log(`Data in form comp:`, this._reporterFieldValues)
-        
+
+        console.log(`Original data`, this._unitData.contact)
+        console.log(`Updated data in render`, this._formData)
+
         return html`
-            <form id="unit-form">
+            <form id="unit-form" >
                 <employer-section employer=${this._unitData['employer']} 
                                   local=${this._unitData['local']} 
                                   subunit=${this._unitData['subunit']}>
                 </employer-section>
 
-                <reporter-section .contact=${this._unitData['contact']} 
+                <reporter-section .contact=${this._unitData['contact']}
+                                  .warnings=${{name: 'Required Field'}}
                                   @reporter-field-values=${this._setReporterFieldValues}>
                 </reporter-section>
 
@@ -242,9 +248,11 @@ export class FormSection extends LitElement {
         `
     }
 
-
     _setReporterFieldValues = (e: {detail: Reporter}) => {
-        this._reporterFieldValues = e.detail;
+        this._formData = Object.keys({...this._unitData['contact']}).length === 0 ? Object.assign({}, e.detail) : Object.assign({...this._unitData['contact']}, {...e.detail}) 
+
+        
+        
     }
 
     _getActiveStatus = (e: { detail: string; }) => {
@@ -285,9 +293,6 @@ export class FormSection extends LitElement {
     _getSpecialRaiseSelection = (e: { detail: any; }) => {
         this._specialRaiseSelection = e.detail;
     }
-
-    
-
 }
 
 declare global {
