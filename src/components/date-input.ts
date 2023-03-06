@@ -48,6 +48,7 @@ export class DateInput extends LitElement {
 
         small{
             font-family: var(--font);
+            font-weight: 600;
             text-transform: uppercase;
             text-align: center;
             background: rgba(var(--red), 0.8);

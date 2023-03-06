@@ -4,9 +4,9 @@ import { Reporter } from "../../interfaces/interfaces";
 import "../form-header";
 
 interface Warnings {
-    name: string | null,
-    phone: string | null,
-    email: string | null,
+    nameWarning: string,
+    phoneWarning: string,
+    emailWarning: string,
 }
 
 @customElement('reporter-section')
@@ -25,38 +25,67 @@ export class ReporterSection extends LitElement{
     private _reporter_data!: Reporter;
 
     @property()
-    warnings!: Warnings
-
-    constructor(){
-        super()
-        
-    }
+    warnings!: {contact: Warnings}
 
     render() {
         let {name : fullName, phone, email} = this.contact || {}
         this._reporter_data = {...this.contact}
+        console.log(`Reporter field warnings`, this.warnings)
 
         return html`
             <form-header .title=${'Reporting for Unit'}></form-header>
             <div>
-                <text-input lightMode .type=${"text"} label=${"Full Name:"} .value=${fullName ? fullName : null} @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'name')}></text-input>
-                <text-input lightMode .type=${"email"} label=${"Email:"} .value=${email ? email : null} @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'email')}></text-input>
-                <text-input lightMode .type=${"tel"} label=${"Phone:"} .value=${phone ? phone : null} @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'phone')}></text-input>
+                <text-input lightMode 
+                            type=${"text"}
+                            label=${"Full Name:"} 
+                            value=${fullName ? fullName : null} 
+                            @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'name')}
+                            warning=${this.warnings.contact.nameWarning}></text-input>
+                <text-input lightMode 
+                            type=${"email"} 
+                            label=${"Email:"} 
+                            value=${email ? email : null} 
+                            @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'email')}
+                            warning=${this.warnings.contact.emailWarning}></text-input>
+                <text-input lightMode 
+                            type=${"tel"} 
+                            label=${"Phone:"} 
+                            value=${phone ? phone : null} 
+                            @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'phone')}
+                            warning=${this.warnings.contact.phoneWarning}></text-input>
             </div>
         `
     }
 
     _updateReporter = (e: {detail: string}, fieldName: string) => {
         if (fieldName === 'name'){
-            this._reporter_data.name = e.detail ? e.detail : this._reporter_data.name
+            if (typeof e.detail !== null) {
+                this._reporter_data.name = e.detail;
+            } else if (typeof e.detail === undefined && this._reporter_data.name){
+                this._reporter_data.name
+            } else {
+                this._reporter_data.name === null
+            }
         }
 
         if (fieldName === 'email'){
-            this._reporter_data.email = e.detail ? e.detail : this._reporter_data.email
+            if (typeof e.detail !== null) {
+                this._reporter_data.email = e.detail;
+            } else if (typeof e.detail === undefined && this._reporter_data.email){
+                this._reporter_data.email
+            } else {
+                this._reporter_data.email === null
+            }
         }
 
         if (fieldName === 'phone'){
-            this._reporter_data.phone = e.detail ? e.detail : this._reporter_data.phone
+            if (typeof e.detail !== null) {
+                this._reporter_data.phone = e.detail;
+            } else if (typeof e.detail === undefined && this._reporter_data.phone){
+                this._reporter_data.phone
+            } else {
+                this._reporter_data.phone === null
+            }
         }
 
         
@@ -65,10 +94,8 @@ export class ReporterSection extends LitElement{
             composed: true,
             bubbles: true
         }))
+
     }
-
-    
-
 }
 
 declare global {

@@ -10,6 +10,7 @@ import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
 import {Unit, Reporter} from '../interfaces/interfaces';
+import { formValidator } from "../utilities/formValidator";
 
 interface FormData {
     contact: Reporter | {}
@@ -109,10 +110,7 @@ export class FormSection extends LitElement {
     specialRaises!: TemplateResult[];
 
     @state()
-    _formData: {};
-
-    @state()
-    _warnings!: Reporter;
+    _warnings!: {contact: {}};
 
     _activeStatusHandler = () => {
         if(this._activeStatus === 'No'){
@@ -200,15 +198,14 @@ export class FormSection extends LitElement {
         super()
         this.generalRaises = []
         this.specialRaises = [] 
-        this._formData = {}
+        this._warnings = {contact: {}}
     }
 
     
 
     render() {
-
-        console.log(`Original data`, this._unitData.contact)
-        console.log(`Updated data in render`, this._formData)
+        console.log(`Original data`, {contact: {...this._unitData['contact']}})
+        console.log(`Warnings:`, this._warnings)
 
         return html`
             <form id="unit-form" >
@@ -218,7 +215,7 @@ export class FormSection extends LitElement {
                 </employer-section>
 
                 <reporter-section .contact=${this._unitData['contact']}
-                                  .warnings=${{name: 'Required Field'}}
+                                  .warnings=${this._warnings}
                                   @reporter-field-values=${this._setReporterFieldValues}>
                 </reporter-section>
 
@@ -249,9 +246,18 @@ export class FormSection extends LitElement {
     }
 
     _setReporterFieldValues = (e: {detail: Reporter}) => {
-        this._formData = Object.keys({...this._unitData['contact']}).length === 0 ? Object.assign({}, e.detail) : Object.assign({...this._unitData['contact']}, {...e.detail}) 
+        const originalData = Object.keys({...this._unitData.contact}).length === 0 ? {name: '', email: '', phone: ''} : {...this._unitData.contact}
+        this._unitData.contact = Object.assign(originalData, e.detail)
 
         
+        this._warnings = {contact: {...formValidator(this._unitData.contact, 'reporter-section')}}
+
+       
+        //console.log(`Warnings:`, this._warnings)
+
+        
+        this.requestUpdate()        
+
         
     }
 

@@ -57,6 +57,7 @@ export class TextInput extends LitElement{
 
         small{
             font-family: var(--font);
+            font-weight: 600;
             text-transform: uppercase;
             text-align: center;
             background: rgba(var(--red), 0.8);
@@ -87,6 +88,7 @@ export class TextInput extends LitElement{
     @property({type:Boolean})
     lightMode = false;
 
+
     render() {
         const classes = {lightMode : this.lightMode }
         return html`
@@ -107,6 +109,7 @@ export class TextInput extends LitElement{
             bubbles: true,
             composed: true
         }))
+
     }
 }
 
