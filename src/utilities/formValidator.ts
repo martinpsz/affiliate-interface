@@ -34,9 +34,9 @@ export const validateReporterSection = (fieldValue: string | null, fieldLabel: s
     //check for valid phone number:
     if (fieldLabel === 'phone'){
         let phoneDigits= fieldValue?.replace(/\D|^1/g, '') as string
-        const phoneValid:Boolean = new RegExp(/\d{10}/, 'g').test(phoneDigits)
+        const phoneValid:Boolean = new RegExp(/^\d{10}$/, 'g').test(phoneDigits)
         
-        warning = !phoneValid || phoneDigits.length > 10 ? 'Please enter a valid phone number' : null;
+        warning = !phoneValid  ? 'Please enter a valid phone number' : null;
 
     }
     
