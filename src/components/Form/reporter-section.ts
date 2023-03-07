@@ -2,11 +2,12 @@ import { LitElement, html, css, PropertyValueMap } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Reporter } from "../../interfaces/interfaces";
 import "../form-header";
+import { validateReporterSection } from "../../utilities/formValidator";
 
 interface Warnings {
-    nameWarning: string,
-    phoneWarning: string,
-    emailWarning: string,
+    nameWarning: string | null,
+    phoneWarning: string | null,
+    emailWarning: string | null,
 }
 
 @customElement('reporter-section')
@@ -30,7 +31,8 @@ export class ReporterSection extends LitElement{
     render() {
         let {name : fullName, phone, email} = this.contact || {}
         this._reporter_data = {...this.contact}
-        console.log(`Reporter field warnings`, this.warnings)
+        console.log(this._reporter_data)
+        console.log(this.warnings.contact)
 
         return html`
             <form-header .title=${'Reporting for Unit'}></form-header>
@@ -59,6 +61,7 @@ export class ReporterSection extends LitElement{
 
     _updateReporter = (e: {detail: string}, fieldName: string) => {
         if (fieldName === 'name'){
+            //set value of name:
             if (typeof e.detail !== null) {
                 this._reporter_data.name = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.name){
@@ -66,9 +69,13 @@ export class ReporterSection extends LitElement{
             } else {
                 this._reporter_data.name === null
             }
+
+            //validate value of name:
+            this.warnings.contact.nameWarning = validateReporterSection(this._reporter_data['name'], 'name')
         }
 
         if (fieldName === 'email'){
+            //set value of email:
             if (typeof e.detail !== null) {
                 this._reporter_data.email = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.email){
@@ -76,9 +83,13 @@ export class ReporterSection extends LitElement{
             } else {
                 this._reporter_data.email === null
             }
+
+            //validate value of email:
+            this.warnings.contact.emailWarning = validateReporterSection(this._reporter_data['email'], 'email')
         }
 
         if (fieldName === 'phone'){
+            //set value of phone:
             if (typeof e.detail !== null) {
                 this._reporter_data.phone = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.phone){
@@ -86,6 +97,9 @@ export class ReporterSection extends LitElement{
             } else {
                 this._reporter_data.phone === null
             }
+
+            //validate value of phone:
+            this.warnings.contact.phoneWarning = validateReporterSection(this._reporter_data['phone'], 'phone')
         }
 
         

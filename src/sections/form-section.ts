@@ -204,8 +204,8 @@ export class FormSection extends LitElement {
     
 
     render() {
-        console.log(`Original data`, {contact: {...this._unitData['contact']}})
-        console.log(`Warnings:`, this._warnings)
+        //console.log(`Original data`, {contact: {...this._unitData['contact']}})
+        
 
         return html`
             <form id="unit-form" >
@@ -250,7 +250,7 @@ export class FormSection extends LitElement {
         this._unitData.contact = Object.assign(originalData, e.detail)
 
         
-        this._warnings = {contact: {...formValidator(this._unitData.contact, 'reporter-section')}}
+        //this._warnings = {contact: {...formValidator(this._unitData.contact, 'reporter-section')}}
 
        
         //console.log(`Warnings:`, this._warnings)
