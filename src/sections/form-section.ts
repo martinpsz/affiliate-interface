@@ -248,13 +248,6 @@ export class FormSection extends LitElement {
     _setReporterFieldValues = (e: {detail: Reporter}) => {
         const originalData = Object.keys({...this._unitData.contact}).length === 0 ? {name: '', email: '', phone: ''} : {...this._unitData.contact}
         this._unitData.contact = Object.assign(originalData, e.detail)
-
-        
-        //this._warnings = {contact: {...formValidator(this._unitData.contact, 'reporter-section')}}
-
-       
-        //console.log(`Warnings:`, this._warnings)
-
         
         this.requestUpdate()        
 
