@@ -196,14 +196,12 @@ export class FormSection extends LitElement {
         super()
         this.generalRaises = []
         this.specialRaises = [] 
+        
     }
 
     
 
     render() {
-        //console.log(`Original data`, {contact: {...this._unitData['contact']}})
-        
-
         return html`
             <form id="unit-form" >
                 <employer-section employer=${this._unitData['employer']} 

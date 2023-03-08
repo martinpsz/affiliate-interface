@@ -2,9 +2,6 @@
 export const validateReporterSection = (fieldValue: string | null, fieldLabel: string) : string | null => {
     let warning: string | null = '';
 
-    //check for missing field values: [Remove once email regex is set as this is superfluous with other checks]
-    //warning = fieldValue === '' ? 'This is a required field' : null;
-
     //light check for valid name: at least 2 words:
     if (fieldLabel === 'name'){
         warning = fieldValue?.split(/\s+/).length === 1 ? 'Please enter your full name' : null
@@ -22,9 +19,7 @@ export const validateReporterSection = (fieldValue: string | null, fieldLabel: s
         const phoneValid:Boolean = new RegExp(/^\d{10}$/, 'g').test(phoneDigits)
         
         warning = !phoneValid  ? 'Please enter a valid phone number' : null;
-
     }
     
     return warning
-    
 }
