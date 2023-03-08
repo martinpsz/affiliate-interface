@@ -10,7 +10,7 @@ import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
 import {Unit, Reporter} from '../interfaces/interfaces';
-import { formValidator } from "../utilities/formValidator";
+
 
 interface FormData {
     contact: Reporter | {}
@@ -109,8 +109,6 @@ export class FormSection extends LitElement {
     @property()
     specialRaises!: TemplateResult[];
 
-    @state()
-    _warnings!: {contact: {}};
 
     _activeStatusHandler = () => {
         if(this._activeStatus === 'No'){
@@ -198,7 +196,6 @@ export class FormSection extends LitElement {
         super()
         this.generalRaises = []
         this.specialRaises = [] 
-        this._warnings = {contact: {}}
     }
 
     
@@ -215,7 +212,6 @@ export class FormSection extends LitElement {
                 </employer-section>
 
                 <reporter-section .contact=${this._unitData['contact']}
-                                  .warnings=${this._warnings}
                                   @reporter-field-values=${this._setReporterFieldValues}>
                 </reporter-section>
 

@@ -4,10 +4,10 @@ import { Reporter } from "../../interfaces/interfaces";
 import "../form-header";
 import { validateReporterSection } from "../../utilities/formValidator";
 
-interface Warnings {
-    nameWarning: string | null,
-    phoneWarning: string | null,
-    emailWarning: string | null,
+interface Errors {
+    nameError: string | null,
+    emailError: string | null,
+    phoneError: string | null
 }
 
 @customElement('reporter-section')
@@ -25,14 +25,17 @@ export class ReporterSection extends LitElement{
     @state()
     private _reporter_data!: Reporter;
 
-    @property()
-    warnings!: {contact: Warnings}
+    @state()
+    private _input_error: Errors
+
+    constructor(){
+        super()
+        this._input_error = {nameError: null, emailError: null, phoneError: null}
+    }
 
     render() {
         let {name : fullName, phone, email} = this.contact || {}
         this._reporter_data = {...this.contact}
-        console.log(this._reporter_data)
-        console.log(this.warnings.contact)
 
         return html`
             <form-header .title=${'Reporting for Unit'}></form-header>
@@ -42,19 +45,19 @@ export class ReporterSection extends LitElement{
                             label=${"Full Name:"} 
                             value=${fullName ? fullName : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'name')}
-                            warning=${this.warnings.contact.nameWarning}></text-input>
+                            warning=${this._input_error.nameError}></text-input>
                 <text-input lightMode 
                             type=${"email"} 
                             label=${"Email:"} 
                             value=${email ? email : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'email')}
-                            warning=${this.warnings.contact.emailWarning}></text-input>
+                            warning=${this._input_error.emailError}></text-input>
                 <text-input lightMode 
                             type=${"tel"} 
                             label=${"Phone:"} 
                             value=${phone ? phone : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'phone')}
-                            warning=${this.warnings.contact.phoneWarning}></text-input>
+                            warning=${this._input_error.phoneError}></text-input>
             </div>
         `
     }
@@ -71,7 +74,7 @@ export class ReporterSection extends LitElement{
             }
 
             //validate value of name:
-            this.warnings.contact.nameWarning = validateReporterSection(this._reporter_data['name'], 'name')
+            this._input_error.nameError = validateReporterSection(this._reporter_data['name'], 'name')
         }
 
         if (fieldName === 'email'){
@@ -85,7 +88,7 @@ export class ReporterSection extends LitElement{
             }
 
             //validate value of email:
-            this.warnings.contact.emailWarning = validateReporterSection(this._reporter_data['email'], 'email')
+            this._input_error.emailError = validateReporterSection(this._reporter_data['email'], 'email')
         }
 
         if (fieldName === 'phone'){
@@ -99,10 +102,9 @@ export class ReporterSection extends LitElement{
             }
 
             //validate value of phone:
-            this.warnings.contact.phoneWarning = validateReporterSection(this._reporter_data['phone'], 'phone')
+            this._input_error.phoneError = validateReporterSection(this._reporter_data['phone'], 'phone')
         }
 
-        
         this.dispatchEvent(new CustomEvent('reporter-field-values', {
             detail: this._reporter_data,
             composed: true,

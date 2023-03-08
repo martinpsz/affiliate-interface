@@ -3,7 +3,7 @@ export const validateReporterSection = (fieldValue: string | null, fieldLabel: s
     let warning: string | null = '';
 
     //check for missing field values: [Remove once email regex is set as this is superfluous with other checks]
-    warning = fieldValue === '' ? 'This is a required field' : null;
+    //warning = fieldValue === '' ? 'This is a required field' : null;
 
     //light check for valid name: at least 2 words:
     if (fieldLabel === 'name'){
