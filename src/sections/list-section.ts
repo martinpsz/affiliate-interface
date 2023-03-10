@@ -78,7 +78,7 @@ export class ListSection extends LitElement {
                         <div class="filter-btns">
                             <custom-button secondary
                                 .icon=${html`<iconify-icon icon="simple-icons:microsoftexcel" style="color: white;" width="24" height="24"></iconify-icon>`}
-                                .buttonText=${"Edit in Spreadsheet"}
+                                .buttonText=${"Download Spreadsheet"}
                                 @click=${() => generateSpreadSheet(this._payload)}>
                             </custom-button>
                             <custom-button primary 
@@ -92,7 +92,7 @@ export class ListSection extends LitElement {
                 ` : html`
                     <div class="short-list">
                         <units-container ._payload=${this._payload} shortList ._initialUnitSelection=${this._initialUnitSelection}></units-container>
-                        <custom-button secondary .buttonText=${"Edit in Spreadsheet"}>></custom-button>
+                        <custom-button secondary .buttonText=${"Download Spreadsheet"}>></custom-button>
                     </div>
                     `}
             </section>

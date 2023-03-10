@@ -138,7 +138,6 @@ export class DateInput extends LitElement {
             composed: true,
         }))
 
-        console.log(dateValue);
     }
 }
 

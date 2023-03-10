@@ -69,10 +69,10 @@ export class UnitStatusSection extends LitElement{
         super()
 
         this.status_prompts = {
-            UnitActivePrompt: 'Is the unit active in the period 8/1/22-7/31/23?',
+            UnitActivePrompt: 'Has this unit been deactivated or decertified?',
             UnitActiveOptions: ['Yes', 'No'],
             UnitActiveDefault: 'Yes',
-            UnitBargainingPrompt: 'Is the unit in bargaining in the period 8/1/22-7/31/23?',
+            UnitBargainingPrompt: 'Is the unit still bargaining for any part of the 8/1/2022-7/31/2023 period?',
             UnitBargainingOptions: ['Yes', 'No'],
             UnitBargainingDefault: 'No'
         } 
