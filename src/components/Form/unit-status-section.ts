@@ -12,7 +12,7 @@ interface DateRange {
 }
 
 interface EventType {
-    detail: string | number | DateRange;
+    detail: string | number | DateRange | {};
 }
 
 @customElement('unit-status-section')
@@ -26,15 +26,18 @@ export class UnitStatusSection extends LitElement{
 
         #unit-section-info{
             display: grid;
-            grid-template-columns: 140px 280px 240px;
-            grid-column-gap: 2em;
+            grid-template-columns: 160px 320px 256px;
+            justify-content: space-between;
             align-items: end;
         }
 
         custom-button{
             align-self: end;
         }
-        
+
+        date-input{
+            justify-self: center;
+        }
     `
 
     @property()
@@ -51,6 +54,9 @@ export class UnitStatusSection extends LitElement{
 
     @property()
     dateRange!: DateRange;
+
+    @property()
+    fileData!: {name: string, size: number, type: string};
 
     @state()
     private _activeStatus: string;
@@ -94,15 +100,19 @@ export class UnitStatusSection extends LitElement{
                                 value=${this.memberNumber} 
                                 @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
                     <date-input 
-                                .type=${'date-range'}
-                                .labelFrom=${'Previous CBA Start:'}
-                                .labelTo=${'Previous CBA End:'}
+                                type=${'date-range'}
+                                labelFrom=${'Previous CBA Start:'}
+                                labelTo=${'Previous CBA End:'}
                                 .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
-                                .valueTo=${this.effectiveTo? this.effectiveTo: ''}
+                                .valueTo=${this.effectiveTo ? this.effectiveTo: ''}
                                 @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
                                 >
                     </date-input>
-                    <text-input lightmode .type=${"file"} label=${"Upload Recently Expired CBA:"}></text-input>
+                    <text-input lightmode 
+                                type=${"file"} 
+                                label=${"Upload Expired CBA (Word doc/PDF) :"}
+                                accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+                                @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
                 </div>
                 ${this._submit_button()}
             `
@@ -117,15 +127,19 @@ export class UnitStatusSection extends LitElement{
                                 value=${this.memberNumber}
                                 @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
                     <date-input 
-                                .type=${'date-range'}
-                                .labelFrom=${'CBA Effective From:'}
-                                .labelTo=${'CBA Effective To:'}
+                                type=${'date-range'}
+                                labelFrom=${'CBA Effective From:'}
+                                labelTo=${'CBA Effective To:'}
                                 .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
-                                .valueTo=${this.effectiveTo? this.effectiveTo: ''}
+                                .valueTo=${this.effectiveTo ? this.effectiveTo: ''}
                                 @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
                                 >
                     </date-input>
-                    <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
+                    <text-input lightmode 
+                                type=${"file"} 
+                                label=${"Upload CBA (Word doc/PDF):"}
+                                accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+                                @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
                 </div>
             `
         }
@@ -168,6 +182,10 @@ export class UnitStatusSection extends LitElement{
             case 'DateRange':
                 this.dateRange = e.detail as DateRange;
                 break;
+            case 'File':
+                this.fileData = e.detail as File;
+                
+                break;
             default:
                 return true;
         }
@@ -176,7 +194,8 @@ export class UnitStatusSection extends LitElement{
             detail: {'activeStatus': this._activeStatus, 
                      'bargainStatus': this._bargainingStatus,
                      'memberCount': this.memberNumber,
-                     'cbaEffectiveDates': this.dateRange},
+                     'cbaEffectiveDates': this.dateRange,
+                     'fileUpload': this.fileData},
             composed: true,
             bubbles: true,
         }))

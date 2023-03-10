@@ -202,7 +202,6 @@ export class FormSection extends LitElement {
     
 
     render() {
-        console.log(this._unitData.employer, this._unitData.local, this._unitData.subunit)
         return html`
             <form id="unit-form" >
                 <employer-section employer=${this._unitData['employer']} 
@@ -215,10 +214,10 @@ export class FormSection extends LitElement {
                                   @reporter-field-values=${this._setReporterFieldValues}>
                 </reporter-section>
 
-                <unit-status-section .memberNumber=${this._unitData['number_of_members']}
+                <unit-status-section memberNumber=${this._unitData['number_of_members']}
                                      .effectiveFrom=${this._unitData['agreement_eff_date']}
                                      .effectiveTo=${this._unitData['agreement_exp_date']}
-                                     @unit-status-values=${true}> 
+                                     @unit-status-values=${this._setUnitStatusFieldValues}> 
                 </unit-status-section>
 
                 <!--<form-header .title=${'Unit Status'}></form-header>
@@ -256,6 +255,10 @@ export class FormSection extends LitElement {
         this._unitData.contact = Object.assign(originalData, e.detail)
         
         this.requestUpdate()        
+    }
+
+    _setUnitStatusFieldValues = (e: {detail: {}}) => {
+        console.log(e.detail)
     }
 
 

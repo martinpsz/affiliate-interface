@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, property} from "lit/decorators.js";
 import {classMap} from 'lit/directives/class-map.js';
 import { debounce } from "../utilities/searchDebounce";
@@ -27,7 +27,7 @@ export class TextInput extends LitElement{
             padding: 0.25em 0 0.25em 0.5em;
             border: none;
             border-radius: 4px;
-            height: 1.4em;
+            font-size: 0.8em;
         }
 
         input:focus{
@@ -95,23 +95,44 @@ export class TextInput extends LitElement{
         return html`
             <div class=${classMap(classes)}>
                 <label for=${this.label}>${this.label}</label>
-                <input id=${this.label} type=${this.type} placeholder=${this.placeholder} name=${this.label.replace(/:$/g, '')} @input=${debounce(this._textInputEmitter, 750)}
-                value=${this.value}/>
+                <input id=${this.label} 
+                       type=${this.type} 
+                       placeholder=${this.placeholder} 
+                       name=${this.label.replace(/:$/g, '')} 
+                       @input=${debounce(this._textInputEmitter, 750)}
+                       @change=${this.type==='file' ? this._fileUploadHandler : nothing}
+                       value=${this.value}/>
                 <small>${this.warning}</small>
             </div>
         `
     }
 
     _textInputEmitter = () => {
-        let inputText = this.renderRoot.querySelector('input')?.value.trim().toLowerCase() as string
-
+        let inputText = this.renderRoot.querySelector('input')?.value.trim() as string | number
+        
         this.dispatchEvent(new CustomEvent('entered-input', {
             detail: inputText,
             bubbles: true,
             composed: true
         }))
-
     }
+
+    _fileUploadHandler = () => {
+        let inputField = this.renderRoot.querySelector('input')?.files as FileList
+        let inputFile;
+
+        if (inputField !== null){
+            inputFile = inputField[0]
+        }
+
+        this.dispatchEvent(new CustomEvent('file-upload', {
+            detail: inputFile,
+            bubbles: true,
+            composed: true,
+        }))
+    }
+
+
 }
 
 declare global {
