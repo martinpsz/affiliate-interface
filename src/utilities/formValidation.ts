@@ -1,3 +1,18 @@
+//validation function for the employer section:
+export const validateEmployerSection = (fieldValue: string | null, fieldLabel: string) : string | null => {
+    let warning: string | null = '';
+
+    //current check for string that is at least one character in length before warning dismissed. Consider
+    //adding check against list of existing employer/units.
+    if (fieldLabel === 'employer'){
+        warning = fieldValue === null || fieldValue.length === 0 ? 'Please enter an employer/unit name' : null
+    }
+
+    return warning
+}
+
+
+
 //validation function for reporter section of form
 export const validateReporterSection = (fieldValue: string | null, fieldLabel: string) : string | null => {
     let warning: string | null = '';

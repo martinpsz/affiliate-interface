@@ -2,7 +2,7 @@ import { LitElement, html, css, PropertyValueMap } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Reporter } from "../../interfaces/interfaces";
 import "../form-header";
-import { validateReporterSection } from "../../utilities/formValidator";
+import { validateReporterSection } from "../../utilities/formValidation";
 
 interface Errors {
     nameError: string | null,
@@ -65,7 +65,7 @@ export class ReporterSection extends LitElement{
     _updateReporter = (e: {detail: string}, fieldName: string) => {
         if (fieldName === 'name'){
             //set value of name:
-            if (typeof e.detail !== null) {
+            if (e.detail !== null) {
                 this._reporter_data.name = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.name){
                 this._reporter_data.name
@@ -79,7 +79,7 @@ export class ReporterSection extends LitElement{
 
         if (fieldName === 'email'){
             //set value of email:
-            if (typeof e.detail !== null) {
+            if (e.detail !== null) {
                 this._reporter_data.email = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.email){
                 this._reporter_data.email
@@ -93,7 +93,7 @@ export class ReporterSection extends LitElement{
 
         if (fieldName === 'phone'){
             //set value of phone:
-            if (typeof e.detail !== null) {
+            if (e.detail !== null) {
                 this._reporter_data.phone = e.detail;
             } else if (typeof e.detail === undefined && this._reporter_data.phone){
                 this._reporter_data.phone

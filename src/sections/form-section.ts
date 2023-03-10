@@ -9,7 +9,7 @@ import '../components/raise-container';
 import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
-import {Unit, Reporter} from '../interfaces/interfaces';
+import {Unit, Reporter, Employer} from '../interfaces/interfaces';
 
 
 interface FormData {
@@ -202,11 +202,13 @@ export class FormSection extends LitElement {
     
 
     render() {
+        console.log(this._unitData.employer, this._unitData.local, this._unitData.subunit)
         return html`
             <form id="unit-form" >
                 <employer-section employer=${this._unitData['employer']} 
                                   local=${this._unitData['local']} 
-                                  subunit=${this._unitData['subunit']}>
+                                  subunit=${this._unitData['subunit']}
+                                  @employer-field-values=${this._setEmployerFieldValues}>
                 </employer-section>
 
                 <reporter-section .contact=${this._unitData['contact']}
@@ -223,7 +225,7 @@ export class FormSection extends LitElement {
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
 
                 ${this._activeStatusHandler()}
-                ${this._bargainStatusHandler()}-->
+                ${this._bargainStatusHandler()}
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
                      ${this._generalRaisesTemplate()}
@@ -234,9 +236,19 @@ export class FormSection extends LitElement {
 
                 ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Special Raises'}></form-header>
                      <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
-                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input> ${this._specialRaiseHandler()}` : nothing}
+                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input> ${this._specialRaiseHandler()}` : nothing}-->
             </form>
         `
+    }
+
+    _setEmployerFieldValues = (e: {detail: Employer}) => {
+        const originalData = {employer: this._unitData['employer'], local: this._unitData['local'], subunit: this._unitData['subunit']}
+        
+        this._unitData.employer = originalData.employer !== e.detail.employer ? e.detail.employer : originalData.employer
+        this._unitData.local = originalData.local !== e.detail.local ? e.detail.local : originalData.local
+        this._unitData.subunit = originalData.subunit !== e.detail.subunit ? e.detail.subunit: originalData.subunit
+
+        this.requestUpdate()
     }
 
     _setReporterFieldValues = (e: {detail: Reporter}) => {
@@ -244,9 +256,8 @@ export class FormSection extends LitElement {
         this._unitData.contact = Object.assign(originalData, e.detail)
         
         this.requestUpdate()        
-
-        
     }
+
 
     _getActiveStatus = (e: { detail: string; }) => {
         this._activeStatus = e.detail;

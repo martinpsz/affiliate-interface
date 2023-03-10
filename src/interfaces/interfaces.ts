@@ -1,3 +1,10 @@
+export interface Employer {
+    employer: string;
+    local: number | null;
+    subunit: string | number | null;
+}
+
+
 export interface Reporter {
     email: string | null,
     name: string | null,
@@ -33,10 +40,4 @@ export interface Prompts {
     UnitBargainingPrompt: string,
     UnitBargainingOptions: string[],
     UnitBargainingDefault: string;
-}
-
-export interface Employer {
-    employer: string;
-    local: number | null;
-    subunit: number | string | null;
 }

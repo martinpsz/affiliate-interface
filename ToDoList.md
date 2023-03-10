@@ -1,13 +1,9 @@
 # Form
 
 ## Employer section:
-
-- Capture and update values from fields.
-- Add error messages
 - Send number of errors to form component (to manage ability to "Save Progress")
 
 ## Reporting for unit:
-
 - Send number of errors to form component (to manage ability to "Save Progress")
 
 ## Unit status section:
@@ -37,3 +33,7 @@
 - Add error messages.
 - Add special errors appended to data and shared with returned data fields.
 
+
+## Issues:
+
+- Request update occurs even when the state doesn't change.

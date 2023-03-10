@@ -1,12 +1,11 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { Employer } from "../../interfaces/interfaces.js";
+import { validateEmployerSection } from "../../utilities/formValidation.js";
 
 interface Warnings {
-    employer: string | null,
-    local: string | null,
-    subunit: string | null,
+    employerError: string | null,
 }
+
 @customElement('employer-section')
 export class EmployerSection extends LitElement{
     static styles = css`
@@ -18,32 +17,28 @@ export class EmployerSection extends LitElement{
     `
     
     @property()
-    employer!: string | undefined;
+    employer!: string | null;
 
     @property()
-    local!: number | undefined;
+    local!: number | null;
 
     @property()
-    subunit!: number | undefined;
-
-    @property()
-    warning!: Warnings;
+    subunit!: number | string | null;
 
     @state()
-    private _employer_data!: Employer;
+    _input_error!: Warnings;
 
     constructor(){
         super()
-        this.warning = {employer: null, local: null, subunit: null}
+        this._input_error = {employerError: null}
     }
 
     render() {
-        
         return html`
             <div>
-                <text-input lightMode .type=${"text"} label=${"Employer:"} .value=${this.employer ? this.employer : null} @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this.warning.employer}></text-input>
-                <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this.local ? this.local : ''} @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')} warning=${this.warning.local}></text-input>
-                <text-input lightMode .type=${"text"} label=${"Subunit:"} .value=${this.subunit ? this.subunit : ''} @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')} warning=${this.warning.subunit}></text-input>
+                <text-input lightMode .type=${"text"} label=${"Employer:"} .value=${this.employer ? this.employer : null} @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this._input_error.employerError}></text-input>
+                <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this.local ? this.local : ''} @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')}></text-input>
+                <text-input lightMode .type=${"text"} label=${"Subunit:"} .value=${this.subunit ? this.subunit : ''} @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')}></text-input>
             </div>
         `
     }
@@ -51,27 +46,45 @@ export class EmployerSection extends LitElement{
 
     _updateEmployer = (e: {detail: string | number | null}, fieldName: string) => {
         if (fieldName === 'employer'){
-            this._employer_data['employer'] = e.detail ? this._employer_data.employer: this.employer as string;
+            if(e.detail !== null){
+                this.employer = e.detail as string
+            } else if (typeof e.detail === undefined && this.employer){
+                this.employer
+            } else {
+                this.employer = null;
+            }
+            
+            this._input_error.employerError = validateEmployerSection(this.employer, 'employer')
         }
 
         if (fieldName === 'local'){
-            this._employer_data['local'] = e.detail ? this._employer_data.local : this.local as number;
+            if(e.detail !== null){
+                this.local = e.detail as number
+            } else if (typeof e.detail === undefined && this.local){
+                this.local
+            } else {
+                this.local = null;
+            }
         }
 
         if (fieldName === 'subunit'){
-            this._employer_data['subunit'] = e.detail ? this._employer_data.subunit : this.subunit as number | string;
+            if(e.detail !== null){
+                this.subunit = e.detail as string | number;
+            } else if (typeof e.detail === undefined && this.subunit){
+                this.subunit;
+            } else {
+                this.subunit = null;
+            }
         }
 
         
         this.dispatchEvent(new CustomEvent('employer-field-values', {
-            detail: this._employer_data,
+            detail: {employer: this.employer, local: this.local, subunit: this.subunit},
             composed: true,
             bubbles: true
         }))
 
-        console.log(
-            'Sending the following data', this._employer_data
-        )
+        
     }
 }
 

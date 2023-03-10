@@ -31,14 +31,10 @@ export class UnitStatusSection extends LitElement{
             align-items: end;
         }
 
-        #unit-in-bargaining{
-            display: flex;
-            justify-content: space-between;
+        custom-button{
+            align-self: end;
         }
-
-        #unit-in-bargaining custom-button{
-            margin-top: 1em;
-        }
+        
     `
 
     @property()
@@ -91,14 +87,24 @@ export class UnitStatusSection extends LitElement{
     _bargainStatusHandler = () => {
         if (this._bargainingStatus === 'Yes'){
             return html`
-                <div id="unit-in-bargaining">
+                <div id="unit-section-info">
                     <text-input id="member-num" lightMode 
                                 type=${"number"} 
                                 label=${"Number of Members:"} 
                                 value=${this.memberNumber} 
                                 @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
-                    ${this._submit_button()}
+                    <date-input 
+                                .type=${'date-range'}
+                                .labelFrom=${'Previous CBA Start:'}
+                                .labelTo=${'Previous CBA End:'}
+                                .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
+                                .valueTo=${this.effectiveTo? this.effectiveTo: ''}
+                                @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
+                                >
+                    </date-input>
+                    <text-input lightmode .type=${"file"} label=${"Upload Recently Expired CBA:"}></text-input>
                 </div>
+                ${this._submit_button()}
             `
         }
 
@@ -123,7 +129,6 @@ export class UnitStatusSection extends LitElement{
                 </div>
             `
         }
-
     }
     
     render() {

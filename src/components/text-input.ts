@@ -27,6 +27,7 @@ export class TextInput extends LitElement{
             padding: 0.25em 0 0.25em 0.5em;
             border: none;
             border-radius: 4px;
+            height: 1.4em;
         }
 
         input:focus{
