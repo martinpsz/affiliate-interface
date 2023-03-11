@@ -33,11 +33,3 @@ export interface Unit {
 
 export interface UnitList extends Array<Unit>{}
 
-export interface Prompts {
-    UnitActivePrompt: string,
-    UnitActiveOptions: string[],
-    UnitActiveDefault: string;
-    UnitBargainingPrompt: string,
-    UnitBargainingOptions: string[],
-    UnitBargainingDefault: string;
-}

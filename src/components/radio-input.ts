@@ -7,6 +7,8 @@ export class RadioInput extends LitElement {
     static styles = css`
         .radio-input{
             display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
             font-family: var(--font);
             accent-color: rgb(var(--blue));
         }

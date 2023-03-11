@@ -1,0 +1,33 @@
+{
+    "Employer" : [
+        {
+            "Employer": "Employer",
+            "Local": "Local",
+            "Subunit": "Subunit"
+        }
+    ],
+
+    "Reporter": [
+        {
+            "Name": "Full Name",
+            "Email": "Email",
+            "Phone": "Phone"
+        }
+    ],
+    
+    "UnitStatus" : [
+        {
+            "Section-header": "Unit Status",
+            "Active-question": "Has this unit been deactivated or decertified?",
+            "Wage-question": "Did this unit receive any wage increases or decreases between 8/1/22 - 7/31/23?",
+            "Bargaining-question": "Is this unit still bargaining for any part of the 8/1/22 - 7/31/23 period?",
+            "Number-of-members": "Number of members",
+            "CBA-Start": "Latest CBA start",
+            "CBA-End": "Latest CBA end",
+            "CBA-Upload": "Upload latest CBA (Word DOC/PDF)"
+        }
+    ]
+        
+    
+
+}

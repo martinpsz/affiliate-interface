@@ -1,10 +1,10 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import '../form-header';
 import '../radio-input';
 import '../custom-button';
 import '../date-input';
-import { Prompts } from "../../interfaces/interfaces";
+import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
 
 interface DateRange {
     effectiveFrom: string | undefined;
@@ -29,6 +29,7 @@ export class UnitStatusSection extends LitElement{
             grid-template-columns: 160px 320px 256px;
             justify-content: space-between;
             align-items: end;
+            margin-bottom: 1em;
         }
 
         custom-button{
@@ -39,9 +40,6 @@ export class UnitStatusSection extends LitElement{
             justify-self: center;
         }
     `
-
-    @property()
-    status_prompts: Prompts;
 
     @property()
     memberNumber: number | undefined;
@@ -59,112 +57,88 @@ export class UnitStatusSection extends LitElement{
     fileData!: {name: string, size: number, type: string};
 
     @state()
-    private _activeStatus: string;
+    private _activeStatus!: string;
 
     @state()
-    private _bargainingStatus: string;
+    private _wageStatus!: string;
+
+    @state()
+    private _bargainingStatus!: string;
 
     
     constructor(){
         super()
 
-        this.status_prompts = {
-            UnitActivePrompt: 'Has this unit been deactivated or decertified?',
-            UnitActiveOptions: ['Yes', 'No'],
-            UnitActiveDefault: 'Yes',
-            UnitBargainingPrompt: 'Is the unit still bargaining for any part of the 8/1/2022-7/31/2023 period?',
-            UnitBargainingOptions: ['Yes', 'No'],
-            UnitBargainingDefault: 'No'
-        } 
-
-        this._activeStatus = this.status_prompts['UnitActiveDefault']
-        this._bargainingStatus = this.status_prompts['UnitBargainingDefault']
+        this._activeStatus = 'No';
     }
 
     _submit_button = () => {
         return html`<custom-button warning 
-                                   buttonText=${"Save Progress"} 
+                                   buttonText=${"Submit"} 
                                   .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" 
                                    style="color: white;" width="24" height="24">
                                                </iconify-icon>`}>
                     </custom-button>`
-        }
-
-    _bargainStatusHandler = () => {
-        if (this._bargainingStatus === 'Yes'){
-            return html`
-                <div id="unit-section-info">
-                    <text-input id="member-num" lightMode 
-                                type=${"number"} 
-                                label=${"Number of Members:"} 
-                                value=${this.memberNumber} 
-                                @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
-                    <date-input 
-                                type=${'date-range'}
-                                labelFrom=${'Previous CBA Start:'}
-                                labelTo=${'Previous CBA End:'}
-                                .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
-                                .valueTo=${this.effectiveTo ? this.effectiveTo: ''}
-                                @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
-                                >
-                    </date-input>
-                    <text-input lightmode 
-                                type=${"file"} 
-                                label=${"Upload Expired CBA (Word doc/PDF) :"}
-                                accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
-                                @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
-                </div>
-                ${this._submit_button()}
-            `
-        }
-
-        if (this._bargainingStatus === 'No'){
-            return html`
-                <div id="unit-section-info">
-                    <text-input lightMode 
-                                type=${"number"} 
-                                label=${"Number of Members:"} 
-                                value=${this.memberNumber}
-                                @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
-                    <date-input 
-                                type=${'date-range'}
-                                labelFrom=${'CBA Effective From:'}
-                                labelTo=${'CBA Effective To:'}
-                                .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
-                                .valueTo=${this.effectiveTo ? this.effectiveTo: ''}
-                                @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
-                                >
-                    </date-input>
-                    <text-input lightmode 
-                                type=${"file"} 
-                                label=${"Upload CBA (Word doc/PDF):"}
-                                accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
-                                @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
-                </div>
-            `
-        }
     }
-    
-    render() {
+
+    _unit_meta = () => {
         return html`
-            <form-header title=${'Unit Status'}></form-header>
+        <div id="unit-section-info">
+            <text-input id="member-num" lightMode 
+                        type=${"number"} 
+                        label=${COPY.UnitStatus[0]['Number-of-members']} 
+                        value=${this.memberNumber} 
+                        @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
+            <date-input 
+                        type=${'date-range'}
+                        labelFrom=${COPY.UnitStatus[0]['CBA-Start']}
+                        labelTo=${COPY.UnitStatus[0]['CBA-End']}
+                        .valueFrom=${this.effectiveFrom ? this.effectiveFrom : ''}
+                        .valueTo=${this.effectiveTo ? this.effectiveTo: ''}
+                        @retrieve-dates=${(e: EventType) => this._getInputValue(e, 'DateRange')}
+                        >
+            </date-input>
+            <text-input lightmode 
+                        type=${"file"} 
+                        label=${COPY.UnitStatus[0]['CBA-Upload']}
+                        accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
+                        @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
+        </div>
+        `
+    }
+
+    render() {
+        console.log(COPY)
+        return html`
+            <form-header title=${COPY.UnitStatus[0]['Section-header']}></form-header>
             <div id="unit-section">
-            <radio-input prompt=${this.status_prompts.UnitActivePrompt} 
-                        .labels=${this.status_prompts.UnitActiveOptions} 
-                         defaultCheck=${this.status_prompts.UnitActiveDefault}
-                         @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}
-                         class="prompt">
+            <radio-input prompt=${COPY.UnitStatus[0]['Active-question']} 
+                        .labels=${['Yes', 'No']} 
+                         defaultCheck=${'No'}
+                         @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}>
             </radio-input>
-            ${this._activeStatus === 'No' ? 
-                this._submit_button() :
-                html`<radio-input prompt=${this.status_prompts.UnitBargainingPrompt} 
-                                  .labels=${this.status_prompts.UnitBargainingOptions} 
-                                  defaultCheck=${this._bargainingStatus ? this._bargainingStatus : this.status_prompts.UnitBargainingDefault}
-                                  @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
+            ${this._activeStatus === 'Yes' ?
+                this._submit_button() 
+                : html`
+                    ${this._unit_meta()}
+                    <radio-input prompt=${COPY.UnitStatus[0]['Wage-question']}
+                                 .labels=${['Yes', 'No']}
+                                 @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'WageStatus')}>
                     </radio-input>
-                    ${this._bargainStatusHandler()}
-                    `}
-           
+
+                    ${this._wageStatus === 'No' ?
+                         html`
+                            <radio-input prompt=${COPY.UnitStatus[0]['Bargaining-question']}
+                            .labels=${['Yes', 'No']}
+                            @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
+                            </radio-input>
+                            ${typeof this._bargainingStatus !== 'undefined' ?
+                                this._submit_button():
+                                nothing
+                            }
+                        ` : nothing}     
+                `
+            }
             </div>
         `}
 
@@ -172,6 +146,9 @@ export class UnitStatusSection extends LitElement{
         switch(label){
             case 'ActiveStatus':
                 this._activeStatus = e.detail as string;
+                break;
+            case 'WageStatus':
+                this._wageStatus = e.detail as string;
                 break;
             case 'BargainingStatus':
                 this._bargainingStatus = e.detail as string;
@@ -192,6 +169,7 @@ export class UnitStatusSection extends LitElement{
 
         this.dispatchEvent(new CustomEvent('unit-status-values', {
             detail: {'activeStatus': this._activeStatus, 
+                     'wageStatus': this._wageStatus,
                      'bargainStatus': this._bargainingStatus,
                      'memberCount': this.memberNumber,
                      'cbaEffectiveDates': this.dateRange,
