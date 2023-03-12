@@ -27,14 +27,14 @@ export class DateInput extends LitElement {
             text-transform: uppercase;
             font-size: 0.8em;
             margin-bottom: 0.25em;
+            font-weight: 600;
         }
 
         input{
-            padding: 0.25em 0 0.25em 0.5em;
             font-family: inherit;
             font-size: 0.8em;
-            border: 1px solid rgba(var(--black), 0.5);
-            border-radius: 4px;
+            border: none;
+            border-bottom: 1px solid rgba(var(--black), 0.5);
             color: rgba(var(--black), 0.5);
         }
 

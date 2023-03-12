@@ -6,6 +6,7 @@ import '../custom-button';
 import '../date-input';
 import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
 
+
 interface DateRange {
     effectiveFrom: string | undefined;
     effectiveTo: string | undefined;
@@ -29,7 +30,7 @@ export class UnitStatusSection extends LitElement{
             grid-template-columns: 160px 320px 256px;
             justify-content: space-between;
             align-items: end;
-            margin-bottom: 1em;
+            margin-bottom: 0.5em;
         }
 
         custom-button{
@@ -108,7 +109,6 @@ export class UnitStatusSection extends LitElement{
     }
 
     render() {
-        console.log(COPY)
         return html`
             <form-header title=${COPY.UnitStatus[0]['Section-header']}></form-header>
             <div id="unit-section">

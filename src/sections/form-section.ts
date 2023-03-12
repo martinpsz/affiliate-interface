@@ -9,6 +9,7 @@ import '../components/raise-container';
 import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
+import '../components/Form/raises-section.js';
 import {Unit, Reporter, Employer} from '../interfaces/interfaces';
 
 
@@ -95,10 +96,10 @@ export class FormSection extends LitElement {
     _unitData!: Unit
 
     @state()
-    _activeStatus = 'Yes'
+    _activeStatus = 'Yes' // remove
 
     @state()
-    _bargainStatus = 'No';
+    _bargainStatus = 'No'; // remove
 
     @property()
     generalRaises!: TemplateResult[];
@@ -220,6 +221,7 @@ export class FormSection extends LitElement {
                                      @unit-status-values=${this._setUnitStatusFieldValues}> 
                 </unit-status-section>
 
+                <raises-section></raises-section>
                 <!--<form-header .title=${'Unit Status'}></form-header>
                     <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
 

@@ -19,15 +19,14 @@ export class TextInput extends LitElement{
         label{
             text-transform: uppercase;
             color: rgb(var(--white));
-            margin-bottom: 0.25em;
+            margin-bottom: 0.2em;
             font-size: 0.8em;
+            font-weight: 600;
         }
 
         input{
-            padding: 0.25em 0 0.25em 0.5em;
+            padding-left: 0.5em;
             border: none;
-            border-radius: 4px;
-            font-size: 0.8em;
         }
 
         input:focus{
@@ -43,7 +42,7 @@ export class TextInput extends LitElement{
         }
 
         .lightMode input{
-            border: 1px solid rgba(var(--black), 0.5);
+            border-bottom: 1px solid rgba(var(--black), 0.5);
         }
 
         input::-webkit-outer-spin-button,
@@ -55,6 +54,13 @@ export class TextInput extends LitElement{
         input[type=number] {
         -moz-appearance: textfield;
         }
+
+        input[type=file]{
+            border: none;
+            padding-bottom: 1px;
+        }
+
+        
 
         small{
             font-family: var(--font);
@@ -98,7 +104,7 @@ export class TextInput extends LitElement{
                 <input id=${this.label} 
                        type=${this.type} 
                        placeholder=${this.placeholder} 
-                       name=${this.label.replace(/:$/g, '')} 
+                       name=${this.label?.replace(/:$/g, '')} 
                        @input=${debounce(this._textInputEmitter, 750)}
                        @change=${this.type==='file' ? this._fileUploadHandler : nothing}
                        value=${this.value}/>

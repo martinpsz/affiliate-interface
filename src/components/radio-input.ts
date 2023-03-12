@@ -27,7 +27,7 @@ export class RadioInput extends LitElement {
         }
 
         .raiseSelection p{
-            margin-bottom: 0.25em;
+            //margin-bottom: 0.25em;
             text-transform: uppercase;
             font-size: 0.8em;
         }
@@ -37,7 +37,7 @@ export class RadioInput extends LitElement {
         }
 
         .dirColumn p{
-            margin-bottom: 0.5em;
+            //margin-bottom: 0.5em;
         }
 
         .darkMode {

@@ -26,6 +26,13 @@
             "CBA-End": "Latest CBA end",
             "CBA-Upload": "Upload latest CBA (Word DOC/PDF)"
         }
+    ],
+
+    "Raises" : [
+        {
+            "Section-header": "Across the Board Increases / Decreases"
+
+        }
     ]
         
     
