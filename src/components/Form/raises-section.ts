@@ -15,7 +15,7 @@ export class RaisesSection extends LitElement{
             display: grid;
             grid-template-columns: 120px 140px 140px 140px 1em;
             align-items: end;
-            justify-content: space-between;
+            justify-content: space-evenly;
             padding: 0.4em 0.2em;
             
         }
