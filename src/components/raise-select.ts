@@ -17,6 +17,7 @@ export class RaiseSelect extends LitElement{
             border-bottom: 1px solid rgba(var(--black), 0.5);
             margin-top: 0.25em;
             font-family: var(--font);
+            background: rgb(var(--white));
         }
 
         select:focus{

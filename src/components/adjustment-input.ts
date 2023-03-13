@@ -17,7 +17,6 @@ export class AdjustmentInput extends LitElement{
         label{
             text-transform: uppercase;
             color: rgb(var(--black));
-            margin-bottom: 0.25em;
             font-size: 0.8em;
             font-weight: 600;
         }
@@ -85,27 +84,26 @@ export class AdjustmentInput extends LitElement{
     @property()
     typeOfAdjustment!: string;
 
-    @state()
-    rateDirection!: string;
-
     render() {
         return html `
             <div>
-                <label>Adjustment rate</label>
-                    ${this.typeOfAdjustment === 'hourly increase' || this.typeOfAdjustment === 'hourly decrease' || this.typeOfAdjustment === 'lump sum/bonus' ? 
-                        html`
-                            <div class='input-field dollar-input'>
-                                <span class=dollar><span>$</span></span>
-                                <input type='text'>
-                            </div>`
-                        :
-                        html`
-                            <div class='input-field percent-input'>
-                                <input type='text'>
-                                <span class=percent><span>%</span></span>
-                            </div>
-                        `
-                    }
+                ${this.typeOfAdjustment === 'hourly increase' || this.typeOfAdjustment === 'hourly decrease' || this.typeOfAdjustment === 'lump sum/bonus' ? 
+                    html`
+                        <label>${this.typeOfAdjustment === 'hourly increase' ||
+                                 this.typeOfAdjustment === 'lump sum/bonus' ? 'Increased amount' : 'Decreased amount' }</label>
+                        <div class='input-field dollar-input'>
+                            <span class=dollar><span>$</span></span>
+                            <input type='text'>
+                        </div>`
+                    :
+                    html`
+                        <label>${this.typeOfAdjustment === '% increase' ? 'Increase %' : 'Decrease %'}</label>
+                        <div class='input-field percent-input'>
+                            <input type='text'>
+                            <span class=percent><span>%</span></span>
+                        </div>
+                    `
+                }
             </div>
         `
     }

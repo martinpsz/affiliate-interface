@@ -27,6 +27,7 @@ export class RaisesSection extends LitElement{
             justify-self: end;
             cursor: pointer;
             padding-top: 0;
+            font-size: 1.4em;
         }
     
     `
@@ -73,7 +74,7 @@ export class RaisesSection extends LitElement{
 
                 <adjustment-input typeOfAdjustment=${this._raiseType}></adjustment-input>
 
-                <span>&#9587;</span>
+                <span>&#10540;</span>
             </div>
         
         `
