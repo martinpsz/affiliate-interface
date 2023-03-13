@@ -40,7 +40,10 @@ export class RaiseSelect extends LitElement{
                     <option value="hourly increase">HOURLY INCREASE</option>
                     <option value="hourly decrease">HOURLY DECREASE</option>
                 </optgroup>
-                <option value="lump sum/bonus">LUMP SUM/BONUS</option>
+                <optgroup label="One-time Adjustment">
+                    <option value="lump sum/bonus">LUMP SUM/BONUS</option>
+                </optgroup>
+                
             </select>
         
         `
