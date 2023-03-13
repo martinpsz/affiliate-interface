@@ -103,7 +103,7 @@ export class MinimumDues extends LitElement{
             <div class="container">
                 <header-section></header-section>
                 ${this._windowWidth < 992 ? 
-                    html`<p id="mobile-msg">This page is optimized for desktops. Please visit the provided link on a desktop.</p>` :
+                    html`<p id="mobile-msg">This page is optimized for computers. Please visit the provided link on a computer.</p>` :
                     html`
                     <main>
                         <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList}
