@@ -41,15 +41,20 @@ export class AdjustmentInput extends LitElement{
             flex-direction: row;
         }
 
-        .input-field button{
+        .input-field input{
+            width: calc(100% - 1em);
+        }
+
+        .input-field span{
             background-color: rgb(var(--black));
             color: rgb(var(--white));
             font-family: var(--font);
+            font-weight: lighter;
             border: none;
-            padding: 0 0.75em;
+            padding: 0 0.25em;
         }
 
-        .percent-input button{
+        .percent-input span{
             border-top-right-radius: 0.25em;
             border-bottom-right-radius: 0.25em;
         }
@@ -58,9 +63,12 @@ export class AdjustmentInput extends LitElement{
             border-right: none;
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
+            text-align: right;
+            padding-right: 0.5em;
+            
         }
 
-        .dollar-input button{
+        .dollar-input span{
             border-top-left-radius: 0.25em;
             border-bottom-left-radius: 0.25em;
         }
@@ -69,6 +77,7 @@ export class AdjustmentInput extends LitElement{
             border-left: none;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
+            padding-left: 0.5em;
         }
 
     `
@@ -80,21 +89,20 @@ export class AdjustmentInput extends LitElement{
     rateDirection!: string;
 
     render() {
-        console.log(this.typeOfAdjustment)
         return html `
             <div>
                 <label>Adjustment rate</label>
                     ${this.typeOfAdjustment === 'hourly increase' || this.typeOfAdjustment === 'hourly decrease' || this.typeOfAdjustment === 'lump sum/bonus' ? 
                         html`
                             <div class='input-field dollar-input'>
-                                <button class=dollar><span>$</span></button>
+                                <span class=dollar><span>$</span></span>
                                 <input type='text'>
                             </div>`
                         :
                         html`
                             <div class='input-field percent-input'>
                                 <input type='text'>
-                                <button class=percent><span>%</span></button>
+                                <span class=percent><span>%</span></span>
                             </div>
                         `
                     }

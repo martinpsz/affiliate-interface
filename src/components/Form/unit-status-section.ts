@@ -5,7 +5,7 @@ import '../radio-input';
 import '../custom-button';
 import '../date-input';
 import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
-
+ 
 
 interface DateRange {
     effectiveFrom: string | undefined;
@@ -31,6 +31,10 @@ export class UnitStatusSection extends LitElement{
             justify-content: space-between;
             align-items: end;
             margin-bottom: 0.5em;
+        }
+
+        #unit-section-info .file{
+            align-self: center;
         }
 
         custom-button{
@@ -100,6 +104,7 @@ export class UnitStatusSection extends LitElement{
                         >
             </date-input>
             <text-input lightmode 
+                        class="file"
                         type=${"file"} 
                         label=${COPY.UnitStatus[0]['CBA-Upload']}
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"

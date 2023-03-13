@@ -13,10 +13,11 @@ export class RaisesSection extends LitElement{
     static styles = css`
         .wage-event{
             display: grid;
-            grid-template-columns: 120px repeat(3, 160px) 1em;
+            grid-template-columns: 120px 140px 140px 140px 1em;
             align-items: end;
-            justify-content: space-evenly;
-            grid-column-gap: 1.5em;
+            justify-content: space-between;
+            padding: 0.4em 0.2em;
+            
         }
 
         .wage-event span{
@@ -25,6 +26,7 @@ export class RaisesSection extends LitElement{
             grid-column-end: -1;
             justify-self: end;
             cursor: pointer;
+            padding-top: 0;
         }
     
     `
@@ -52,19 +54,11 @@ export class RaisesSection extends LitElement{
     }
 
     _wageEvent = () => {
-        console.log(this._raiseType)
         return html`
             <div class="wage-event">
                 <date-input type="date"
                             labelFrom="Effective Date">
                 </date-input>
-                <!--<radio-input raiseSelection
-                             dirColumn
-                             .labels=${['%', 'Hourly', 'Lump Sum/Bonus']}
-                             prompt=${'Select type of wage adjustment'}
-                             defaultCheck=${'%'}
-                             @retrieve-selection=${this._setRaiseType}>
-                </radio-input>-->
 
                 <raise-select @retrieve-raiseType=${this._setRaiseType}></raise-select>
 

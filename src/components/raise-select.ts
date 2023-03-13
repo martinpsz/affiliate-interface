@@ -28,7 +28,6 @@ export class RaiseSelect extends LitElement{
     _selected_option = '% increase'
 
     render() {
-        console.log(this._selected_option)
         return html`
             <label>Select raise event</label>
             <select @change=${this._raiseTypeSelection}>
