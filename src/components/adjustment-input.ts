@@ -19,6 +19,7 @@ export class AdjustmentInput extends LitElement{
             color: rgb(var(--black));
             font-size: 0.8em;
             font-weight: 600;
+            margin-bottom: 0.2em;
         }
 
         input{
@@ -50,7 +51,8 @@ export class AdjustmentInput extends LitElement{
             font-family: var(--font);
             font-weight: lighter;
             border: none;
-            padding: 0 0.25em;
+            padding: 0.25em;
+            line-height: 1;
         }
 
         .percent-input span{

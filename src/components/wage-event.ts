@@ -13,11 +13,16 @@ export class WageEvent extends LitElement{
             grid-template-columns: 120px repeat(3, 140px) 1em;
             grid-template-areas: 'date type change starting delete'
                                  'affected description description description .';
-            grid-row-gap: 1em;
-            //grid-column-gap: 2em;
             align-items: end;
             justify-content: space-evenly;
-            margin-bottom: 1em;
+            margin-bottom: 0.5em;
+            padding: 0.5em 0;
+            //border: 1px solid rgba(var(--black), 0.25);
+            //border-radius: 0.25em;
+        }
+
+        .special{
+            grid-row-gap: 1em;
         }
 
         .wage-event span{
@@ -65,6 +70,9 @@ export class WageEvent extends LitElement{
     @property()
     raiseEvent!: 'REGULAR' | 'SPECIAL'
 
+    @property()
+    key!: number;
+
     constructor(){
         super()
 
@@ -74,7 +82,7 @@ export class WageEvent extends LitElement{
     
     render() {
         return html`
-            <div class="wage-event">
+            <div class=${`wage-event ${this.raiseEvent==='SPECIAL' ? 'special' : ''}`} key=${this.key} >
                 <date-input type="date"
                             labelFrom="Effective Date"
                             id='date'>
@@ -115,7 +123,7 @@ export class WageEvent extends LitElement{
     }
 
     _deleteRaise = () => {
-        console.log('Delete')
+        this.remove()
     }
 }
 

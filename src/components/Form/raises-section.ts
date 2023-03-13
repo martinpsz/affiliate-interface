@@ -1,5 +1,6 @@
-import { LitElement, html, css, nothing } from "lit";
+import { LitElement, html, css, nothing, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import {repeat} from 'lit/directives/repeat.js';
 import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
 import '../form-header';
 import '../date-input';
@@ -13,28 +14,60 @@ import '../wage-event'
 @customElement('raises-section')
 export class RaisesSection extends LitElement{
     static styles = css`
+        div{
+            display: flex;
+            flex-direction: column;
+        }
+
+        custom-button{
+            align-self: flex-end;
+            margin-top: 1em;
+        }
+
+        wage-event:nth-of-type(even){
+            border-top: 1px solid rgba(var(--black), 0.25);
+            border-bottom: 1px solid rgba(var(--black), 0.25);
+        }
 
     
     `
     @property()
     wageStatus!: string
 
+    @state()
+    _generalRaises: TemplateResult[];
 
     constructor(){
         super()
+
+        this._generalRaises = [];
         this.wageStatus = 'Yes'
     }
 
     render() {
+        console.log(this._generalRaises)
         return html`
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
-                <wage-event raiseEvent="REGULAR"></wage-event>
-                
+                <div>
+                    <wage-event raiseEvent="REGULAR" key=1></wage-event>
+                    ${this._generalRaises.map(raise => raise)}
+                    <custom-button primary 
+                                   .icon=${html`<iconify-icon icon="ci:table-add" style="color: white;" height="24" ></iconify-icon>`}
+                                   buttonText='Add General Increase / Decrease'
+                                   @click=${this._addRegularAdjustment}>
+                    </custom-button>
+                </div>
+
             `: nothing}
         `
     }
 
+    _addRegularAdjustment = () => {
+        let arrSize = this._generalRaises.length + 2 as number
+        this._generalRaises.push(html`<wage-event raiseEvent="REGULAR" key=${arrSize}></wage-event>`)
+        this.requestUpdate()
+    }
 
 }
 
