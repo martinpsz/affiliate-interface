@@ -11,7 +11,7 @@ export class FormHeader extends LitElement {
             text-transform: uppercase;
             color: rgb(var(--blue));
             border-bottom: 4px solid rgb(var(--green));
-            margin: 1em 0;
+            margin: 1.25em 0;
         }
 
         p{
@@ -28,7 +28,7 @@ export class FormHeader extends LitElement {
         }
     
     `
-
+    
     @property()
     title!: string;
 

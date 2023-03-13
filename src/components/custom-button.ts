@@ -13,6 +13,7 @@ export class CustomButton extends LitElement {
             border-radius: 4px;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
         }
 
         .icon{

@@ -5,17 +5,12 @@ import '../components/radio-input';
 import '../components/custom-button';
 import '../components/text-input';
 import '../components/date-input';
-import '../components/raise-container';
 import '../components/Form/employer-section';
 import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
 import '../components/Form/raises-section.js';
-import {Unit, Reporter, Employer} from '../interfaces/interfaces';
+import {Unit, Reporter, Employer, UnitStatus} from '../interfaces/interfaces';
 
-
-interface FormData {
-    contact: Reporter | {}
-}
 @customElement('form-section')
 export class FormSection extends LitElement {
     static styles = css`
@@ -110,97 +105,25 @@ export class FormSection extends LitElement {
     @property()
     specialRaises!: TemplateResult[];
 
+    @state()
+    _employerSection!: {}
 
-    _activeStatusHandler = () => {
-        if(this._activeStatus === 'No'){
-            return html`
-            <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>`
-        } 
+    @state()
+    _unitStatusSection!: UnitStatus;
 
-        if (this._activeStatus === 'Yes'){
-            return html`
-            <radio-input .prompt=${'Is the unit in bargaining in the period 8/1/22-7/31/23?'} .labels=${['Yes', 'No']} defaultCheck=${this._bargainStatus} @retrieve-selection=${this._getBargainingStatus}></radio-input>`
-        }
-    }
-
-    _bargainStatusHandler = () => {
-        if (this._bargainStatus === 'Yes' && this._activeStatus === 'Yes'){
-            return html`
-                <text-input id="member-num" lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
-                <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button> 
-            `
-        }
-
-        if (this._bargainStatus === 'No' && this._activeStatus === 'Yes'){
-            return html`
-                <div class="unit-info">
-                    <text-input lightMode .type=${"number"} label=${"Number of Members:"} .value=${this._unitData['number_of_members'] ? this._unitData['number_of_members'] : ''}></text-input>
-                    <date-input 
-                                .type=${'date-range'}
-                                .labelFrom=${'CBA Effective From:'}
-                                .labelTo=${'CBA Effective To:'}
-                                .valueFrom=${this._unitData['agreement_eff_date'] ? this._unitData['agreement_eff_date'] : ''}
-                                .valueTo=${this._unitData['agreement_exp_date'] ? this._unitData['agreement_exp_date'] : ''}>
-                    </date-input>
-                    <text-input lightmode .type=${"file"} label=${"Upload CBA:"}></text-input>
-                </div>
-            `
-        }
-    }
-
-    _generalRaisesTemplate = () => {
-        return html`
-            <div class='general'>
-                <raise-container typeOfRaise=${'GENERAL'}></raise-container>
-                <span @click=${this._removeATBRaise}>&#x2715;</span>
-            </div>
-        `
-    }
-
-    _specialRaisesTemplate = () => {
-        return html`
-            <div class='special'>
-                <raise-container typeOfRaise=${'SPECIAL'}></raise-container>
-                <span @click=${this._removeSpecialRaise}>&#x2715;</span>
-            </div>
-        `
-    }
-
-    _specialRaiseHandler = () => {
-        if(this._specialRaiseSelection === 'No'){
-            return html`<custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>`
-        } 
-
-        else if(this._specialRaiseSelection === 'Yes'){
-            return html `
-                    ${this._specialRaisesTemplate()}
-                    ${this.specialRaises.map(item => item)}
-                    <div id="special-raise-btns">
-                        <custom-button id="add-raise" 
-                                       secondary 
-                                       .buttonText=${'Add Special Raise'}
-                                       .icon=${html`<iconify-icon icon="ant-design:folder-add-outlined" style="color: white;" height="24px" width="24px" ></iconify-icon>`}
-                                       @click=${this._addSpecialRaise}>
-                        </custom-button>
-                        <custom-button warning .buttonText=${"Submit for Review"} .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" style="color: white;" width="24" height="24"></iconify-icon>`}></custom-button>
-                    </div>
-                    
-                `
-        }
-
-        else{
-            return nothing
-        }
-    }
 
     constructor(){
         super()
         this.generalRaises = []
         this.specialRaises = [] 
-        
-    }
 
-    
+        this._unitStatusSection = {'activeStatus': 'Yes', 
+                                   'bargainStatus': undefined,
+                                   'wageStatus': undefined,
+                                   'cbaEffectiveDates': undefined,
+                                   'fileUpload': undefined,
+                                   'memberCount': undefined}
+    }
 
     render() {
         return html`
@@ -221,23 +144,12 @@ export class FormSection extends LitElement {
                                      @unit-status-values=${this._setUnitStatusFieldValues}> 
                 </unit-status-section>
 
-                <raises-section></raises-section>
-                <!--<form-header .title=${'Unit Status'}></form-header>
-                    <radio-input .prompt=${'Is the unit active in the period 8/1/22-7/31/23?:'} .labels=${['Yes', 'No']} defaultCheck=${this._activeStatus} @retrieve-selection=${this._getActiveStatus}></radio-input>
-
-                ${this._activeStatusHandler()}
-                ${this._bargainStatusHandler()}
-
-                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header id="atb" .title=${'Across the Board Raises'}></form-header>
-                     ${this._generalRaisesTemplate()}
-                     ${this.generalRaises.map(item => item)}
-                    <custom-button id="add-raise" secondary .icon=${html`<iconify-icon icon="ant-design:folder-add-outlined" style="color: white;" height="24px" width="24px" ></iconify-icon>`} .buttonText=${'Add General Raise'} @click=${this._addGeneralRaise}></custom-button>
-                
-                ` : nothing} 
-
-                ${(this._bargainStatus === 'No' && this._activeStatus === 'Yes') ? html`<form-header .title=${'Special Raises'}></form-header>
-                     <radio-input dirColumn .prompt=${'Did any part of the unit receive special pay increases in addition to the across the board raises increases reported above?'} 
-                                            .labels=${['Yes', 'No']} @retrieve-selection=${this._getSpecialRaiseSelection}></radio-input> ${this._specialRaiseHandler()}` : nothing}-->
+                ${this._unitStatusSection.activeStatus === 'No' && this._unitStatusSection.wageStatus === 'Yes'?
+                    html`<raises-section></raises-section>
+                        <!--add special raises section here-->
+                        ` 
+                    : nothing
+                }
             </form>
         `
     }
@@ -259,8 +171,8 @@ export class FormSection extends LitElement {
         this.requestUpdate()        
     }
 
-    _setUnitStatusFieldValues = (e: {detail: {}}) => {
-        console.log(e.detail)
+    _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {
+        this._unitStatusSection = e.detail;
     }
 
 
@@ -273,7 +185,7 @@ export class FormSection extends LitElement {
         this._bargainStatus = e.detail
     }
 
-    _addGeneralRaise = () => {
+    /*_addGeneralRaise = () => {
         this.generalRaises.push(html`${this._generalRaisesTemplate()}`)
         this.requestUpdate();
     }
@@ -301,7 +213,7 @@ export class FormSection extends LitElement {
 
     _getSpecialRaiseSelection = (e: { detail: any; }) => {
         this._specialRaiseSelection = e.detail;
-    }
+    }*/
 }
 
 declare global {

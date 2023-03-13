@@ -25,7 +25,6 @@ export class TextInput extends LitElement{
         }
 
         input{
-            padding-left: 0.5em;
             border: none;
         }
 

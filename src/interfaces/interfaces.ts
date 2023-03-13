@@ -4,7 +4,6 @@ export interface Employer {
     subunit: string | number | null;
 }
 
-
 export interface Reporter {
     email: string | null,
     name: string | null,
@@ -33,3 +32,11 @@ export interface Unit {
 
 export interface UnitList extends Array<Unit>{}
 
+export interface UnitStatus{
+    activeStatus: 'Yes' | 'No';
+    bargainStatus: 'Yes' | 'No' | undefined;
+    wageStatus: 'Yes' | 'No' | undefined;
+    cbaEffectiveDates: {From: string, To: string} | undefined;
+    fileUpload: File | undefined;
+    memberCount: string | undefined;
+}

@@ -25,6 +25,7 @@ export class AdjustmentInput extends LitElement{
             border: none;
             font-size: 0.8em;
             border-bottom: 1px solid rgba(var(--black), 0.5);
+            color: rgb(var(--black));
         }
 
         input:focus{
@@ -45,7 +46,6 @@ export class AdjustmentInput extends LitElement{
         }
 
         .input-field span{
-            background-color: rgb(var(--black));
             color: rgb(var(--white));
             font-family: var(--font);
             font-weight: lighter;
@@ -64,7 +64,6 @@ export class AdjustmentInput extends LitElement{
             border-bottom-right-radius: 0;
             text-align: right;
             padding-right: 0.5em;
-            
         }
 
         .dollar-input span{
@@ -79,6 +78,19 @@ export class AdjustmentInput extends LitElement{
             padding-left: 0.5em;
         }
 
+        .increase span{
+            background-color: rgb(var(--black));
+        }
+
+        .decrease span{
+            background-color: rgb(var(--red));
+        }
+
+        .decrease input{
+            color: rgb(var(--red));
+            border-bottom-color: rgb(var(--red));
+        }
+
     `
 
     @property()
@@ -90,17 +102,18 @@ export class AdjustmentInput extends LitElement{
                 ${this.typeOfAdjustment === 'hourly increase' || this.typeOfAdjustment === 'hourly decrease' || this.typeOfAdjustment === 'lump sum/bonus' ? 
                     html`
                         <label>${this.typeOfAdjustment === 'hourly increase' ||
-                                 this.typeOfAdjustment === 'lump sum/bonus' ? 'Increased amount' : 'Decreased amount' }</label>
-                        <div class='input-field dollar-input'>
-                            <span class=dollar><span>$</span></span>
+                                 this.typeOfAdjustment === 'lump sum/bonus' ? 'Increase Amount' : 'Decrease amount' }</label>
+                        <div class=${`input-field dollar-input ${this.typeOfAdjustment === 'hourly increase' ||
+                                     this.typeOfAdjustment === 'lump sum/bonus' ? 'increase' : 'decrease'}`}>
+                            <span>$</span>
                             <input type='text'>
                         </div>`
                     :
                     html`
                         <label>${this.typeOfAdjustment === '% increase' ? 'Increase %' : 'Decrease %'}</label>
-                        <div class='input-field percent-input'>
+                        <div class=${`input-field percent-input ${this.typeOfAdjustment === '% increase' ? 'increase' : 'decrease'}`}>
                             <input type='text'>
-                            <span class=percent><span>%</span></span>
+                            <span>%</span>
                         </div>
                     `
                 }

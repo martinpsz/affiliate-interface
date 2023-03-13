@@ -27,10 +27,10 @@ export class UnitStatusSection extends LitElement{
 
         #unit-section-info{
             display: grid;
-            grid-template-columns: 160px 320px 256px;
+            grid-template-columns: 140px 2fr 2fr;
             justify-content: space-between;
             align-items: end;
-            margin-bottom: 0.5em;
+            margin: 0.5em 0;
         }
 
         #unit-section-info .file{
@@ -79,7 +79,7 @@ export class UnitStatusSection extends LitElement{
 
     _submit_button = () => {
         return html`<custom-button warning 
-                                   buttonText=${"Submit"} 
+                                   buttonText=${"Save Report"} 
                                   .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" 
                                    style="color: white;" width="24" height="24">
                                                </iconify-icon>`}>
