@@ -114,6 +114,7 @@ export class MinimumDues extends LitElement{
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
                         <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0] : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)[0]}>
+                           
                         </form-section>
                     </main>`
                 }

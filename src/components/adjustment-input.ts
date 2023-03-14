@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing} from 'lit' 
 import { customElement, property, state } from 'lit/decorators.js'
+import { debounce } from '../utilities/searchDebounce';
 
 @customElement('adjustment-input')
 export class AdjustmentInput extends LitElement{
@@ -27,6 +28,16 @@ export class AdjustmentInput extends LitElement{
             font-size: 0.8em;
             border-bottom: 1px solid rgba(var(--black), 0.5);
             color: rgb(var(--black));
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
         }
 
         input:focus{
@@ -81,11 +92,11 @@ export class AdjustmentInput extends LitElement{
         }
 
         .increase span{
-            background-color: rgb(var(--black));
+            background: rgb(var(--black));
         }
 
         .decrease span{
-            background-color: rgb(var(--red));
+            background: rgb(var(--red));
         }
 
         .decrease input{
@@ -94,7 +105,6 @@ export class AdjustmentInput extends LitElement{
         }
 
     `
-
     @property()
     typeOfAdjustment!: string;
 
@@ -108,19 +118,29 @@ export class AdjustmentInput extends LitElement{
                         <div class=${`input-field dollar-input ${this.typeOfAdjustment === 'hourly increase' ||
                                      this.typeOfAdjustment === 'lump sum/bonus' ? 'increase' : 'decrease'}`}>
                             <span>$</span>
-                            <input type='text'>
+                            <input type='number' @input=${debounce(this._setAdjustmentAmount, 750)}>
                         </div>`
                     :
                     html`
                         <label>${this.typeOfAdjustment === '% increase' ? 'Increase %' : 'Decrease %'}</label>
                         <div class=${`input-field percent-input ${this.typeOfAdjustment === '% increase' ? 'increase' : 'decrease'}`}>
-                            <input type='text'>
+                            <input type='number' @input=${debounce(this._setAdjustmentAmount, 750)}>
                             <span>%</span>
                         </div>
                     `
                 }
             </div>
         `
+    }
+
+    _setAdjustmentAmount = () => {
+        const value = this.renderRoot.querySelector('input')?.value.trim() as number | string;
+        
+        this.dispatchEvent(new CustomEvent('retrieve-change', {
+            detail: value,
+            bubbles: true,
+            composed: true
+        }))
     }
 }
 

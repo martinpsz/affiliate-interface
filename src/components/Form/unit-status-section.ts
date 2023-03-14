@@ -166,7 +166,6 @@ export class UnitStatusSection extends LitElement{
                 break;
             case 'File':
                 this.fileData = e.detail as File;
-                
                 break;
             default:
                 return true;

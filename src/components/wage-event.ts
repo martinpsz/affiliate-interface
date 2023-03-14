@@ -1,9 +1,19 @@
 import { LitElement, html, css, nothing } from "lit";
-import { customElement, property} from "lit/decorators.js";
+import { customElement, property, state} from "lit/decorators.js";
 import './date-input'
 import './raise-select'
 import './adjustment-input'
 import './text-input'
+
+interface AdjustmentData {
+    date: string;
+    typeOfRaise: string;
+    startingWage: number;
+    wageAdjustment: number;
+    numberAffected: string;
+    groupDescription: string;
+}
+
 
 @customElement('wage-event')
 export class WageEvent extends LitElement{
@@ -17,8 +27,6 @@ export class WageEvent extends LitElement{
             justify-content: space-evenly;
             margin-bottom: 0.5em;
             padding: 0.5em 0;
-            //border: 1px solid rgba(var(--black), 0.25);
-            //border-radius: 0.25em;
         }
 
         .special{
@@ -64,42 +72,46 @@ export class WageEvent extends LitElement{
         }
 
     `
-    @property()
-    raiseType!: string
 
     @property()
-    raiseEvent!: 'REGULAR' | 'SPECIAL'
+    raiseEvent!: 'REGULAR' | 'SPECIAL';
 
     @property()
     key!: number;
 
+    @state()
+    _adjustmentData!: AdjustmentData;
+
     constructor(){
         super()
-
-        this.raiseType = '% increase'
+        this._adjustmentData = {date: '', typeOfRaise: '% increase', startingWage: 0, wageAdjustment: 0, numberAffected: '', groupDescription: ''}
     }
-    
     
     render() {
         return html`
             <div class=${`wage-event ${this.raiseEvent==='SPECIAL' ? 'special' : ''}`} key=${this.key} >
                 <date-input type="date"
                             labelFrom="Effective Date"
-                            id='date'>
+                            id='date'
+                            @retrieve-dates=${(e: {detail: {From: string}}) => this._getAdjustmentData('effective-date', e.detail.From)}>
                 </date-input>
 
-                <raise-select @retrieve-raiseType=${this._setRaiseType} id='type'></raise-select>
+                <raise-select @retrieve-raiseType=${(e: {detail: string}) => this._getAdjustmentData('raise-type', e.detail)} id='type'></raise-select>
 
-                ${this.raiseType !== '% increase' && this.raiseType !== '% decrease' ? html`
+                ${this._adjustmentData.typeOfRaise !== '% increase' && this._adjustmentData.typeOfRaise !== '% decrease' ? html`
                     <text-input type=${'text'}
-                        label=${this.raiseType === 'lump sum/bonus'? 'Starting annual $' : 'Starting hourly $'}
+                        label=${this._adjustmentData.typeOfRaise === 'lump sum/bonus'? 'Starting annual $' : 'Starting hourly $'}
                         lightMode
                         class="startingWage"
-                        id='starting'>
+                        id='starting'
+                        @entered-input=${(e: {detail: string}) => this._getAdjustmentData('starting-wage', e.detail)}>
                     </text-input>
                 `: nothing}
                 
-                <adjustment-input typeOfAdjustment=${this.raiseType} id='change'></adjustment-input>
+                <adjustment-input typeOfAdjustment=${this._adjustmentData.typeOfRaise} 
+                                  id='change'
+                                  @retrieve-change=${(e: {detail: string}) => this._getAdjustmentData('adjustment', e.detail)}>
+                </adjustment-input>
 
                 <span @click=${this._deleteRaise} id='delete'>&#10540;</span>
 
@@ -107,24 +119,54 @@ export class WageEvent extends LitElement{
                     html`
                         <text-input label="# affected"
                                     lightMode
-                                    id='affected'>    
+                                    id='affected'
+                                    @entered-input=${(e: {detail: string}) => this._getAdjustmentData('affected', e.detail)}>    
                         </text-input>
                         <text-input label="Describe group receiving this special increase/decrease"
                                     lightMode
-                                    id='description'>
+                                    id='description'
+                                    @entered-input=${(e: {detail: string}) => this._getAdjustmentData('description', e.detail)}>
                         </text-input>
                     `: nothing}
             </div>
         `
     }
 
-    _setRaiseType = (e: {detail: string}) => {
-        this.raiseType = e.detail
+    _deleteRaise = () => {
+        this.remove();
     }
 
-    _deleteRaise = () => {
-        this.remove()
+    _getAdjustmentData = (fieldName: string, value: string) => {
+        switch(fieldName){
+            case 'effective-date':
+                this._adjustmentData = {...this._adjustmentData, date: value}
+                break;
+            case 'raise-type':
+                this._adjustmentData = {...this._adjustmentData, typeOfRaise: value}
+                break;
+            case 'starting-wage':
+                this._adjustmentData = {...this._adjustmentData, startingWage: Number(value)} 
+                break;
+            case 'adjustment':  
+                this._adjustmentData = {...this._adjustmentData, wageAdjustment: Number(value)}
+                break;
+            case 'affected':
+                this._adjustmentData = {...this._adjustmentData, numberAffected: value}
+                break;
+            case 'description':
+                this._adjustmentData = {...this._adjustmentData, groupDescription: value}
+                break;
+        }
+
+        this.dispatchEvent(new CustomEvent('wage-event', {
+            detail: this._adjustmentData,
+            composed: true,
+            bubbles: true
+        }))
+
     }
+
+    
 }
 
 declare global {

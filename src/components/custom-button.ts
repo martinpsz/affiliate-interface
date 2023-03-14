@@ -9,7 +9,7 @@ export class CustomButton extends LitElement {
             border: none;
             color: rgb(var(--white));
             font-family: var(--font);
-            padding: 0.5em 1em;
+            padding: 0.375em 0.75em;
             border-radius: 4px;
             display: inline-flex;
             align-items: center;

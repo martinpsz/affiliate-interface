@@ -45,12 +45,11 @@ export class RaisesSection extends LitElement{
     }
 
     render() {
-        console.log(this._generalRaises)
         return html`
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
                 <div>
-                    <wage-event raiseEvent="REGULAR" key=1></wage-event>
+                    <wage-event raiseEvent="GENERAL" key=1></wage-event>
                     ${this._generalRaises.map(raise => raise)}
                     <custom-button primary 
                                    .icon=${html`<iconify-icon icon="ci:table-add" style="color: white;" height="24" ></iconify-icon>`}
@@ -58,7 +57,6 @@ export class RaisesSection extends LitElement{
                                    @click=${this._addRegularAdjustment}>
                     </custom-button>
                 </div>
-
             `: nothing}
         `
     }

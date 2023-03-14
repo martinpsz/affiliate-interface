@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { debounce } from "../utilities/searchDebounce";
 
 type dateType = 'date' | 'date-range'
 
@@ -90,19 +91,19 @@ export class DateInput extends LitElement {
                     <div id="date-range">
                         <div class="date">
                             <label for=${this.labelFrom}>${this.labelFrom}</label>
-                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueFrom}/>
                             <small>${this.warning}</small>
                         </div>
                         <div class="date">
                             <label for=${this.labelTo}>${this.labelTo}</label>
-                            <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueTo}/>
+                            <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueTo}/>
                             <small>${this.warning}</small>
                         </div>
                     </div>
                 `:html`
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${this._dateInputEmitter} value=${this.valueFrom}/>
+                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueFrom}/>
                         <small>${this.warning}</small>
                     </div>
                 `}
