@@ -10,6 +10,7 @@ import '../components/Form/reporter-section';
 import '../components/Form/unit-status-section';
 import '../components/Form/raises-section.js';
 import '../components/Form/form-nav';
+import '../components/Form/special-section.js'
 import {Unit, Reporter, Employer, UnitStatus} from '../interfaces/interfaces';
 
 @customElement('form-section')
@@ -109,7 +110,7 @@ export class FormSection extends LitElement {
 
                     ${this._unitStatusSection.activeStatus === 'No' && this._unitStatusSection.wageStatus === 'Yes'?
                         html`<raises-section></raises-section>
-                            <!--add special raises section here-->
+                            <special-section></special-section>
                             ` 
                         : nothing
                     }

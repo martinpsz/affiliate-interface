@@ -40,3 +40,14 @@ export interface UnitStatus{
     fileUpload: File | undefined;
     memberCount: string | undefined;
 }
+
+export interface AdjustmentData {
+    date: string;
+    typeOfRaise: string;
+    startingWage: number;
+    wageAdjustment: number;
+    numberAffected?: string;
+    groupDescription?: string;
+}
+
+export interface AdjustmentDataList extends Array<AdjustmentData>{}

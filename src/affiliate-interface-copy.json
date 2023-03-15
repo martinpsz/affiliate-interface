@@ -31,7 +31,13 @@
     "Raises" : [
         {
             "Section-header": "Across the Board Increases / Decreases"
+        }
+    ],
 
+    "Special" : [
+        {
+            "Section-header": "Special Increases / Decreases",
+            "Special-question": "Did any part of the unit receive special pay increases or decreases in addition to the across the board increases or decreases reported above?"
         }
     ]
         

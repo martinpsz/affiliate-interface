@@ -4,16 +4,7 @@ import './date-input'
 import './raise-select'
 import './adjustment-input'
 import './text-input'
-
-interface AdjustmentData {
-    date: string;
-    typeOfRaise: string;
-    startingWage: number;
-    wageAdjustment: number;
-    numberAffected: string;
-    groupDescription: string;
-}
-
+import { AdjustmentData } from "../interfaces/interfaces.js";
 
 @customElement('wage-event')
 export class WageEvent extends LitElement{
