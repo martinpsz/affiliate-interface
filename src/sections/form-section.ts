@@ -87,6 +87,7 @@ export class FormSection extends LitElement {
     }
 
     render() {
+        console.log('Rendering...')
         return html`
             <div id="form-container">
                 <form-nav></form-nav>

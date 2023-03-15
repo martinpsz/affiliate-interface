@@ -28,8 +28,6 @@ export class RaisesSection extends LitElement{
             border-top: 1px solid rgba(var(--black), 0.25);
             border-bottom: 1px solid rgba(var(--black), 0.25);
         }
-
-    
     `
     @property()
     wageStatus!: string
@@ -39,8 +37,7 @@ export class RaisesSection extends LitElement{
 
     constructor(){
         super()
-
-        this._generalRaises = [];
+        this._generalRaises = [html`<wage-event raiseEvent="REGULAR" key=1></wage-event>`];
         this.wageStatus = 'Yes'
     }
 
@@ -49,7 +46,6 @@ export class RaisesSection extends LitElement{
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
                 <div>
-                    <wage-event raiseEvent="GENERAL" key=1></wage-event>
                     ${this._generalRaises.map(raise => raise)}
                     <custom-button primary 
                                    .icon=${html`<iconify-icon icon="ci:table-add" style="color: white;" height="24" ></iconify-icon>`}
@@ -62,11 +58,9 @@ export class RaisesSection extends LitElement{
     }
 
     _addRegularAdjustment = () => {
-        let arrSize = this._generalRaises.length + 2 as number
-        this._generalRaises.push(html`<wage-event raiseEvent="REGULAR" key=${arrSize}></wage-event>`)
-        this.requestUpdate()
+        let arrSize = this._generalRaises.length + 1 as number
+        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR" key=${arrSize}></wage-event>`]
     }
-
 }
 
 

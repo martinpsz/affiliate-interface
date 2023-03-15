@@ -15,8 +15,18 @@ export class SpecialSection extends LitElement {
             flex-direction: column;
         }
 
+        radio-input{
+            margin-bottom: 1em;
+        }
+
+        wage-event:nth-of-type(even){
+            border-top: 1px solid rgba(var(--black), 0.25);
+            border-bottom: 1px solid rgba(var(--black), 0.25);
+        }
+
         custom-button{
             align-self: end;
+            margin-top: 1em;
         }
     `
     @property()
@@ -44,7 +54,7 @@ export class SpecialSection extends LitElement {
                 </radio-input>
                 ${this.specialResponse === 'Yes' ? 
                     html
-                        `<wage-event raiseEvent="SPECIAL" key=1></wage-event>
+                        `
                         ${this._specialRaises.map(raise => raise)}
                         <custom-button primary 
                         .icon=${html`<iconify-icon icon="ci:table-add" style="color: white;" height="24" ></iconify-icon>`}
@@ -60,11 +70,11 @@ export class SpecialSection extends LitElement {
 
     _setSpecialResponse = (e : {detail: 'Yes' | 'No'}) => {
         this.specialResponse = e.detail;
+        this._specialRaises = [html`<wage-event raiseEvent="SPECIAL" key=1></wage-event>`]
     }
 
     _addSpecialAdjustment = () => {
-        let arrSize = this._specialRaises.length + 2 as number
-        this._specialRaises.push(html`<wage-event raiseEvent="SPECIAL" key=${arrSize}></wage-event>`)
-        this.requestUpdate()
+        let arrSize = this._specialRaises.length + 1 as number
+        this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize}></wage-event>`]
     }
 }
