@@ -1,0 +1,93 @@
+{
+    "fields" : {
+        "employer": {
+            "label": "Employer",
+            "type": "text"
+        },
+        "local-number": {
+            "label": "Local",
+            "type": "number"
+        },
+        "subunit-chapter": {
+            "label": "Subunit",
+            "type": "text"
+        },
+        "reporter-name": {
+            "label": "Full Name",
+            "type": "text"
+        },
+        "reporter-email": {
+            "label": "Email",
+            "type": "email"
+        },
+        "reporter-phone": {
+            "label": "Phone",
+            "type": "tel"
+        },
+        "member-count": {
+            "label": "Number of members",
+            "type": "number"
+        },
+        "cba-dates": {
+            "start": {
+                "label": "Latest CBA Start"
+            },
+            "end": {
+                "label": "Latest CBA End"
+            },
+            "type": "date",
+            "warning-outside-range": "Only increases or decreases effective 8/1/2022-7/31/2023 can be recorded in this year's Minimum Dues report. Did the unit receive a wage increase or decrease in this time period?"
+        },
+        "file-upload": {
+            "cba": {
+                "label": "Upload latest CBA"
+            },
+            "supporting-docs": {
+                "label": "Upload documentation for this adjustment"
+            },
+            "type": "file"
+        },
+        "effective-date": {
+            "label": "Effective Date",
+            "type": "date"
+        },
+        "select-raise-event": {
+            "label": "Select Raise Event"  
+        },
+        "raise-value": {
+            "increase-pct": {
+                "label": "Increase %"
+            },
+            "decrease-pct": {
+                "label": "Decrease %"
+            },
+            "increase-amount": {
+                "label": "Increase Amount"
+            },
+            "decrease-amount": {
+                "label": "Decrease Amount"
+            },
+            "type": "number"
+        },
+        "starting-value": {
+            "annual": {
+                "label": "Starting Annual $",
+                "warning-missing-value": "Lump sum increases/bonuses also require the annual salary so that the percentage increase can be recorded. Please enter the annual salary before the increase for this unit. Your best estimate is fine."
+            },
+            "hourly": {
+                "label": "Starting Hourly $",
+                "warning-missing-value": "Hourly increases or decreases also require the hourly wage rate before the increase so that the percentage increase can be recorded. Please enter the average hourly wage before the increase for this unit. Your best estimate is fine."
+            },
+            "type": "number"
+        },
+        "members-affected": {
+            "label" : "# Affected",
+            "type": "number"
+        },
+        "group-description": {
+            "label": "Describe group receiving this special increase/decrease",
+            "type": "text"
+        }
+        
+    }
+}

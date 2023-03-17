@@ -11,6 +11,7 @@ import '../components/Form/unit-status-section';
 import '../components/Form/raises-section.js';
 import '../components/Form/form-nav';
 import '../components/Form/special-section.js'
+import '../components/Input/input-field'
 import {Unit, Reporter, Employer, UnitStatus} from '../interfaces/interfaces';
 
 @customElement('form-section')
@@ -63,6 +64,7 @@ export class FormSection extends LitElement {
             grid-column-gap: 2em;
             align-items: end;
         }
+
         
     `
     @state()
@@ -92,7 +94,7 @@ export class FormSection extends LitElement {
             <div id="form-container">
                 <form-nav></form-nav>
                 <form>
-
+                    <input-field typeOfAdjustment="PCT INCREASE" label="Upload Latest CBA" type="adjustment"></input-field>
                     <employer-section employer=${this._unitData['employer']} 
                                     local=${this._unitData['local']} 
                                     subunit=${this._unitData['subunit']}
