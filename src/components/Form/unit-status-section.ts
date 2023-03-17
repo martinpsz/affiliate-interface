@@ -106,6 +106,7 @@ export class UnitStatusSection extends LitElement{
             <text-input lightmode 
                         class="file"
                         type=${"file"} 
+                        id="file"
                         label=${COPY.UnitStatus[0]['CBA-Upload']}
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
                         @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>

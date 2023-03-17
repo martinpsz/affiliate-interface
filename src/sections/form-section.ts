@@ -87,12 +87,12 @@ export class FormSection extends LitElement {
     }
 
     render() {
-        console.log('Rendering...')
+        
         return html`
             <div id="form-container">
                 <form-nav></form-nav>
                 <form>
-                    
+
                     <employer-section employer=${this._unitData['employer']} 
                                     local=${this._unitData['local']} 
                                     subunit=${this._unitData['subunit']}

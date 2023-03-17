@@ -55,8 +55,17 @@ export class TextInput extends LitElement{
         }
 
         input[type=file]{
+            border-bottom: none;
+        }
+
+        input[type='file']::file-selector-button{
+            background: rgb(var(--blue));
+            color: rgb(var(--white));
             border: none;
-            padding-bottom: 1px;
+            font-family: var(--font);
+            text-transform: uppercase;
+            border-radius: 0.25em;
+            padding: 0.125em 0.375em;
         }
 
         
