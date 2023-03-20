@@ -3,7 +3,6 @@ import { customElement, state, property } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map.js";
 import '../UnitList/unit-element'
 
-
 @customElement('units-container')
 export class UnitsContainer extends LitElement{
     static styles = css`
@@ -36,29 +35,27 @@ export class UnitsContainer extends LitElement{
     @state()
     _unitSelected!: number
 
-    @state()
-    _initialUnitSelection!: number
-
     @property({type: Boolean})
     shortList= false;
-    
+
     render() {
         const classes = {shortList: this.shortList}
+        let initialUnit = this._payload[0]['unit_id'];
         return html`
            <div class="container ${classMap(classes)}">
             ${this._payload.map(item => {
                     return html`
                         <unit-element @click=${this._unitSelection}
+                                     .initialSelect=${initialUnit}
                                      @unit-list-selection=${this._getUnitSelection}
-                                     .initialUnitSelection=${this._initialUnitSelection}
-                                    .employer=${item['employer']}
-                                    .agr_id=${item['agr_id']}
+                                    .employer=${item['master'] && item['unit_name'] === "(master)" ? item['name'] : item['unit_name']}
+                                    .unit_id=${item['unit_id']}
+                                    .masterName=${item['name']}
                                     .master=${item['master']}
                                     .state=${item['state']}
                                     .local=${item['local']}
                                     .council=${item['council']}
                                     .subunit=${item['subunit']}
-                                    .status=${item['status']}
                                     .members=${item['number_of_members']}
                                     >
                         </unit-element>
@@ -70,19 +67,19 @@ export class UnitsContainer extends LitElement{
 
     _unitSelection = () => {
         let units = this.renderRoot?.querySelector('.container')?.querySelectorAll('unit-element') as NodeListOf<any>
-
         units?.forEach(unit => {
-            if (this._unitSelected === unit['__agr_id']){
+            if (this._unitSelected === unit['__unit_id']){
                 unit.shadowRoot?.querySelector('div')?.classList.add('selected')
             } else {
                 unit.shadowRoot?.querySelector('div')?.classList.remove('selected')
             }
-        })
+        })   
     }
 
     _getUnitSelection = (e: {detail: number}) => {
-        this._unitSelected = this._unitSelected !== e.detail ? e.detail : this._unitSelected
+        this._unitSelected = e.detail;
     }
+
 }
 
 declare global {

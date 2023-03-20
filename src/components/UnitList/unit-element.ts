@@ -9,14 +9,15 @@ export class UnitElement extends LitElement{
             color: rgb(var(--white));
             margin: 0.5em 0.5em 0.5em 0.25em;
             padding: 0.5em 0 0.5em 0.5em;
-            background: red;
+            //background: red;
             border-radius: 2px;
             cursor: pointer;
         }
 
         #master{
             background: rgb(var(--green));
-            padding: 0 0.25em;
+            padding: 0 0.5em;
+            font-size: 0.8em;
         }
 
         .selected #master{
@@ -38,33 +39,35 @@ export class UnitElement extends LitElement{
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 1.2em;
-            margin-top: 0.25em;
         }
 
-        .NeedsReview{
+        .Review{
             background: rgb(var(--red));
         }
 
-        .NeedsReview.selected{
+        .Review.selected{
             background: rgb(var(--white));
             color: rgb(var(--red));
         }
 
-        .Submitted{
+        .Saved{
             background: rgba(var(--blue), 1);
         }
 
-        .Submitted.selected{
+        .Saved.selected{
             background: rgb(var(--white));
             color: rgb(var(--blue));
         }
     `
 
     @property()
-    agr_id!: number;
+    unit_id!: number;
 
     @property()
     master!: boolean;
+
+    @property()
+    masterName!: string;
 
     @property()
     state!: string;
@@ -82,22 +85,24 @@ export class UnitElement extends LitElement{
     employer!: string;
 
     @property()
-    status!: string;
+    status!: 'Review' | 'Saved';
 
     @property()
     members!: number;
 
     @property()
-    initialUnitSelection!: number;
+    initialSelect!: number;
 
-    //Need to update initial Selection to search result first 
+    constructor(){
+        super()
+
+        this.status = 'Review';
+    }
+
     render() {
         return html`
-            <div  
-                 class=${this.agr_id === this.initialUnitSelection ? `${this.status.replace(' ', '')} selected` : `${this.status.replace(' ', '')}`}
-                 @click=${this._selectedUnit}>
+            <div @click=${this._selectedUnit} class="${this.status === 'Review' ? 'Review': 'Saved'} ${this.unit_id === this.initialSelect ? 'selected' : ''}">
                 <p>
-                    ${this.master ? html`<span id="master">Master</span>` : nothing}
                     <span>${this.state}</span>
                     ${this.local ? html`<span>&centerdot; L ${this.local}</span>` : nothing}
                     ${this.council ? html`<span>&centerdot; C ${this.council}</span>` : nothing}
@@ -107,17 +112,19 @@ export class UnitElement extends LitElement{
                 <h2 title=${this.employer}>
                     ${this.employer}
                 </h2>
-
+                ${this.master ? html`<span id="master">${this.masterName}</span>` : nothing}
             </div>
         `
     }
 
     _selectedUnit = () => {
         this.dispatchEvent(new CustomEvent('unit-list-selection', {
-            detail: this.agr_id,
+            detail: this.unit_id,
             bubbles: true,
             composed: true
         }))
+
+
     }
 }
 

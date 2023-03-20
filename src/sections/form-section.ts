@@ -89,13 +89,11 @@ export class FormSection extends LitElement {
     }
 
     render() {
-        
         return html`
             <div id="form-container">
                 <form-nav></form-nav>
                 <form>
-                    <input-field typeOfAdjustment="PCT INCREASE" label="Upload Latest CBA" type="adjustment"></input-field>
-                    <employer-section employer=${this._unitData['employer']} 
+                    <employer-section employer=${this._unitData['unit_name']} 
                                     local=${this._unitData['local']} 
                                     subunit=${this._unitData['subunit']}
                                     @employer-field-values=${this._setEmployerFieldValues}>

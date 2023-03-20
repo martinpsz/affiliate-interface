@@ -5,7 +5,7 @@ import '../sections/footer-section'
 import '../sections/list-section'
 import '../sections/form-section'
 
-import {UnitList} from '../interfaces/interfaces'
+import {Unit, UnitList} from '../interfaces/interfaces'
 import data from '../test-data.json' assert {type: "json"}
 
 interface SearchParams{
@@ -91,8 +91,8 @@ export class MinimumDues extends LitElement{
     constructor(){
         super();
         this._windowWidth = window.innerWidth;
-        this._initialList = [...data].map((val) => ({...val, 'employer': val['master'] ? val['master_name'] : val['unit_name'], 'status':'Needs Review'}));
-        this._unitSelected = this._initialList[0]['agr_id']
+        this._initialList = [...data] as UnitList
+        this._unitSelected = this._initialList[0]['unit_id'] as number;
         this._initialListLength = this._initialList.length;  
         this._searchParams = {searchTerm: '', statusSelection: 'all'} 
     }
@@ -106,14 +106,13 @@ export class MinimumDues extends LitElement{
                     html`<p id="mobile-msg">This page is optimized for computers. Please visit the provided link on a computer.</p>` :
                     html`
                     <main>
-                        <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList}
-                                      ._initialUnitSelection = ${typeof this._filteredList === 'undefined' ? this._unitSelected : this._filteredList[0].agr_id}
+                        <list-section ._payload=${this._initialList}
                                       @unit-list-selection=${this._getUnitSelection}
                                       @entered-input=${this._getSearchParams}
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${typeof this._filteredList === 'undefined' ? this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0] : this._filteredList.filter(item => item['agr_id'] === this._unitSelected)[0]}>
+                        <form-section ._unitData=${this._initialList.filter(item => item['unit_id'] === this._unitSelected)[0]}>
                            
                         </form-section>
                     </main>`
@@ -131,7 +130,9 @@ export class MinimumDues extends LitElement{
     }
 
     _getUnitSelection = (e: { detail: number; }) => {
-        this._unitSelected = this._initialList[0]['agr_id'] !== e.detail ? e.detail : this._unitSelected;
+        this._unitSelected = this._initialList[0]['unit_id'] !== e.detail ? e.detail : this._initialList[0]['unit_id'];
+
+        console.log(this._unitSelected)
     }
 
     _filterWithSearchValues = () => {
@@ -140,7 +141,7 @@ export class MinimumDues extends LitElement{
         let statusSelected = this._searchParams.statusSelection
 
 
-        if(statusSelected === 'all'){
+        /*if(statusSelected === 'all'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
             [...this._initialList].filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
         }
@@ -153,7 +154,7 @@ export class MinimumDues extends LitElement{
         else if(statusSelected === 'submitted'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted') :
             [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
-        }
+        }*/
 
         
     }
