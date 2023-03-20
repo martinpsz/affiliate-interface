@@ -36,6 +36,8 @@ export interface Unit {
     dollar_lump_sum_inc: string | null;
     percent_wage_inc: string | null;
     agr_id: number | null;
+    employer?: string | null;
+    status?: 'Needs Review' | 'Saved';
 }
 
 export interface UnitList extends Array<Unit>{}

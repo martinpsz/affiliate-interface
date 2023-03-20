@@ -28,14 +28,6 @@ export class MinimumDues extends LitElement{
         }
 
         .container{
-            //display: flex;
-            //flex-direction: column;
-            //align-items: center;
-            //height: 100vh;
-            //margin: 0 auto;
-            //justify-content: space-between;
-            //border: 1px solid red;
-            //border: 1px solid red;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -54,8 +46,6 @@ export class MinimumDues extends LitElement{
 
         main{
             height: 80vh;
-            //width: calc(100% - 2em);
-            //max-width: 1200px;
             display: flex;
             margin: 1em 0;
         }
@@ -105,6 +95,7 @@ export class MinimumDues extends LitElement{
     @state()
     private _searchParams: SearchParams;
 
+
     constructor(){
         super();
         this._windowWidth = window.innerWidth;
@@ -116,7 +107,6 @@ export class MinimumDues extends LitElement{
 
     
     render(){
-        console.log(this._initialList)
         return html`
             <div class="container">
                 <header-section></header-section>
@@ -124,14 +114,13 @@ export class MinimumDues extends LitElement{
                     html`<p id="mobile-msg">This page is optimized for computers. Please visit the provided link on a computer.</p>` :
                     html`
                     <main>
-                        <list-section ._payload=${this._initialList}
+                        <list-section ._payload=${typeof this._filteredList === 'undefined' ? this._initialList : this._filteredList }
                                       @unit-list-selection=${this._getUnitSelection}
                                       @entered-input=${this._getSearchParams}
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${this._initialList.filter(item => item['unit_id'] === this._unitSelected)[0]}>
-                           
+                        <form-section ._unitData=${this._initialList.filter(item => item['unit_id'] === this._unitSelected)[0]} totalForms=${this._initialList.length} currForm=${this._initialList.findIndex(item => item['unit_id'] === this._unitSelected) + 1}>
                         </form-section>
                     </main>`
                 }
@@ -139,6 +128,8 @@ export class MinimumDues extends LitElement{
             </div>
         `
     }
+
+    
 
     _getSearchParams = (e: { detail: string; type: string; }) => {
         e.type === 'entered-input' ? this._searchParams.searchTerm = e.detail : this._searchParams.statusSelection = e.detail
@@ -149,45 +140,31 @@ export class MinimumDues extends LitElement{
 
     _getUnitSelection = (e: { detail: number; }) => {
         this._unitSelected = this._initialList[0]['unit_id'] !== e.detail ? e.detail : this._initialList[0]['unit_id'];
-
-        console.log(this._unitSelected)
     }
 
     _filterWithSearchValues = () => {
         let searchTerm = this._searchParams.searchTerm.toLowerCase();
         let searchTermRegExp = new RegExp("^"+searchTerm, 'gi');
         let statusSelected = this._searchParams.statusSelection
-
-        const returned = this._initialList.filter(item => {
-            item['unit_name']?.toLowerCase().match(searchTermRegExp)
-        })
-
-        console.log(returned)
-        
-        
-        /*if(statusSelected === 'all'){
-            this._initialList = typeof searchTerm === 'undefined' ? 
-                                this._initialList :
-                                this._initialList.filter(item => {
-                                    item['unit_name']?.toLowerCase().match(searchTermRegExp) 
-                                })
-            /*this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
-            [...this._initialList].filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
+    
+        if(statusSelected === 'all'){
+            this._filteredList = this._initialList.filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
         }
 
-        /*else if(statusSelected === 'needs review'){
-            this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review') :
-            [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
+        /*Assumption: there is a 'status' column that has one of two states: 'needs review' and 'saved' Enable this section once you have those fields set up i nthe data.
+
+        else if(statusSelected === 'needs review'){
+            typeof searchTerm === 'undefined' ?
+            this._filteredList = this._initialList.filter(item => {item.status.toLowerCase === 'needs review'}):
+            this._filteredList = this._initialList.filter(item => item.status.toLowerCase() === 'needs review').filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
         }
 
         else if(statusSelected === 'saved'){
-            this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted') :
-            [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
+            typeof searchTerm === 'undefined' ?
+            this._filteredList = this._initialList.filter(item => {item.status.toLowerCase === 'saved'}):
+            this._filteredList = this._initialList.filter(item => item.status.toLowerCase() === 'saved').filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
         }*/
-
-        
     }
-
 }
 
 declare global {

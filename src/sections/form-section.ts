@@ -64,17 +64,25 @@ export class FormSection extends LitElement {
             grid-column-gap: 2em;
             align-items: end;
         }
-
-        
     `
+
+    @property()
+    currForm!: number;
+
+    @property()
+    totalForms!: number; 
+
     @state()
-    _unitData!: Unit
+    _unitData!: Unit;
 
     @state()
     _employerSection!: {}
 
     @state()
     _unitStatusSection!: UnitStatus;
+
+    @state()
+    _unitDataUpdates!: Unit
 
 
     constructor(){
@@ -89,11 +97,12 @@ export class FormSection extends LitElement {
     }
 
     render() {
+        console.log(this)
         return html`
             <div id="form-container">
-                <form-nav></form-nav>
+                <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
                 <form>
-                    <employer-section employer=${this._unitData['unit_name']} 
+                    <employer-section employer=${this._unitData.master && this._unitData['unit_name'] === "(master)" ? this._unitData['name'] : this._unitData['unit_name']} 
                                     local=${this._unitData['local']} 
                                     subunit=${this._unitData['subunit']}
                                     @employer-field-values=${this._setEmployerFieldValues}>
@@ -120,21 +129,19 @@ export class FormSection extends LitElement {
         `
     }
 
+    
     _setEmployerFieldValues = (e: {detail: Employer}) => {
-        const originalData = {employer: this._unitData['employer'], local: this._unitData['local'], subunit: this._unitData['subunit']}
-        
-        this._unitData.employer = originalData.employer !== e.detail.employer ? e.detail.employer : originalData.employer
-        this._unitData.local = originalData.local !== e.detail.local ? e.detail.local : originalData.local
-        this._unitData.subunit = originalData.subunit !== e.detail.subunit ? e.detail.subunit: originalData.subunit
+        this._unitDataUpdates = {...this._unitData, unit_name : e.detail.employer, local: e.detail.local, subunit: e.detail.subunit}
 
-        this.requestUpdate()
+        console.log(`Employer:`, this._unitDataUpdates)
     }
 
     _setReporterFieldValues = (e: {detail: Reporter}) => {
-        const originalData = Object.keys({...this._unitData.contact}).length === 0 ? {name: '', email: '', phone: ''} : {...this._unitData.contact}
-        this._unitData.contact = Object.assign(originalData, e.detail)
+        let reporterData = {...this._unitData.contact}
         
-        this.requestUpdate()        
+        reporterData = {...reporterData, name : e.detail.name, email: e.detail.email, phone: e.detail.phone}
+        
+        //console.log(`Reported by:`, reporterData)
     }
 
     _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {

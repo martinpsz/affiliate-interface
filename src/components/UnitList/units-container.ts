@@ -13,7 +13,7 @@ export class UnitsContainer extends LitElement{
 
         @media (min-width: 1200px){
             .container{
-                max-height: 60vh;
+                max-height: 59vh;
             }
         }
 
@@ -85,6 +85,7 @@ export class UnitsContainer extends LitElement{
     _getUnitSelection = (e: {detail: number}) => {
         this._unitSelected = e.detail;
     }
+
 
 }
 

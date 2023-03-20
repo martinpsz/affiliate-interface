@@ -16,7 +16,6 @@ export class WageEvent extends LitElement{
                                  'affected description description description .';
             align-items: end;
             justify-content: space-between;
-           // grid-row-gap: 1em;
             margin-bottom: 0.5em;
             padding: 0.5em 0;
         }

@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import '../custom-button';
 
 @customElement('form-nav')
@@ -48,17 +48,19 @@ export class FormNav extends LitElement{
         custom-button{
             justify-self: end;
             margin: 0.5em 0;
-            grid-area: button;
-            
+            grid-area: button;  
         }
-
-        
-    
     `
+    @property()
+    currForm!: number;
+
+    @property()
+    totalForms!: number;
+
     render() {
         return html`
             <div>
-                <p id="progress"><span>Report</span><span>15 of 220</span></p>
+                <p id="progress"><span>Report</span><span>${this.currForm} of ${this.totalForms}</span></p>
                 <p>Warning: You are missing a wage adjustment. Please correct</p>
                 <custom-button buttonText='Save this Report' warning
                                .icon=${html`<iconify-icon icon="codicon:cloud-upload" style="color: white;" width="24" height="24"></iconify-icon>`}>

@@ -17,7 +17,7 @@ export class ListSection extends LitElement {
         }   
 
         .list-filter{
-            height: 14vh;
+            height: 15vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -32,8 +32,9 @@ export class ListSection extends LitElement {
 
         .filter-btns{
             align-self: flex-end;
-            margin: 1em 0;
+            margin-top: 0.75em;
         }  
+
 
         .short-list{
             height: 100%;

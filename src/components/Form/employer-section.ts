@@ -36,45 +36,58 @@ export class EmployerSection extends LitElement{
     render() {
         return html`
             <div>
-                <text-input lightMode .type=${"text"} label=${"Employer:"} .value=${this.employer ? this.employer : null} @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this._input_error.employerError}></text-input>
-                <text-input lightMode .type=${"number"} label=${"Local:"} .value=${this.local ? this.local : ''} @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')}></text-input>
-                <text-input lightMode .type=${"text"} label=${"Subunit:"} .value=${this.subunit ? this.subunit : ''} @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')}></text-input>
+                <text-input lightMode .type=${"text"} label=${"Employer:"} value=${this.employer} @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this._input_error.employerError}></text-input>
+
+                <text-input lightMode .type=${"number"} label=${"Local:"} value=${this.local} @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')}></text-input>
+
+                <text-input lightMode .type=${"text"} label=${"Subunit:"} value=${this.subunit} @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')}></text-input>
             </div>
         `
     }
 
 
     _updateEmployer = (e: {detail: string | number | null}, fieldName: string) => {
+        console.log(e.detail)
         if (fieldName === 'employer'){
-            if(e.detail !== null){
+            /*if(e.detail !== null){
                 this.employer = e.detail as string
             } else if (typeof e.detail === undefined && this.employer){
                 this.employer
             } else {
                 this.employer = null;
-            }
+            }*/
+            this.employer = e.detail as string;
+
             
             this._input_error.employerError = validateEmployerSection(this.employer, 'employer')
+
+
         }
 
         if (fieldName === 'local'){
+            /*
             if(e.detail !== null){
                 this.local = e.detail as number
             } else if (typeof e.detail === undefined && this.local){
                 this.local
             } else {
                 this.local = null;
-            }
+            }*/
+
+            this.local = e.detail as number;
+            
         }
 
         if (fieldName === 'subunit'){
-            if(e.detail !== null){
+            /* if(e.detail !== null){
                 this.subunit = e.detail as string | number;
             } else if (typeof e.detail === undefined && this.subunit){
                 this.subunit;
             } else {
                 this.subunit = null;
-            }
+            }*/
+
+            this.subunit = e.detail as number | string;
         }
 
         
