@@ -21,11 +21,6 @@ export class TextInput extends LitElement{
             color: rgb(var(--white));
             margin-bottom: 0.2em;
             font-size: 0.8em;
-            font-weight: 600;
-        }
-
-        input{
-            border: none;
         }
 
         input:focus{
@@ -38,9 +33,11 @@ export class TextInput extends LitElement{
 
         .lightMode label{
             color: rgb(var(--black));
+            font-weight: 600;
         }
 
         .lightMode input{
+            border: none;
             border-bottom: 1px solid rgba(var(--black), 0.5);
         }
 
@@ -59,7 +56,7 @@ export class TextInput extends LitElement{
         }
 
         input[type='file']::file-selector-button{
-            background: rgb(var(--blue));
+            background-color: rgb(var(--blue));
             color: rgb(var(--white));
             border: none;
             font-family: var(--font);

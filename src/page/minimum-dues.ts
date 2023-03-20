@@ -99,6 +99,7 @@ export class MinimumDues extends LitElement{
 
     
     render(){
+        console.log(this._initialList)
         return html`
             <div class="container">
                 <header-section></header-section>
@@ -140,7 +141,7 @@ export class MinimumDues extends LitElement{
         let searchTermRegExp = new RegExp("^"+searchTerm, 'gi');
         let statusSelected = this._searchParams.statusSelection
 
-
+        console.log(searchTerm)
         /*if(statusSelected === 'all'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
             [...this._initialList].filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))

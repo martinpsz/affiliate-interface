@@ -18,20 +18,15 @@ export class ListSection extends LitElement {
         }   
 
         .list-filter{
-            height: 20vh;
+            height: 12.5vh;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
         }
 
-        .list-filter hr{
-            width: 80%;
-            border: 1px solid rgba(var(--white), 0.25);
-            
-        }
-
         .filter-btns{
             align-self: center;
+            margin: 1em 0;
         }  
 
         .short-list{
@@ -74,21 +69,20 @@ export class ListSection extends LitElement {
                 ${this._initialListSize >= 24 ? html`
                     <div class="list-filter">
                         <text-input label="Search:" placeholder="Search by unit/employer" @entered-input=${this._updateSearchTerm}></text-input>
-                        <radio-input darkMode dirColumn prompt="Status:" .labels=${['All', 'Needs Review', 'Submitted']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
-                        <div class="filter-btns">
-                            <custom-button secondary
-                                .icon=${html`<iconify-icon icon="simple-icons:microsoftexcel" style="color: white;" width="24" height="24"></iconify-icon>`}
-                                .buttonText=${"Download Spreadsheet"}
-                                @click=${() => generateSpreadSheet(this._payload)}>
-                            </custom-button>
-                            <custom-button primary 
-                                .icon=${html`<iconify-icon icon="fluent:people-team-add-20-regular" style="color: white;" width="24" height="24"></iconify-icon>`}
-                                .buttonText=${"Add Unit"}>
-                            </custom-button>
-                        </div>
-                        <hr/>
+                        <radio-input darkMode dirColumn prompt="Status:" .labels=${['All', 'Needs Review', 'Saved']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
                     </div>
                     <units-container ._payload=${this._payload} ._initialUnitSelection=${this._initialUnitSelection}></units-container>
+                    <div class="filter-btns">
+                        <custom-button secondary
+                            .icon=${html`<iconify-icon icon="simple-icons:microsoftexcel" style="color: white;" width="24" height="24"></iconify-icon>`}
+                            .buttonText=${"Download Spreadsheet"}
+                            @click=${() => generateSpreadSheet(this._payload)}>
+                        </custom-button>
+                        <custom-button primary 
+                            .icon=${html`<iconify-icon icon="fluent:people-team-add-20-regular" style="color: white;" width="24" height="24"></iconify-icon>`}
+                            .buttonText=${"Add Unit"}>
+                        </custom-button>
+                    </div>
                 ` : html`
                     <div class="short-list">
                         <units-container ._payload=${this._payload} shortList ._initialUnitSelection=${this._initialUnitSelection}></units-container>

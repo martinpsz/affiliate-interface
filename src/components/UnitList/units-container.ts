@@ -7,7 +7,7 @@ import '../UnitList/unit-element'
 export class UnitsContainer extends LitElement{
     static styles = css`
         .container{
-            max-height: 55vh;
+            max-height: 60vh;
             overflow-y: auto;
         }
 
