@@ -28,11 +28,16 @@ export class MinimumDues extends LitElement{
         }
 
         .container{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
-            justify-content: space-between;
+            //display: flex;
+            //flex-direction: column;
+            //align-items: center;
+            //height: 100vh;
+            //margin: 0 auto;
+            //justify-content: space-between;
+            //border: 1px solid red;
+            //border: 1px solid red;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         #mobile-msg{
@@ -49,26 +54,38 @@ export class MinimumDues extends LitElement{
 
         main{
             height: 80vh;
-            width: calc(100% - 2em);
-            max-width: 1200px;
+            //width: calc(100% - 2em);
+            //max-width: 1200px;
             display: flex;
             margin: 1em 0;
         }
 
         list-section{
-            flex: 33%;
+            width: 36%;
             background: rgb(var(--black));
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
         }
 
         form-section{
-            flex: 67%;
+            width: 64%;
             height: calc(80vh - 2px);
             border-top-right-radius: 2px;
             border-bottom-right-radius: 2px;
             border: 1px solid rgb(var(--black));
         }
+
+        @media (min-width: 1200px){
+            list-section{
+                width: 30%;
+            }
+
+            form-section{
+                width: 70%;
+            }
+        }
+
+        
     `
     @state()
     private _initialListLength: number;
@@ -103,7 +120,7 @@ export class MinimumDues extends LitElement{
         return html`
             <div class="container">
                 <header-section></header-section>
-                ${this._windowWidth < 992 ? 
+                ${this._windowWidth < 1024 ? 
                     html`<p id="mobile-msg">This page is optimized for computers. Please visit the provided link on a computer.</p>` :
                     html`
                     <main>
@@ -137,22 +154,33 @@ export class MinimumDues extends LitElement{
     }
 
     _filterWithSearchValues = () => {
-        let searchTerm = this._searchParams.searchTerm;
+        let searchTerm = this._searchParams.searchTerm.toLowerCase();
         let searchTermRegExp = new RegExp("^"+searchTerm, 'gi');
         let statusSelected = this._searchParams.statusSelection
 
-        console.log(searchTerm)
+        const returned = this._initialList.filter(item => {
+            item['unit_name']?.toLowerCase().match(searchTermRegExp)
+        })
+
+        console.log(returned)
+        
+        
         /*if(statusSelected === 'all'){
-            this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
+            this._initialList = typeof searchTerm === 'undefined' ? 
+                                this._initialList :
+                                this._initialList.filter(item => {
+                                    item['unit_name']?.toLowerCase().match(searchTermRegExp) 
+                                })
+            /*this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList] :
             [...this._initialList].filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
         }
 
-        else if(statusSelected === 'needs review'){
+        /*else if(statusSelected === 'needs review'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review') :
             [...this._initialList].filter(item => item['status'].toLowerCase() === 'needs review').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
         }
 
-        else if(statusSelected === 'submitted'){
+        else if(statusSelected === 'saved'){
             this._filteredList = typeof searchTerm === 'undefined' ? [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted') :
             [...this._initialList].filter(item => item['status'].toLowerCase() === 'submitted').filter(item => item['employer']?.toLowerCase().match(searchTermRegExp))
         }*/

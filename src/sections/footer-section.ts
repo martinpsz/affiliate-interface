@@ -6,6 +6,8 @@ export class FooterSection extends LitElement {
     static styles = css`
         footer{
             margin: 0 0 0.25em 0;
+            text-align: center;
+            
         }
 
         small{

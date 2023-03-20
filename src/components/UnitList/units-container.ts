@@ -7,8 +7,14 @@ import '../UnitList/unit-element'
 export class UnitsContainer extends LitElement{
     static styles = css`
         .container{
-            max-height: 60vh;
+            max-height: 57vh;
             overflow-y: auto;
+        }
+
+        @media (min-width: 1200px){
+            .container{
+                max-height: 60vh;
+            }
         }
 
         .container::-webkit-scrollbar{

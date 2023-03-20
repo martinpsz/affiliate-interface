@@ -8,7 +8,6 @@ export class RadioInput extends LitElement {
         .radio-input{
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5em;
             font-family: var(--font);
             accent-color: rgb(var(--blue));
         }
@@ -27,7 +26,6 @@ export class RadioInput extends LitElement {
         }
 
         .raiseSelection p{
-            //margin-bottom: 0.25em;
             text-transform: uppercase;
             font-size: 0.8em;
         }
@@ -36,23 +34,19 @@ export class RadioInput extends LitElement {
             flex-direction: column;
         }
 
-        .dirColumn p{
-            //margin-bottom: 0.5em;
-        }
-
         .darkMode {
             color: rgb(var(--white));
         }
 
         .darkMode p{
             margin-right: 0;
-            margin-bottom: 0.25em;
             text-transform: uppercase;
             font-size: 0.8em;
         }
 
         .darkMode label{
             font-weight: 200;
+        
         }
 
         .darkMode input{

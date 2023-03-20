@@ -11,11 +11,12 @@ export class WageEvent extends LitElement{
     static styles = css`
         .wage-event{
             display: grid;
-            grid-template-columns: 120px repeat(3, 140px) 1em;
+            grid-template-columns: 120px 130px 130px 130px 1em;
             grid-template-areas: 'date type change starting delete'
                                  'affected description description description .';
             align-items: end;
-            justify-content: space-evenly;
+            justify-content: space-between;
+           // grid-row-gap: 1em;
             margin-bottom: 0.5em;
             padding: 0.5em 0;
         }

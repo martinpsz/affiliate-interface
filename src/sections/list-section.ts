@@ -14,18 +14,24 @@ export class ListSection extends LitElement {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            
         }   
 
         .list-filter{
-            height: 12.5vh;
+            height: 14vh;
             display: flex;
             flex-direction: column;
-            justify-content: space-around;
+            justify-content: center;
+            row-gap: 0.5em;
+        }
+
+        @media (min-width: 1200px){
+            .list-filter{
+                height: 12.5vh;
+            }
         }
 
         .filter-btns{
-            align-self: center;
+            align-self: flex-end;
             margin: 1em 0;
         }  
 

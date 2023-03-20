@@ -26,11 +26,18 @@ export class UnitStatusSection extends LitElement{
         }
 
         #unit-section-info{
-            display: grid;
-            grid-template-columns: 140px 2fr 2fr;
-            justify-content: space-between;
-            align-items: end;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
             margin: 0.5em 0;
+        }
+
+        @media (min-width: 1200px){
+            #unit-section-info{
+                flex-wrap: nowrap;
+                gap: 0;
+                justify-content: space-between;
+            }
         }
 
         #unit-section-info .file{
@@ -95,6 +102,7 @@ export class UnitStatusSection extends LitElement{
                         value=${this.memberNumber} 
                         @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
             <date-input 
+                        id="date-range"
                         type=${'date-range'}
                         labelFrom=${COPY.UnitStatus[0]['CBA-Start']}
                         labelTo=${COPY.UnitStatus[0]['CBA-End']}

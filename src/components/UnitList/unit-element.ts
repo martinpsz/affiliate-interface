@@ -9,7 +9,6 @@ export class UnitElement extends LitElement{
             color: rgb(var(--white));
             margin: 0.5em 0.5em 0.5em 0.25em;
             padding: 0.5em 0 0.5em 0.5em;
-            //background: red;
             border-radius: 2px;
             cursor: pointer;
         }
@@ -34,7 +33,7 @@ export class UnitElement extends LitElement{
         }
 
         h2{
-            max-width: 320px;
+            max-width: 90%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
