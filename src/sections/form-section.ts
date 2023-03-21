@@ -82,7 +82,7 @@ export class FormSection extends LitElement {
     _unitStatusSection!: UnitStatus;
 
     @state()
-    _unitDataUpdates!: Unit
+    _unitDataUpdates!: Unit;
 
 
     constructor(){
@@ -97,7 +97,7 @@ export class FormSection extends LitElement {
     }
 
     render() {
-        console.log(this)
+        console.log(this._unitDataUpdates)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
@@ -131,22 +131,29 @@ export class FormSection extends LitElement {
 
     
     _setEmployerFieldValues = (e: {detail: Employer}) => {
-        this._unitDataUpdates = {...this._unitData, unit_name : e.detail.employer, local: e.detail.local, subunit: e.detail.subunit}
-
-        console.log(`Employer:`, this._unitDataUpdates)
+        this._unitDataUpdates = {...this._unitDataUpdates, unit_name: e.detail.employer, local: e.detail.local, subunit: e.detail.subunit}
     }
 
     _setReporterFieldValues = (e: {detail: Reporter}) => {
-        let reporterData = {...this._unitData.contact}
-        
-        reporterData = {...reporterData, name : e.detail.name, email: e.detail.email, phone: e.detail.phone}
-        
-        //console.log(`Reported by:`, reporterData)
+        this._unitDataUpdates = {...this._unitDataUpdates, contact: {name : e.detail.name, email: e.detail.email, phone: e.detail.phone}}
     }
 
+    
     _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {
         this._unitStatusSection = e.detail;
+
+
+        this._unitDataUpdates = {...this._unitDataUpdates,  
+                                      in_negotiation: e.detail.bargainStatus!,
+                                      number_of_members: Number(e.detail.memberCount), 
+                                      agreement_eff_date: e.detail.cbaEffectiveDates?.From as string,  
+                                      agreement_exp_date: e.detail.cbaEffectiveDates?.To as string,
+                                      cbaFile: e.detail.fileUpload}  
     }
+
+
+
+
 
 
 }

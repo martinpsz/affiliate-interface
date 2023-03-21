@@ -47,7 +47,6 @@ export class EmployerSection extends LitElement{
 
 
     _updateEmployer = (e: {detail: string | number | null}, fieldName: string) => {
-        console.log(e.detail)
         if (fieldName === 'employer'){
             /*if(e.detail !== null){
                 this.employer = e.detail as string

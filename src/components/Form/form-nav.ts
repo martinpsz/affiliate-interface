@@ -35,6 +35,12 @@ export class FormNav extends LitElement{
             font-size: 0.8em;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #progress span:nth-of-type(1){
+            font-weight: 600;
         }
 
         p{
@@ -57,11 +63,14 @@ export class FormNav extends LitElement{
     @property()
     totalForms!: number;
 
+    @property()
+    warningMsg!: string;
+
     render() {
         return html`
             <div>
-                <p id="progress"><span>Report</span><span>${this.currForm} of ${this.totalForms}</span></p>
-                <p>Warning: You are missing a wage adjustment. Please correct</p>
+                <p id="progress"><span>Report:</span><span>${this.currForm} of ${this.totalForms}</span></p>
+                <p>${this.warningMsg}</p>
                 <custom-button buttonText='Save this Report' warning
                                .icon=${html`<iconify-icon icon="codicon:cloud-upload" style="color: white;" width="24" height="24"></iconify-icon>`}>
                 </custom-button>

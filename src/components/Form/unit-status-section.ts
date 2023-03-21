@@ -27,6 +27,7 @@ export class UnitStatusSection extends LitElement{
 
         #unit-section-info{
             display: flex;
+            align-items: flex-end;
             flex-wrap: wrap;
             gap: 1em;
             margin: 0.5em 0;
@@ -35,7 +36,6 @@ export class UnitStatusSection extends LitElement{
         @media (min-width: 1200px){
             #unit-section-info{
                 flex-wrap: nowrap;
-                gap: 0;
                 justify-content: space-between;
             }
         }
@@ -132,7 +132,7 @@ export class UnitStatusSection extends LitElement{
                          @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}>
             </radio-input>
             ${this._activeStatus === 'Yes' ?
-                this._submit_button() 
+                nothing 
                 : html`
                     ${this._unit_meta()}
                     <radio-input prompt=${COPY.UnitStatus[0]['Wage-question']}
@@ -146,10 +146,7 @@ export class UnitStatusSection extends LitElement{
                             .labels=${['Yes', 'No']}
                             @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
                             </radio-input>
-                            ${typeof this._bargainingStatus !== 'undefined' ?
-                                this._submit_button():
-                                nothing
-                            }
+                        
                         ` : nothing}     
                 `
             }

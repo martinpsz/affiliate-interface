@@ -24,7 +24,7 @@ export interface Unit {
     local: number | null;
     state: string;
     contact: Reporter | null;
-    in_negotiation: boolean | null;
+    in_negotiation: 'Yes' | 'No' | null;
     number_of_members: number | null;
     agreement_eff_date: string | null;
     agreement_exp_date: string | null;
@@ -38,6 +38,7 @@ export interface Unit {
     agr_id: number | null;
     employer?: string | null;
     status?: 'Needs Review' | 'Saved';
+    cbaFile?: File
 }
 
 export interface UnitList extends Array<Unit>{}
