@@ -12,7 +12,8 @@ import '../components/Form/raises-section.js';
 import '../components/Form/form-nav';
 import '../components/Form/special-section.js'
 import '../components/Input/input-field'
-import {Unit, Reporter, Employer, UnitStatus} from '../interfaces/interfaces';
+import {Unit, Reporter, Employer, UnitStatus, wageEvent} from '../interfaces/interfaces';
+import { WageEvent } from "../components/wage-event.js";
 
 @customElement('form-section')
 export class FormSection extends LitElement {
@@ -84,6 +85,9 @@ export class FormSection extends LitElement {
     @state()
     _unitDataUpdates!: Unit;
 
+    @state()
+    _regularWageIncreases!: Array<wageEvent>;
+
 
     constructor(){
         super()
@@ -94,10 +98,10 @@ export class FormSection extends LitElement {
                                    'cbaEffectiveDates': undefined,
                                    'fileUpload': undefined,
                                    'memberCount': undefined}
+        
     }
 
     render() {
-        console.log(this._unitDataUpdates)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
@@ -119,7 +123,7 @@ export class FormSection extends LitElement {
                     </unit-status-section>
 
                     ${this._unitStatusSection.activeStatus === 'No' && this._unitStatusSection.wageStatus === 'Yes'?
-                        html`<raises-section></raises-section>
+                        html`<raises-section @get-wage-event=${this._setRegularWageIncreases}></raises-section>
                             <special-section></special-section>
                             ` 
                         : nothing
@@ -152,7 +156,9 @@ export class FormSection extends LitElement {
     }
 
 
-
+    _setRegularWageIncreases = (e: {detail: []}) => {
+        this._regularWageIncreases = e.detail
+    }
 
 
 

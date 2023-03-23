@@ -38,7 +38,7 @@ export interface Unit {
     agr_id: number | null;
     employer?: string | null;
     status?: 'Needs Review' | 'Saved';
-    cbaFile?: File
+    cbaFile?: File;
 }
 
 export interface UnitList extends Array<Unit>{}
@@ -62,3 +62,16 @@ export interface AdjustmentData {
 }
 
 export interface AdjustmentDataList extends Array<AdjustmentData>{}
+
+export interface wageEvent {
+    id?: number;
+    effective_date_of_inc: string | null;
+    cents_per_hour_base?: string | null;
+    cents_per_hour_inc?: string | null;
+    dollar_lump_sum_base?: string | null;
+    dollar_lump_sum_inc?: string | null;
+    percent_wage_inc: number | null;
+    increase_type: string;
+    number_affected?: number | null;
+    group_description?: string | null;
+}
