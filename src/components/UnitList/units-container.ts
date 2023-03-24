@@ -33,6 +33,7 @@ export class UnitsContainer extends LitElement{
             max-height: 80vh;
         }
 
+
     `
 
     @state()
@@ -44,18 +45,21 @@ export class UnitsContainer extends LitElement{
     @property({type: Boolean})
     shortList= false;
 
+    @state()
+    _initialUnit!: number;
+
     render() {
         const classes = {shortList: this.shortList}
-        let initialUnit = this._payload[0]['unit_id'];
         return html`
            <div class="container ${classMap(classes)}">
-            ${this._payload.map(item => {
+            ${this._payload.map((item, idx) => {
                     return html`
                         <unit-element @click=${this._unitSelection}
-                                     .initialSelect=${initialUnit}
                                      @unit-list-selection=${this._getUnitSelection}
                                     .employer=${item['master'] && item['unit_name'] === "(master)" ? item['name'] : item['unit_name']}
                                     .unit_id=${item['unit_id']}
+                                    .agr_id=${item['agr_id']}
+                                    .first_in_list=${idx === 0}
                                     .masterName=${item['name']}
                                     .master=${item['master']}
                                     .state=${item['state']}
@@ -74,7 +78,7 @@ export class UnitsContainer extends LitElement{
     _unitSelection = () => {
         let units = this.renderRoot?.querySelector('.container')?.querySelectorAll('unit-element') as NodeListOf<any>
         units?.forEach(unit => {
-            if (this._unitSelected === unit['__unit_id']){
+            if (this._unitSelected === unit['__agr_id']){
                 unit.shadowRoot?.querySelector('div')?.classList.add('selected')
             } else {
                 unit.shadowRoot?.querySelector('div')?.classList.remove('selected')
@@ -85,7 +89,6 @@ export class UnitsContainer extends LitElement{
     _getUnitSelection = (e: {detail: number}) => {
         this._unitSelected = e.detail;
     }
-
 
 }
 

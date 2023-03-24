@@ -15,7 +15,7 @@ export interface Unit {
     year: number;
     unit_id: number | null;
     unit_name: string | null;
-    master_id: number;
+    master_id: number | null;
     master: boolean;
     name: string | null;
     subunit: string | number | null;

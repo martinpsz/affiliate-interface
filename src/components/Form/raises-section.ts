@@ -65,7 +65,6 @@ export class RaisesSection extends LitElement{
     }
 
     render() {
-        console.log(this._generalRaises.length)
         return html`
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
@@ -83,7 +82,7 @@ export class RaisesSection extends LitElement{
 
     _addRegularAdjustment = () => {
         let arrSize = this._generalRaises.length
-        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR" noOfRaiseFieldsOpen=${this._generalRaises.length + 1} key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)} @wage-deletion=${(e: {detail: string}) => this._removeWageEvent(e)}></wage-event>`]
+        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR"  key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)} @wage-deletion=${(e: {detail: string}) => this._removeWageEvent(e)}></wage-event>`]
 
     }
 

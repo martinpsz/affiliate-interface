@@ -57,10 +57,16 @@ export class UnitElement extends LitElement{
             background: rgb(var(--white));
             color: rgb(var(--blue));
         }
+
+        
+
     `
 
     @property()
     unit_id!: number;
+
+    @property()
+    agr_id!: number;
 
     @property()
     master!: boolean;
@@ -90,7 +96,7 @@ export class UnitElement extends LitElement{
     members!: number;
 
     @property()
-    initialSelect!: number;
+    first_in_list!: boolean;
 
     constructor(){
         super()
@@ -100,7 +106,7 @@ export class UnitElement extends LitElement{
 
     render() {
         return html`
-            <div @click=${this._selectedUnit} class="${this.status === 'Review' ? 'Review': 'Saved'} ${this.unit_id === this.initialSelect ? 'selected' : ''}">
+            <div @click=${this._selectedUnit} class="${this.status === 'Review' ? 'Review': 'Saved'} ${this.first_in_list ? 'selected': ''}">
                 <p>
                     <span>${this.state}</span>
                     ${this.local ? html`<span>&centerdot; L ${this.local}</span>` : nothing}
@@ -118,7 +124,7 @@ export class UnitElement extends LitElement{
 
     _selectedUnit = () => {
         this.dispatchEvent(new CustomEvent('unit-list-selection', {
-            detail: this.unit_id,
+            detail: this.agr_id,
             bubbles: true,
             composed: true
         }))

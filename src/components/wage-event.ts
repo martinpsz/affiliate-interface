@@ -4,7 +4,7 @@ import './date-input'
 import './raise-select'
 import './adjustment-input'
 import './text-input'
-import { AdjustmentData} from "../interfaces/interfaces.js";
+
 
 @customElement('wage-event')
 export class WageEvent extends LitElement{
@@ -72,9 +72,6 @@ export class WageEvent extends LitElement{
 
     @property()
     key!: string;
-
-    @property()
-    noOfRaiseFieldsOpen!: number;
 
     @state()
     _wage_data!: {}
@@ -173,15 +170,7 @@ export class WageEvent extends LitElement{
     }
 
     _deleteRaise = () => {
-        //this.key !== 0 ? this.remove() : console.log('At least one raise is required...')
-        //this.noOfRaiseFieldsOpen > 1 ? this.noOfRaiseFieldsOpen
-        //console.log(this.noOfRaiseFieldsOpen - 1)
-        //this.remove()
-
-        if(this.noOfRaiseFieldsOpen > 1){
-            this.remove()
-            this.noOfRaiseFieldsOpen = this.noOfRaiseFieldsOpen - 1
-        } 
+        this.remove()
     
         this.dispatchEvent(new CustomEvent('wage-deletion', {
             detail: this.key,

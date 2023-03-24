@@ -28,6 +28,7 @@ export class SpecialSection extends LitElement {
             align-self: end;
             margin-top: 1em;
         }
+
     `
     @property()
     specialResponse!: 'Yes' | 'No'
@@ -44,7 +45,7 @@ export class SpecialSection extends LitElement {
         this._specialRaises = [];
 
         this._specialIncreases = [{
-            id: 1,
+            id: '1',
             effective_date_of_inc: null,
             cents_per_hour_base: null,
             cents_per_hour_inc: null,
@@ -82,7 +83,7 @@ export class SpecialSection extends LitElement {
 
     _setSpecialResponse = (e : {detail: 'Yes' | 'No'}) => {
         this.specialResponse = e.detail;
-        this._specialRaises = [html`<wage-event raiseEvent="SPECIAL" key=1 @wage-event=${this._getSpecialAdjustment}></wage-event>`]
+        this._specialRaises = [html`<wage-event raiseEvent="SPECIAL" key=1 id="first-raise" @wage-event=${this._getSpecialAdjustment}></wage-event>`]
     }
 
     _addSpecialAdjustment = () => {

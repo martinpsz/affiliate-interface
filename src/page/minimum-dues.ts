@@ -95,18 +95,25 @@ export class MinimumDues extends LitElement{
     @state()
     private _searchParams: SearchParams;
 
+    @state()
+    private _unitDataSelection!: Unit;
+
 
     constructor(){
         super();
         this._windowWidth = window.innerWidth;
-        this._initialList = [...data] as UnitList
-        this._unitSelected = this._initialList[0]['unit_id'] as number;
+        this._initialList = [...data];
+        this._unitSelected = this._filteredList ? this._filteredList[0]['agr_id'] as number : this._initialList[0]['agr_id'] as number
         this._initialListLength = this._initialList.length;  
         this._searchParams = {searchTerm: '', statusSelection: 'all'} 
+        this._unitDataSelection = this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
     }
 
     
     render(){
+        
+        console.log(this._unitSelected)
+            //this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
         return html`
             <div class="container">
                 <header-section></header-section>
@@ -120,7 +127,7 @@ export class MinimumDues extends LitElement{
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${this._initialList.filter(item => item['unit_id'] === this._unitSelected)[0]} totalForms=${this._initialList.length} currForm=${this._initialList.findIndex(item => item['unit_id'] === this._unitSelected) + 1}>
+                        <form-section ._unitData=${this._unitDataSelection} totalForms=${this._initialList.length} currForm=${this._initialList.findIndex(item => item['agr_id'] === this._unitSelected) + 1}>
                         </form-section>
                     </main>`
                 }
@@ -139,16 +146,33 @@ export class MinimumDues extends LitElement{
     }
 
     _getUnitSelection = (e: { detail: number; }) => {
-        this._unitSelected = this._initialList[0]['unit_id'] !== e.detail ? e.detail : this._initialList[0]['unit_id'];
+        this._unitSelected = this._initialList[0]['agr_id'] !== e.detail ? e.detail : this._initialList[0]['agr_id'];
+        
+        //const indOfSelection = this._filteredList ? this._filteredList.findIndex(elem => elem.agr_id === this._unitSelected) : this._initialList.findIndex(elem => elem.agr_id === this._unitSelected)
+        //this._unitDataSelection = {...this._unitDataSelection, agr_id: this._unitSelected}
+        
+        /*if (this._filteredList && indOfSelection !== -1){
+            this._unitDataSelection = this._filteredList[indOfSelection]
+        } else if (!this._filteredList && indOfSelection !== -1) {
+            console.log(this._initialList[indOfSelection])
+        }*/
+
+       //if(indOfSelection !== -1){
+         //   this._unitDataSelection = this._filteredList ? this._filteredList[indOfSelection] : this._initialList[indOfSelection]
+        //}
     }
 
     _filterWithSearchValues = () => {
         let searchTerm = this._searchParams.searchTerm.toLowerCase();
         let searchTermRegExp = new RegExp("^"+searchTerm, 'gi');
         let statusSelected = this._searchParams.statusSelection
+
+    
     
         if(statusSelected === 'all'){
             this._filteredList = this._initialList.filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
+            
+
         }
 
         /*Assumption: there is a 'status' column that has one of two states: 'needs review' and 'saved' Enable this section once you have those fields set up i nthe data.
@@ -164,6 +188,8 @@ export class MinimumDues extends LitElement{
             this._filteredList = this._initialList.filter(item => {item.status.toLowerCase === 'saved'}):
             this._filteredList = this._initialList.filter(item => item.status.toLowerCase() === 'saved').filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
         }*/
+
+        this._unitSelected = this._filteredList &&  this._filteredList[0]['agr_id'] as number
     }
 }
 
