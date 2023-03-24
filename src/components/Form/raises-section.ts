@@ -38,14 +38,20 @@ export class RaisesSection extends LitElement{
     _generalRaises: TemplateResult[];
 
     @state()
-    _regularWageIncreases!: Array<wageEvent>; //captures individual wageEvent
+    _regularWageIncreases!: Array<wageEvent>; 
+
+    @state()
+    _updatedRegularWagesIncreases!: Array<wageEvent>;
 
     constructor(){
         super()
-        this._generalRaises = [html`<wage-event raiseEvent="REGULAR" key=1 @wage-event=${(e:any) => this._getWageEvent(e)}></wage-event>`];
+        this._generalRaises = [html`<wage-event raiseEvent="REGULAR" 
+                                                key=0 
+                                                id='first-raise'
+                                                @wage-event=${(e:any) => this._getWageEvent(e)}></wage-event>`];
         this.wageStatus = 'Yes';
         this._regularWageIncreases = [{
-            id: 1,
+            id: '0',
             effective_date_of_inc: null,
             cents_per_hour_base: null,
             cents_per_hour_inc: null,
@@ -59,6 +65,7 @@ export class RaisesSection extends LitElement{
     }
 
     render() {
+        console.log(this._generalRaises.length)
         return html`
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
@@ -75,20 +82,19 @@ export class RaisesSection extends LitElement{
     }
 
     _addRegularAdjustment = () => {
-        let arrSize = this._generalRaises.length + 1 as number
-        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR" key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)}></wage-event>`]
+        let arrSize = this._generalRaises.length
+        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR" noOfRaiseFieldsOpen=${this._generalRaises.length + 1} key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)} @wage-deletion=${(e: {detail: string}) => this._removeWageEvent(e)}></wage-event>`]
 
     }
 
-    _getWageEvent = (e: {detail: {wageData: wageEvent, delRaise: number}}) => {
+    _getWageEvent = (e: {detail: {wageData: wageEvent}}) => {
         const generateWageArray = (array:Array<wageEvent>, newObj:wageEvent) => {
-            const existingIndex = array.findIndex(obj => obj.id === newObj.id);
+            const existingIndex = array.findIndex(obj => obj.id === newObj.id)
 
             if(existingIndex !== -1){
                 array[existingIndex] = newObj;
             }
-            //else if (deleteThis > -1){
-              //  array.splice(deleteThis, 1)} 
+
             else {
                 array.push(newObj)
             }
@@ -96,24 +102,44 @@ export class RaisesSection extends LitElement{
             return array
         }
 
-        /*const removeWageData = (arr:Array<wageEvent>, id:number) => {
-            const objWithIdIndex = arr.findIndex((obj) => obj.id === id)
 
-            if(objWithIdIndex > -1){
-                arr.splice(objWithIdIndex, 1)
-            } 
+        const removeWageData = () => {
+       
+            //const objWithIdIndex = arr.findIndex((obj) => obj.id === id)
 
-            return arr
-        }*/
+            //if(objWithIdIndex > -1){
+            //    arr.splice(objWithIdIndex, 1)
+            //} 
 
-        let regularWageAdjustments = generateWageArray(this._regularWageIncreases, e.detail.wageData)
+            //return arr
+        }
+
         
+
+        //let regularWageAdjustments = generateWageArray(this._regularWageIncreases, e.detail.wageData)
+        this._updatedRegularWagesIncreases = generateWageArray(this._regularWageIncreases, e.detail.wageData)
+        
+        console.log(`The original wage data is:`, this._updatedRegularWagesIncreases)
     
         this.dispatchEvent(new CustomEvent('get-wage-event', {
-            detail: regularWageAdjustments,
+            detail: this._updatedRegularWagesIncreases,
             bubbles: true,
             composed: true
         }))
+    }
+
+    _removeWageEvent = (e: {detail: number}) => {
+       
+    
+
+       // generateUpdatedWageArray(this._updatedRegularWagesIncreases)
+
+
+        //console.log(this._updatedRegularWagesIncreases)
+        
+        //this._updatedRegularWagesIncreases = generateUpdatedWageArray(this._updatedRegularWagesIncreases, e.detail)
+
+        //console.log(this._updatedRegularWagesIncreases)
     }
 }
 declare global {

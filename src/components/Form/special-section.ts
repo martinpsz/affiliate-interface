@@ -90,15 +90,14 @@ export class SpecialSection extends LitElement {
         this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize} @wage-event=${this._getSpecialAdjustment}></wage-event>`]
     }
 
-    _getSpecialAdjustment = (e: {detail: {wageData: wageEvent, delRaise: number}}) => {
+    _getSpecialAdjustment = (e: {detail: {wageData: wageEvent}}) => {
         const generateWageArray = (array:Array<wageEvent>, newObj:wageEvent) => {
             const existingIndex = array.findIndex(obj => obj.id === newObj.id);
 
             if(existingIndex !== -1){
                 array[existingIndex] = newObj;
             }
-            //else if (deleteThis > -1){
-              //  array.splice(deleteThis, 1)} 
+
             else {
                 array.push(newObj)
             }

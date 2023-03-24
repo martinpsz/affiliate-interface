@@ -64,7 +64,7 @@ export interface AdjustmentData {
 export interface AdjustmentDataList extends Array<AdjustmentData>{}
 
 export interface wageEvent {
-    id?: number;
+    id?: string;
     effective_date_of_inc: string | null;
     cents_per_hour_base?: string | null;
     cents_per_hour_inc?: string | null;

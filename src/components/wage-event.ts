@@ -62,13 +62,19 @@ export class WageEvent extends LitElement{
             grid-area: description;
         }
 
+        :host(#first-raise) #delete{
+            display: none;
+        }
     `
 
     @property()
     raiseEvent!: 'REGULAR' | 'SPECIAL';
 
     @property()
-    key!: number;
+    key!: string;
+
+    @property()
+    noOfRaiseFieldsOpen!: number;
 
     @state()
     _wage_data!: {}
@@ -100,9 +106,6 @@ export class WageEvent extends LitElement{
     @state()
     _group_description!: string | null;
 
-    @state()
-    _deleteRaiseKey!: number;
-
 
     constructor(){
         super()
@@ -110,6 +113,7 @@ export class WageEvent extends LitElement{
     }
     
     render() {
+        
         return html`
             <div class=${`wage-event ${this.raiseEvent==='SPECIAL' ? 'special' : ''}`} key=${this.key} >
                 <date-input type="date"
@@ -169,8 +173,22 @@ export class WageEvent extends LitElement{
     }
 
     _deleteRaise = () => {
-        this.remove()
-        this._deleteRaiseKey = this.key;
+        //this.key !== 0 ? this.remove() : console.log('At least one raise is required...')
+        //this.noOfRaiseFieldsOpen > 1 ? this.noOfRaiseFieldsOpen
+        //console.log(this.noOfRaiseFieldsOpen - 1)
+        //this.remove()
+
+        if(this.noOfRaiseFieldsOpen > 1){
+            this.remove()
+            this.noOfRaiseFieldsOpen = this.noOfRaiseFieldsOpen - 1
+        } 
+    
+        this.dispatchEvent(new CustomEvent('wage-deletion', {
+            detail: this.key,
+            bubbles: true,
+            composed: true,
+        }))
+        
     }
 
     _updateWageData = (typeOfUpdate: string, value: string) => {
@@ -212,7 +230,7 @@ export class WageEvent extends LitElement{
 
         
         let wageData  = {...this._wage_data, 
-                              id: Number(this.key),
+                              id: this.key,
                               effective_date_of_inc: this._effective_date_of_inc,
                               increase_type: this._increase_type,
 
@@ -237,7 +255,7 @@ export class WageEvent extends LitElement{
 
         
         this.dispatchEvent(new CustomEvent('wage-event', {
-            detail: {wageData: wageData, delRaise: this._deleteRaiseKey},
+            detail: {wageData: wageData},
             bubbles: true,
             composed: true
         }))
