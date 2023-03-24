@@ -26,11 +26,9 @@ export class UnitStatusSection extends LitElement{
         }
 
         #unit-section-info{
-            display: flex;
-            align-items: flex-end;
-            flex-wrap: wrap;
-            gap: 1em;
-            margin: 0.5em 0;
+            display: grid;
+            grid-template-columns: 150px 2fr 1fr;
+            align-items: end;
         }
 
         @media (min-width: 1200px){
