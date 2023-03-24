@@ -5,7 +5,7 @@ import '../radio-input';
 import '../wage-event';
 import '../custom-button'
 import COPY from "../../affiliate-interface-copy.json" assert {type: 'json'}
-import { AdjustmentDataList } from "../../interfaces/interfaces.js";
+import { wageEvent} from "../../interfaces/interfaces.js";
 
 @customElement('special-section')
 export class SpecialSection extends LitElement {
@@ -36,12 +36,24 @@ export class SpecialSection extends LitElement {
     _specialRaises!: TemplateResult[]
 
     @state()
-    specialIncreases!: AdjustmentDataList
+    _specialIncreases: Array<wageEvent>
 
     constructor(){
         super()
 
         this._specialRaises = [];
+
+        this._specialIncreases = [{
+            id: 1,
+            effective_date_of_inc: null,
+            cents_per_hour_base: null,
+            cents_per_hour_inc: null,
+            dollar_lump_sum_base: null,
+            dollar_lump_sum_inc: null,
+            percent_wage_inc: null,
+            increase_type: '% increase',
+            number_affected: null,
+            group_description: null}]
     }
 
     render() {
@@ -78,7 +90,40 @@ export class SpecialSection extends LitElement {
         this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize} @wage-event=${this._getSpecialAdjustment}></wage-event>`]
     }
 
-    _getSpecialAdjustment = (e:{detail:{}}) => {
-        console.log(e.detail)
+    _getSpecialAdjustment = (e: {detail: {wageData: wageEvent, delRaise: number}}) => {
+        const generateWageArray = (array:Array<wageEvent>, newObj:wageEvent) => {
+            const existingIndex = array.findIndex(obj => obj.id === newObj.id);
+
+            if(existingIndex !== -1){
+                array[existingIndex] = newObj;
+            }
+            //else if (deleteThis > -1){
+              //  array.splice(deleteThis, 1)} 
+            else {
+                array.push(newObj)
+            }
+
+            return array
+        }
+
+        /*const removeWageData = (arr:Array<wageEvent>, id:number) => {
+            const objWithIdIndex = arr.findIndex((obj) => obj.id === id)
+
+            if(objWithIdIndex > -1){
+                arr.splice(objWithIdIndex, 1)
+            } 
+
+            return arr
+        }*/
+
+        let specialWageAdjustments = generateWageArray(this._specialIncreases, e.detail.wageData)
+        
+        console.log(specialWageAdjustments)
+    
+        this.dispatchEvent(new CustomEvent('get-wage-event', {
+            detail: specialWageAdjustments,
+            bubbles: true,
+            composed: true
+        }))
     }
 }
