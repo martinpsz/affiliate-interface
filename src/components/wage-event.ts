@@ -216,11 +216,23 @@ export class WageEvent extends LitElement{
                               id: Number(this.key),
                               effective_date_of_inc: this._effective_date_of_inc,
                               increase_type: this._increase_type,
-                              dollar_lump_sum_base: this._dollar_lump_sum_base,
-                              cents_per_hour_base: this._cents_per_hour_base,
-                              percent_wage_inc: this._percent_wage_inc,
-                              dollar_lump_sum_inc: this._dollar_lump_sum_inc,
-                              cents_per_hour_inc: this._cents_per_hour_inc,
+
+                              dollar_lump_sum_base: this._increase_type === 'lump sum/bonus' ? Intl.NumberFormat('en-us', {style: 'currency', currency: 'USD'}).format(Number(this._dollar_lump_sum_base)) : null,
+
+                              cents_per_hour_base: this._increase_type === 'hourly increase' ? Intl.NumberFormat('en-us', {style: 'currency',
+                              currency: 'USD'}).format(Number(this._cents_per_hour_base)) : this._increase_type === 'hourly decrease' ? Intl.NumberFormat('en-us', {style: 'currency',
+                              currency: 'USD'}).format(Number(this._cents_per_hour_base)) : null,
+
+                              percent_wage_inc: this._increase_type === '% decrease' ?
+                              -(this._percent_wage_inc!) : this._increase_type === '% increase' ? Number(this._percent_wage_inc)  : null,
+
+                              dollar_lump_sum_inc: this._increase_type === 'lump sum/bonus' ? Intl.NumberFormat('en-us', {style: 'currency', currency: 'USD'}).format(Number(this._dollar_lump_sum_inc)) : null,
+
+                              cents_per_hour_inc: this._increase_type === 'hourly increase' ? Intl.NumberFormat('en-us', {style: 'currency',
+                              currency: 'USD'}).format(Number(this._cents_per_hour_inc)) : this._increase_type === 'hourly decrease' ? Intl.NumberFormat('en-us', {style: 'currency',
+                              currency: 'USD'}).format(-Number(this._cents_per_hour_inc)): null,
+
+
                               number_affected: this._number_affected,
                               group_description: this._group_description}
 

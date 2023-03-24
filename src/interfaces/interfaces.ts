@@ -68,7 +68,7 @@ export interface wageEvent {
     effective_date_of_inc: string | null;
     cents_per_hour_base?: string | null;
     cents_per_hour_inc?: string | null;
-    dollar_lump_sum_base?: string | null;
+    dollar_lump_sum_base?: number | null;
     dollar_lump_sum_inc?: string | null;
     percent_wage_inc: number | null;
     increase_type: string;
