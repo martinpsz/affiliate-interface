@@ -108,10 +108,6 @@ export class RaisesSection extends LitElement{
 
         let regularWageAdjustments = generateWageArray(this._regularWageIncreases, e.detail.wageData)
         
-
-        /*let regularWageAdjustmentsWithDeletions = removeWageData(regularWageAdjustments, e.detail.delRaise)*/
-
-        console.log(regularWageAdjustments)
     
         this.dispatchEvent(new CustomEvent('get-wage-event', {
             detail: regularWageAdjustments,

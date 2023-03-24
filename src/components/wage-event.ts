@@ -174,7 +174,6 @@ export class WageEvent extends LitElement{
     }
 
     _updateWageData = (typeOfUpdate: string, value: string) => {
-        //update values here for increase/decrease logic:
         if(typeOfUpdate === 'effective-date'){
             this._effective_date_of_inc = value;
         }

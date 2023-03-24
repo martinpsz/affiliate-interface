@@ -70,11 +70,15 @@ export class SpecialSection extends LitElement {
 
     _setSpecialResponse = (e : {detail: 'Yes' | 'No'}) => {
         this.specialResponse = e.detail;
-        this._specialRaises = [html`<wage-event raiseEvent="SPECIAL" key=1></wage-event>`]
+        this._specialRaises = [html`<wage-event raiseEvent="SPECIAL" key=1 @wage-event=${this._getSpecialAdjustment}></wage-event>`]
     }
 
     _addSpecialAdjustment = () => {
         let arrSize = this._specialRaises.length + 1 as number
-        this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize}></wage-event>`]
+        this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize} @wage-event=${this._getSpecialAdjustment}></wage-event>`]
+    }
+
+    _getSpecialAdjustment = (e:{detail:{}}) => {
+        console.log(e.detail)
     }
 }
