@@ -74,8 +74,6 @@ export class MinimumDues extends LitElement{
                 width: 70%;
             }
         }
-
-        
     `
     @state()
     private _initialListLength: number;
@@ -110,9 +108,9 @@ export class MinimumDues extends LitElement{
     }
 
     
+    
     render(){
         
-        console.log(this._unitSelected)
             //this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
         return html`
             <div class="container">
@@ -127,7 +125,7 @@ export class MinimumDues extends LitElement{
                                       @retrieve-selection=${this._getSearchParams}
                                       ._initialListSize=${this._initialListLength}>
                         </list-section>
-                        <form-section ._unitData=${this._unitDataSelection} totalForms=${this._initialList.length} currForm=${this._initialList.findIndex(item => item['agr_id'] === this._unitSelected) + 1}>
+                        <form-section .unitData=${this._unitDataSelection} totalForms=${this._initialList.length} currForm=${this._initialList.findIndex(item => item['agr_id'] === this._unitSelected) + 1}>
                         </form-section>
                     </main>`
                 }
@@ -148,6 +146,9 @@ export class MinimumDues extends LitElement{
     _getUnitSelection = (e: { detail: number; }) => {
         this._unitSelected = this._initialList[0]['agr_id'] !== e.detail ? e.detail : this._initialList[0]['agr_id'];
         
+        this._unitDataSelection = this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
+
+        this.requestUpdate()
         //const indOfSelection = this._filteredList ? this._filteredList.findIndex(elem => elem.agr_id === this._unitSelected) : this._initialList.findIndex(elem => elem.agr_id === this._unitSelected)
         //this._unitDataSelection = {...this._unitDataSelection, agr_id: this._unitSelected}
         

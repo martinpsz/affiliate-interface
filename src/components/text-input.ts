@@ -112,7 +112,7 @@ export class TextInput extends LitElement{
                        name=${this.label?.replace(/:$/g, '')} 
                        @input=${debounce(this._textInputEmitter, 1000)}
                        @change=${this.type==='file' ? this._fileUploadHandler : nothing}
-                       value=${this.value}/>
+                       .value=${this.type!=='file' ? this.value : ''}/>
                 <small>${this.warning}</small>
             </div>
         `
@@ -131,7 +131,6 @@ export class TextInput extends LitElement{
     _fileUploadHandler = () => {
         let inputField = this.renderRoot.querySelector('input')?.files as FileList
         let inputFile;
-
         if (inputField !== null){
             inputFile = inputField[0]
         }
@@ -142,6 +141,8 @@ export class TextInput extends LitElement{
             composed: true,
         }))
     }
+
+
 
 
 }
