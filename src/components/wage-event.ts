@@ -127,6 +127,7 @@ export class WageEvent extends LitElement{
                         lightMode
                         class="startingWage"
                         id='starting'
+                        .value=${''}
                         @entered-input=${(e: {detail: string}) => {
                             if(this._increase_type === 'lump sum/bonus'){
                                 this._updateWageData('lump-sum-start', e.detail)
@@ -139,6 +140,7 @@ export class WageEvent extends LitElement{
                 
                 <adjustment-input typeOfAdjustment=${this._increase_type} 
                                   id='change'
+                                  .value=${''}
                                   @retrieve-change=${(e: {detail: string}) => {
                                     if(this._increase_type === '% increase' || this._increase_type === '% decrease'){
                                         this._updateWageData('percent_wage_inc', e.detail)
@@ -157,12 +159,14 @@ export class WageEvent extends LitElement{
                         <text-input label="# affected"
                                     lightMode
                                     id='affected'
-                                    @entered-input=${(e: {detail: string}) => this._updateWageData('number_affected', e.detail)}>    
+                                    @entered-input=${(e: {detail: string}) => this._updateWageData('number_affected', e.detail)}
+                                    .value=${''}>    
                         </text-input>
                         <text-input label="Describe group receiving this special increase/decrease"
                                     lightMode
                                     id='description'
-                                    @entered-input=${(e: {detail: string}) => this._updateWageData('group_description', e.detail)}>
+                                    @entered-input=${(e: {detail: string}) => this._updateWageData('group_description', e.detail)}
+                                    .value=${''}>
                         </text-input>
                     `: nothing}
             </div>
@@ -171,7 +175,7 @@ export class WageEvent extends LitElement{
 
     _deleteRaise = () => {
         this.remove()
-    
+
         this.dispatchEvent(new CustomEvent('wage-deletion', {
             detail: this.key,
             bubbles: true,

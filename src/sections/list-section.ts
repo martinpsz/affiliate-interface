@@ -68,6 +68,7 @@ export class ListSection extends LitElement {
     constructor(){
         super();
         this._statusSelected = 'all'
+        this._searchTerm = '';
     }
 
     render(){
@@ -75,7 +76,8 @@ export class ListSection extends LitElement {
             <section>
                 ${this._initialListSize >= 24 ? html`
                     <div class="list-filter">
-                        <text-input label="Search:" placeholder="Search by unit/employer" @entered-input=${this._updateSearchTerm}></text-input>
+                        <text-input label="Search:" placeholder="Search by unit/employer"
+                        .value=${''} @entered-input=${this._updateSearchTerm}></text-input>
                         <radio-input darkMode dirColumn prompt="Status:" .labels=${['All', 'Needs Review', 'Saved']} .defaultCheck=${this._statusSelected} @retrieve-selection=${this._updatedStatusSelection}></radio-input>
                     </div>
                     <units-container ._payload=${this._payload} ._initialUnitSelection=${this._initialUnitSelection}></units-container>

@@ -97,7 +97,7 @@ export class UnitStatusSection extends LitElement{
             <text-input id="member-num" lightMode 
                         type=${"number"} 
                         label=${COPY.UnitStatus[0]['Number-of-members']} 
-                        value=${this.memberNumber} 
+                        .value=${this.memberNumber} 
                         @entered-input=${(e: EventType) => this._getInputValue(e, 'MemberCount')}></text-input>
             <date-input 
                         id="date-range"

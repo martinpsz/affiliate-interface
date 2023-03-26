@@ -1,6 +1,6 @@
 import { LitElement, html, css, nothing, TemplateResult } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import {repeat} from 'lit/directives/repeat.js';
+
 import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
 import '../form-header';
 import '../date-input';
@@ -65,6 +65,7 @@ export class RaisesSection extends LitElement{
     }
 
     render() {
+        console.log(this._updatedRegularWagesIncreases)
         return html`
             ${this.wageStatus === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
@@ -82,7 +83,7 @@ export class RaisesSection extends LitElement{
 
     _addRegularAdjustment = () => {
         let arrSize = this._generalRaises.length
-        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR"  key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)} @wage-deletion=${(e: {detail: string}) => this._removeWageEvent(e)}></wage-event>`]
+        this._generalRaises = [...this._generalRaises, html`<wage-event raiseEvent="REGULAR"  key=${arrSize} @wage-event=${(e:any) => this._getWageEvent(e)} @wage-deletion=${(e: {detail: number}) => this._removeWageEvent(e)}></wage-event>`]
 
     }
 
@@ -101,25 +102,9 @@ export class RaisesSection extends LitElement{
             return array
         }
 
-
-        const removeWageData = () => {
-       
-            //const objWithIdIndex = arr.findIndex((obj) => obj.id === id)
-
-            //if(objWithIdIndex > -1){
-            //    arr.splice(objWithIdIndex, 1)
-            //} 
-
-            //return arr
-        }
-
-        
-
-        //let regularWageAdjustments = generateWageArray(this._regularWageIncreases, e.detail.wageData)
         this._updatedRegularWagesIncreases = generateWageArray(this._regularWageIncreases, e.detail.wageData)
         
-        console.log(`The original wage data is:`, this._updatedRegularWagesIncreases)
-    
+
         this.dispatchEvent(new CustomEvent('get-wage-event', {
             detail: this._updatedRegularWagesIncreases,
             bubbles: true,
@@ -128,17 +113,16 @@ export class RaisesSection extends LitElement{
     }
 
     _removeWageEvent = (e: {detail: number}) => {
-       
-    
+        const idxToRemove = this._updatedRegularWagesIncreases.findIndex((elem) => {    
+            return elem.id?.toString()  === e.detail.toString()
+        })
 
-       // generateUpdatedWageArray(this._updatedRegularWagesIncreases)
-
-
-        //console.log(this._updatedRegularWagesIncreases)
         
-        //this._updatedRegularWagesIncreases = generateUpdatedWageArray(this._updatedRegularWagesIncreases, e.detail)
-
-        //console.log(this._updatedRegularWagesIncreases)
+        this._updatedRegularWagesIncreases = this._updatedRegularWagesIncreases?.filter((elem, idx) => {
+            if (idx !== idxToRemove){
+                return elem
+            }
+        })
     }
 }
 declare global {

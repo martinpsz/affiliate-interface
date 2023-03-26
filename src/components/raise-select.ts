@@ -44,7 +44,6 @@ export class RaiseSelect extends LitElement{
                 <optgroup label="One-time Adjustment">
                     <option value="lump sum/bonus">LUMP SUM/BONUS</option>
                 </optgroup>
-                
             </select>
         
         `

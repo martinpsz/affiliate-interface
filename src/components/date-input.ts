@@ -1,6 +1,7 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { debounce } from "../utilities/searchDebounce";
+import {Defaults} from '../affiliate-interface-copy.json' assert {type: "json"}
 
 type dateType = 'date' | 'date-range'
 
@@ -91,19 +92,25 @@ export class DateInput extends LitElement {
                     <div id="date-range">
                         <div class="date">
                             <label for=${this.labelFrom}>${this.labelFrom}</label>
-                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueFrom}/>
+                            <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} .value=${this.valueFrom}
+                            min=${Defaults["start-date"]}
+                            max=${Defaults["end-date"]}/>
                             <small>${this.warning}</small>
                         </div>
                         <div class="date">
                             <label for=${this.labelTo}>${this.labelTo}</label>
-                            <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueTo}/>
+                            <input id=${this.labelTo?.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} .value=${this.valueTo}
+                            min=${Defaults["start-date"]}
+                            max=${Defaults["end-date"]}/>
                             <small>${this.warning}</small>
                         </div>
                     </div>
                 `:html`
                     <div class="date">
                         <label for=${this.labelFrom}>${this.labelFrom}</label>
-                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} value=${this.valueFrom}/>
+                        <input id=${this.labelFrom.replace(/[\s+:]/g, '')} type="date" @input=${debounce(this._dateInputEmitter, 750)} .value=${this.valueFrom}
+                        min=${Defaults["start-date"]}
+                        max=${Defaults["end-date"]}/>
                         <small>${this.warning}</small>
                     </div>
                 `}
@@ -112,25 +119,20 @@ export class DateInput extends LitElement {
     }
 
     _dateInputEmitter = () => {
-        const dateFormatter = (date:string) => {
-            let [year, month, day] = date.split('-')
-            return [month, day, year].join('/')
-        }
-
         let dateValue = {};
         if (this.type === 'date-range'){
             const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
             const ToDate = this.renderRoot?.querySelector(`${'#' + this.labelTo?.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
-            dateValue = {'From': dateFormatter(FromDate.value), 
-                         'To': dateFormatter(ToDate.value)}
+            dateValue = {'From': FromDate.value, 
+                         'To': ToDate.value}
         }
 
         if (this.type === 'date'){
             const FromDate = this.renderRoot?.querySelector(`${'#' + this.labelFrom.replace(/[\s+:]/g, '')}`) as HTMLInputElement
 
-            dateValue = {'From': dateFormatter(FromDate.value)}
+            dateValue = {'From': FromDate.value}
         }
         
         this.dispatchEvent(new CustomEvent('retrieve-dates', {

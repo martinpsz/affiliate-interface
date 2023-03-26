@@ -43,19 +43,19 @@ export class ReporterSection extends LitElement{
                 <text-input lightMode 
                             type=${"text"}
                             label=${"Full Name:"} 
-                            value=${fullName ? fullName : null} 
+                            .value=${fullName ? fullName : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'name')}
                             warning=${this._input_error.nameError}></text-input>
                 <text-input lightMode 
                             type=${"email"} 
                             label=${"Email:"} 
-                            value=${email ? email : null} 
+                            .value=${email ? email : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'email')}
                             warning=${this._input_error.emailError}></text-input>
                 <text-input lightMode 
                             type=${"tel"} 
                             label=${"Phone:"} 
-                            value=${phone ? phone : null} 
+                            .value=${phone ? phone : null} 
                             @entered-input=${(e: {detail: string}) => this._updateReporter(e, 'phone')}
                             warning=${this._input_error.phoneError}></text-input>
             </div>

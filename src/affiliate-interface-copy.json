@@ -39,7 +39,13 @@
             "Section-header": "Special Increases / Decreases",
             "Special-question": "Did any part of the unit receive special pay increases or decreases in addition to the across the board increases or decreases reported above?"
         }
-    ]
+    ],
+
+    "Defaults": {
+
+            "start-date": "8/1/22",
+            "end-date": "7/31/23"
+    }
         
     
 

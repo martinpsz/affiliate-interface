@@ -42,11 +42,11 @@ export class EmployerSection extends LitElement{
         
         return html`
             <div>
-                <text-input lightMode .type=${"text"} label=${"Employer:"} value="${this.employer}" @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this._input_error.employerError}></text-input>
+                <text-input lightMode .type=${"text"} label=${"Employer:"} .value="${this.employer}" @entered-input=${(e: {detail: string}) => this._updateEmployer(e, 'employer')} warning=${this._input_error.employerError}></text-input>
 
-                <text-input lightMode .type=${"number"} label=${"Local:"} value="${this.local}" @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')}></text-input>
+                <text-input lightMode .type=${"number"} label=${"Local:"} .value="${this.local}" @entered-input=${(e: {detail: number}) => this._updateEmployer(e, 'local')}></text-input>
 
-                <text-input lightMode .type=${"text"} label=${"Subunit:"} value="${this.subunit}" @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')}></text-input>
+                <text-input lightMode .type=${"text"} label=${"Subunit:"} .value="${this.subunit}" @entered-input=${(e: {detail: string | number | null}) => this._updateEmployer(e, 'subunit')}></text-input>
             </div>
         `
     }
