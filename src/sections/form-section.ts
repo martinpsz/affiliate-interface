@@ -11,6 +11,7 @@ import '../components/Form/unit-status-section';
 import '../components/Form/raises-section.js';
 import '../components/Form/form-nav';
 import '../components/Form/special-section.js'
+import '../components/Form/comment-section.js'
 import {Unit, Reporter, Employer, UnitStatus, wageEvent} from '../interfaces/interfaces';
 
 @customElement('form-section')
@@ -84,22 +85,12 @@ export class FormSection extends LitElement {
     @state()
     _regularWageIncreases!: Array<wageEvent>;
 
+    @state()
+    _specialWageIncreases!: Array<wageEvent>;
 
-    constructor(){
-        super()
- 
-        this._unitStatusSection = {'activeStatus': 'Yes', 
-                                   'bargainStatus': undefined,
-                                   'wageStatus': undefined,
-                                   'cbaEffectiveDates': undefined,
-                                   'fileUpload': undefined,
-                                   'memberCount': undefined} 
-                                   
-    }
-
-    
 
     render() {
+        console.log(this.unitData)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
@@ -120,9 +111,10 @@ export class FormSection extends LitElement {
                                         @unit-status-values=${this._setUnitStatusFieldValues}> 
                     </unit-status-section>
 
-                    ${this._unitStatusSection.activeStatus === 'No' && this._unitStatusSection.wageStatus === 'Yes'?
+                    ${this.unitData.inactive_unit === 'No' && this.unitData.wage_adjustment === 'Yes'?
                         html`<raises-section @get-wage-event=${this._setRegularWageIncreases}></raises-section>
-                            <special-section></special-section>
+                            <special-section @get-wage-event=${this._setSpecialWageIncreases}></special-section>
+                            <comment-section></comment-section>
                             ` 
                         : nothing
                     }
@@ -142,20 +134,23 @@ export class FormSection extends LitElement {
 
     
     _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {
-        this._unitStatusSection = e.detail;
-
-
-        this.unitData = {...this.unitData,  
-                            in_negotiation: e.detail.bargainStatus!,
+        this.unitData = {...this.unitData, 
+                            inactive_unit: e.detail.inactive_unit,
+                            wage_adjustment: e.detail.wage_adjustment,    
+                            in_negotiation: e.detail.in_negotiation!,
                             number_of_members: Number(e.detail.memberCount), 
                             agreement_eff_date: e.detail.cbaEffectiveDates?.From as string,  
                             agreement_exp_date: e.detail.cbaEffectiveDates?.To as string,
-                                      cbaFile: e.detail.fileUpload} 
+                            cbaFile: e.detail.fileUpload} 
     }
 
 
     _setRegularWageIncreases = (e: {detail: []}) => {
-        this._regularWageIncreases = e.detail
+        this.unitData = {...this.unitData, regular_raise_events: e.detail}
+    }
+
+    _setSpecialWageIncreases = (e: {detail: []}) => {
+        this.unitData = {...this.unitData, special_raise_events: e.detail}
     }
 
 }

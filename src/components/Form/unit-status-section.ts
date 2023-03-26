@@ -5,6 +5,7 @@ import '../radio-input';
 import '../custom-button';
 import '../date-input';
 import COPY from '../../affiliate-interface-copy.json' assert {type: "json"}
+import '../Form/comment-section.js'
  
 
 interface DateRange {
@@ -66,20 +67,20 @@ export class UnitStatusSection extends LitElement{
     @property()
     fileData!: {name: string, size: number, type: string};
 
-    @state()
-    private _activeStatus!: string;
+    @property()
+    inactive_unit!: string;
 
-    @state()
-    private _wageStatus!: string;
+    @property()
+    wage_adjustment!: string;
 
-    @state()
-    private _bargainingStatus!: string;
+    @property()
+    in_negotiation!: string;
 
     
     constructor(){
         super()
 
-        this._activeStatus = 'No';
+        this.inactive_unit = 'No';
     }
 
     _submit_button = () => {
@@ -121,6 +122,7 @@ export class UnitStatusSection extends LitElement{
     }
 
     render() {
+        console.log(this.in_negotiation)
         return html`
             <form-header title=${COPY.UnitStatus[0]['Section-header']}></form-header>
             <div id="unit-section">
@@ -129,7 +131,7 @@ export class UnitStatusSection extends LitElement{
                          defaultCheck=${'No'}
                          @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}>
             </radio-input>
-            ${this._activeStatus === 'Yes' ?
+            ${this.inactive_unit === 'Yes' ?
                 nothing 
                 : html`
                     ${this._unit_meta()}
@@ -138,14 +140,16 @@ export class UnitStatusSection extends LitElement{
                                  @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'WageStatus')}>
                     </radio-input>
 
-                    ${this._wageStatus === 'No' ?
+                    ${this.wage_adjustment === 'No' ?
                          html`
                             <radio-input prompt=${COPY.UnitStatus[0]['Bargaining-question']}
                             .labels=${['Yes', 'No']}
                             @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
                             </radio-input>
+
+                            ${this.in_negotiation === 'Yes'  || this.in_negotiation === 'No' ? html`<comment-section></comment-section>` : nothing}
                         
-                        ` : nothing}     
+                        ` : nothing}  
                 `
             }
             </div>
@@ -154,13 +158,13 @@ export class UnitStatusSection extends LitElement{
     _getInputValue = (e: EventType, label:string) => {
         switch(label){
             case 'ActiveStatus':
-                this._activeStatus = e.detail as string;
+                this.inactive_unit = e.detail as string;
                 break;
             case 'WageStatus':
-                this._wageStatus = e.detail as string;
+                this.wage_adjustment = e.detail as string;
                 break;
             case 'BargainingStatus':
-                this._bargainingStatus = e.detail as string;
+                this.in_negotiation = e.detail as string;
                 break;
             case 'MemberCount':
                 this.memberNumber = e.detail as number;
@@ -176,9 +180,9 @@ export class UnitStatusSection extends LitElement{
         }
 
         this.dispatchEvent(new CustomEvent('unit-status-values', {
-            detail: {'activeStatus': this._activeStatus, 
-                     'wageStatus': this._wageStatus,
-                     'bargainStatus': this._bargainingStatus,
+            detail: {'inactive_unit': this.inactive_unit, 
+                     'wage_adjustment': this.wage_adjustment,
+                     'in_negotiation': this.in_negotiation,
                      'memberCount': this.memberNumber,
                      'cbaEffectiveDates': this.dateRange,
                      'fileUpload': this.fileData},

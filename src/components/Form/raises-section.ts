@@ -32,7 +32,7 @@ export class RaisesSection extends LitElement{
         }
     `
     @property()
-    wageStatus!: 'Yes' | 'No';
+    wage_adjustment!: 'Yes' | 'No';
 
     @state()
     _generalRaises: TemplateResult[];
@@ -49,7 +49,7 @@ export class RaisesSection extends LitElement{
                                                 key=0 
                                                 id='first-raise'
                                                 @wage-event=${(e:any) => this._getWageEvent(e)}></wage-event>`];
-        this.wageStatus = 'Yes';
+        this.wage_adjustment = 'Yes';
         this._regularWageIncreases = [{
             id: '0',
             effective_date_of_inc: null,
@@ -65,9 +65,8 @@ export class RaisesSection extends LitElement{
     }
 
     render() {
-        console.log(this._updatedRegularWagesIncreases)
         return html`
-            ${this.wageStatus === 'Yes' ? html`
+            ${this.wage_adjustment === 'Yes' ? html`
                 <form-header title=${COPY.Raises[0]['Section-header']}></form-header>
                 <div>
                     ${this._generalRaises.map(raise => raise)}

@@ -25,6 +25,8 @@ export interface Unit {
     state: string;
     contact: Reporter | null;
     in_negotiation: 'Yes' | 'No' | null;
+    wage_adjustment?: 'Yes' | 'No' | null;
+    inactive_unit?: 'Yes' | 'No' | null;
     number_of_members: number | null;
     agreement_eff_date: string | null;
     agreement_exp_date: string | null;
@@ -39,14 +41,16 @@ export interface Unit {
     employer?: string | null;
     status?: 'Needs Review' | 'Saved';
     cbaFile?: File;
+    regular_raise_events?: wageEvent[];
+    special_raise_events?: wageEvent[];
 }
 
 export interface UnitList extends Array<Unit>{}
 
 export interface UnitStatus{
-    activeStatus: 'Yes' | 'No';
-    bargainStatus: 'Yes' | 'No' | undefined;
-    wageStatus: 'Yes' | 'No' | undefined;
+    inactive_unit: 'Yes' | 'No';
+    in_negotiation: 'Yes' | 'No' | undefined;
+    wage_adjustment: 'Yes' | 'No' | undefined;
     cbaEffectiveDates: {From: string, To: string} | undefined;
     fileUpload: File | undefined;
     memberCount: string | undefined;

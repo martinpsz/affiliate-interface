@@ -110,8 +110,6 @@ export class MinimumDues extends LitElement{
     
     
     render(){
-        
-            //this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
         return html`
             <div class="container">
                 <header-section></header-section>
@@ -147,20 +145,6 @@ export class MinimumDues extends LitElement{
         this._unitSelected = this._initialList[0]['agr_id'] !== e.detail ? e.detail : this._initialList[0]['agr_id'];
         
         this._unitDataSelection = this._initialList.filter(item => item['agr_id'] === this._unitSelected)[0]
-
-        this.requestUpdate()
-        //const indOfSelection = this._filteredList ? this._filteredList.findIndex(elem => elem.agr_id === this._unitSelected) : this._initialList.findIndex(elem => elem.agr_id === this._unitSelected)
-        //this._unitDataSelection = {...this._unitDataSelection, agr_id: this._unitSelected}
-        
-        /*if (this._filteredList && indOfSelection !== -1){
-            this._unitDataSelection = this._filteredList[indOfSelection]
-        } else if (!this._filteredList && indOfSelection !== -1) {
-            console.log(this._initialList[indOfSelection])
-        }*/
-
-       //if(indOfSelection !== -1){
-         //   this._unitDataSelection = this._filteredList ? this._filteredList[indOfSelection] : this._initialList[indOfSelection]
-        //}
     }
 
     _filterWithSearchValues = () => {
@@ -168,8 +152,6 @@ export class MinimumDues extends LitElement{
         let searchTermRegExp = new RegExp("^"+searchTerm, 'gi');
         let statusSelected = this._searchParams.statusSelection
 
-    
-    
         if(statusSelected === 'all'){
             this._filteredList = this._initialList.filter(item => item.name?.toLowerCase().match(searchTermRegExp) || item.unit_name?.toLowerCase().match(searchTermRegExp))
             

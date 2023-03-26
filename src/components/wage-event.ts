@@ -116,6 +116,7 @@ export class WageEvent extends LitElement{
                 <date-input type="date"
                             labelFrom="Effective Date"
                             id='date'
+                            .value=${''}
                             @retrieve-dates=${(e: {detail: {From: string}}) => this._updateWageData('effective-date', e.detail.From)}>
                 </date-input>
 
