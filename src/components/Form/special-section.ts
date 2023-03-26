@@ -39,6 +39,9 @@ export class SpecialSection extends LitElement {
     @state()
     _specialIncreases: Array<wageEvent>
 
+    @state()
+    _updatedSpecialWagesIncreases!: Array<wageEvent>;
+
     constructor(){
         super()
 
@@ -58,6 +61,7 @@ export class SpecialSection extends LitElement {
     }
 
     render() {
+        console.log(this._updatedSpecialWagesIncreases)
         return html`
             <form-header title=${COPY.Special[0]['Section-header']}></form-header>
             <div>
@@ -88,7 +92,7 @@ export class SpecialSection extends LitElement {
 
     _addSpecialAdjustment = () => {
         let arrSize = this._specialRaises.length + 1 as number
-        this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize} @wage-event=${this._getSpecialAdjustment}></wage-event>`]
+        this._specialRaises = [...this._specialRaises, html`<wage-event raiseEvent="SPECIAL" key=${arrSize} @wage-event=${this._getSpecialAdjustment} @wage-deletion=${this._removeSpecialWageEvent}></wage-event>`]
     }
 
     _getSpecialAdjustment = (e: {detail: {wageData: wageEvent}}) => {
@@ -106,24 +110,26 @@ export class SpecialSection extends LitElement {
             return array
         }
 
-        /*const removeWageData = (arr:Array<wageEvent>, id:number) => {
-            const objWithIdIndex = arr.findIndex((obj) => obj.id === id)
-
-            if(objWithIdIndex > -1){
-                arr.splice(objWithIdIndex, 1)
-            } 
-
-            return arr
-        }*/
-
-        let specialWageAdjustments = generateWageArray(this._specialIncreases, e.detail.wageData)
+        this._updatedSpecialWagesIncreases = generateWageArray(this._specialIncreases, e.detail.wageData)
         
-        console.log(specialWageAdjustments)
     
         this.dispatchEvent(new CustomEvent('get-wage-event', {
-            detail: specialWageAdjustments,
+            detail: this._updatedSpecialWagesIncreases,
             bubbles: true,
             composed: true
         }))
+    }
+
+    _removeSpecialWageEvent = (e: {detail: number}) => {
+        const idxToRemove = this._updatedSpecialWagesIncreases.findIndex((elem) => {    
+            return elem.id?.toString()  === e.detail.toString()
+        })
+
+        
+        this._updatedSpecialWagesIncreases = this._updatedSpecialWagesIncreases?.filter((elem, idx) => {
+            if (idx !== idxToRemove){
+                return elem
+            }
+        })
     }
 }
