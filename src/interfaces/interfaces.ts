@@ -11,6 +11,8 @@ export interface Reporter {
 }
 
 export interface Unit {
+    affiliate_id?: number;
+    master_name?: string;
     period_id: number;
     year: number;
     unit_id: number | null;

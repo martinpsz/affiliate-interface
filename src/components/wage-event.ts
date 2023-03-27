@@ -13,15 +13,16 @@ export class WageEvent extends LitElement{
             display: grid;
             grid-template-columns: 120px 130px 130px 130px 1em;
             grid-template-areas: 'date type change starting delete'
-                                 'affected description description description .';
+                                 'affected description description description .'
+                                 'supporting supporting supporting . .';
             align-items: end;
             justify-content: space-between;
             margin-bottom: 0.5em;
-            padding: 0.5em 0;
+            padding: 1em 0;
         }
 
         .special{
-            grid-row-gap: 1em;
+            grid-row-gap: 1.5em;
         }
 
         .wage-event span{
@@ -56,6 +57,10 @@ export class WageEvent extends LitElement{
 
         #affected{
             grid-area: affected;
+        }
+
+        #supporting{
+            grid-area: supporting;
         }
 
         #description{
@@ -99,6 +104,9 @@ export class WageEvent extends LitElement{
 
     @state()
     _number_affected!: number | string | null;
+
+    @state()
+    _supporting_docs!: string;
 
     @state()
     _group_description!: string | null;
@@ -163,6 +171,12 @@ export class WageEvent extends LitElement{
                                     @entered-input=${(e: {detail: string}) => this._updateWageData('number_affected', e.detail)}
                                     .value=${''}>    
                         </text-input>
+                        <text-input label="Upload documentation for this special raise"
+                                    lightMode
+                                    id='supporting'
+                                    type='file'
+                                    @file-upload=${(e: {detail: string}) => this._updateWageData('supporting_docs', e.detail)}>
+                        </text-input>
                         <text-input label="Describe group receiving this special increase/decrease"
                                     lightMode
                                     id='description'
@@ -218,6 +232,10 @@ export class WageEvent extends LitElement{
             this._number_affected = value;
         }
 
+        if(typeOfUpdate === 'supporting_docs'){
+            this._supporting_docs = value;
+        }
+
         if(typeOfUpdate === 'group_description'){
             this._group_description = value;
         }
@@ -243,8 +261,8 @@ export class WageEvent extends LitElement{
                               currency: 'USD'}).format(Number(this._cents_per_hour_inc)) : this._increase_type === 'hourly decrease' ? Intl.NumberFormat('en-us', {style: 'currency',
                               currency: 'USD'}).format(-Number(this._cents_per_hour_inc)): null,
 
-
                               number_affected: this._number_affected,
+                              supporting_docs: this._supporting_docs,
                               group_description: this._group_description}
 
         
