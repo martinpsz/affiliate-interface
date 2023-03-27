@@ -130,9 +130,6 @@ export class UnitStatusSection extends LitElement{
 
     
     render() {
-        console.log(`Inactive unit is set to in unit status section:`, this.inactive_unit_option)
-        console.log(`Wage adjustment is set to in unit status section:`, this.wage_adjustment_option)
-        console.log(`In negotiation is set to in unit status section:`, this.in_negotiation_option)
         return html`
             <form-header title=${COPY.UnitStatus[0]['Section-header']}></form-header>
             <div id="unit-section">

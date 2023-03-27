@@ -92,11 +92,8 @@ export class FormSection extends LitElement {
     
     render() {
         const {master, unit_name, name, local, subunit, contact, number_of_members, agreement_eff_date, agreement_exp_date, inactive_unit='No', wage_adjustment=undefined, in_negotiation=undefined} = this.unitData;
-        const updatedUnitData = {...this.unitData, inactive_unit, wage_adjustment};
-        //console.log(`Original:`, this.unitData);
-        //console.log(`Updated:`, updatedUnitData);
-        console.log(`Updated inactive unit status`, updatedUnitData.inactive_unit)
-        console.log(`Updated wage adjustment status`, updatedUnitData.wage_adjustment)
+        //const updatedUnitData = {...this.unitData, inactive_unit, wage_adjustment};
+        console.log(this.unitData)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
@@ -143,7 +140,6 @@ export class FormSection extends LitElement {
 
     
     _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {
-        
         this.unitData = {...this.unitData, 
                             inactive_unit: e.detail.inactive_unit,
                             wage_adjustment: e.detail.wage_adjustment,    
