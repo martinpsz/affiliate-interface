@@ -110,7 +110,7 @@ export class TextInput extends LitElement{
                        type=${this.type} 
                        placeholder=${this.placeholder} 
                        name=${this.label?.replace(/:$/g, '')} 
-                       @input=${debounce(this._textInputEmitter, 1000)}
+                       @input=${debounce(this._textInputEmitter, 0)}
                        @change=${this.type==='file' ? this._fileUploadHandler : nothing}
                        .value=${this.type!=='file' ? this.value : ''}/>
                 <small>${this.warning}</small>

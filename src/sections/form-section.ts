@@ -73,14 +73,14 @@ export class FormSection extends LitElement {
     @property()
     unitData!: Unit;
 
+    @property()
+    updatedUnitData!: Unit;
+
     @state()
     _employerSection!: {}
 
     @state()
     _unitStatusSection!: UnitStatus;
-
-    @state()
-    _unitDataUpdates!: any;
 
     @state()
     _regularWageIncreases!: Array<wageEvent>;
@@ -89,32 +89,41 @@ export class FormSection extends LitElement {
     _specialWageIncreases!: Array<wageEvent>;
 
 
+    
     render() {
-        console.log(this.unitData)
+        const {master, unit_name, name, local, subunit, contact, number_of_members, agreement_eff_date, agreement_exp_date, inactive_unit='No', wage_adjustment=undefined, in_negotiation=undefined} = this.unitData;
+        const updatedUnitData = {...this.unitData, inactive_unit, wage_adjustment};
+        //console.log(`Original:`, this.unitData);
+        //console.log(`Updated:`, updatedUnitData);
+        console.log(`Updated inactive unit status`, updatedUnitData.inactive_unit)
+        console.log(`Updated wage adjustment status`, updatedUnitData.wage_adjustment)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>
                 <form>
-                    <employer-section employer=${this.unitData.master && this.unitData['unit_name'] === "(master)" ? this.unitData['name'] : this.unitData['unit_name']} 
-                                    local=${this.unitData['local']}
-                                    subunit=${this.unitData['subunit']}
+                    <employer-section employer=${master && unit_name === "(master)" ? name : unit_name} 
+                                    local=${local}
+                                    subunit=${subunit}
                                     @employer-field-values=${this._setEmployerFieldValues}>
                     </employer-section>
 
-                    <reporter-section .contact=${this.unitData['contact']}
-                                    @reporter-field-values=${this._setReporterFieldValues}>
+                    <reporter-section .contact=${contact}
+                                      @reporter-field-values=${this._setReporterFieldValues}>
                     </reporter-section>
 
-                    <unit-status-section memberNumber=${this.unitData['number_of_members']}
-                                        .effectiveFrom=${this.unitData['agreement_eff_date']}
-                                        .effectiveTo=${this.unitData['agreement_exp_date']}
-                                        @unit-status-values=${this._setUnitStatusFieldValues}> 
+                    <unit-status-section .memberNumber=${number_of_members}
+                                         .effectiveFrom=${agreement_eff_date}
+                                         .effectiveTo=${agreement_exp_date}
+                                         @unit-status-values=${this.  _setUnitStatusFieldValues}
+                                         .inactive_unit_option=${inactive_unit}
+                                         .wage_adjustment_option=${wage_adjustment}
+                                         .in_negotiation_option=${in_negotiation}> 
                     </unit-status-section>
 
-                    ${this.unitData.inactive_unit === 'No' && this.unitData.wage_adjustment === 'Yes'?
+                    ${inactive_unit === 'No' && wage_adjustment === 'Yes'?
                         html`<raises-section @get-wage-event=${this._setRegularWageIncreases}></raises-section>
                             <special-section @get-wage-event=${this._setSpecialWageIncreases}></special-section>
-                            <comment-section></comment-section>
+                            <comment-section @get-comment=${this._setComment}></comment-section>
                             ` 
                         : nothing
                     }
@@ -134,6 +143,7 @@ export class FormSection extends LitElement {
 
     
     _setUnitStatusFieldValues = (e: {detail: UnitStatus}) => {
+        
         this.unitData = {...this.unitData, 
                             inactive_unit: e.detail.inactive_unit,
                             wage_adjustment: e.detail.wage_adjustment,    
@@ -151,6 +161,10 @@ export class FormSection extends LitElement {
 
     _setSpecialWageIncreases = (e: {detail: []}) => {
         this.unitData = {...this.unitData, special_raise_events: e.detail}
+    }
+
+    _setComment = (e: {detail: string}) => {
+        this.unitData = {...this.unitData, comment: e.detail}
     }
 
 }

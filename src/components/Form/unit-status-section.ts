@@ -68,27 +68,33 @@ export class UnitStatusSection extends LitElement{
     fileData!: {name: string, size: number, type: string};
 
     @property()
+    comment!: string;
+
+    @property()
     inactive_unit!: string;
+
+    @property()
+    inactive_unit_option!: string;
 
     @property()
     wage_adjustment!: string;
 
     @property()
+    wage_adjustment_option!: string;
+
+    @property()
     in_negotiation!: string;
 
-    
-    constructor(){
-        super()
+    @property()
+    in_negotiation_option!: string;
 
-        this.inactive_unit = 'No';
-    }
 
     _submit_button = () => {
         return html`<custom-button warning 
                                    buttonText=${"Save Report"} 
                                   .icon=${html`<iconify-icon icon="ant-design:cloud-upload-outlined" 
                                    style="color: white;" width="24" height="24">
-                                               </iconify-icon>`}>
+                                 </iconify-icon>`}>
                     </custom-button>`
     }
 
@@ -116,38 +122,45 @@ export class UnitStatusSection extends LitElement{
                         id="file"
                         label=${COPY.UnitStatus[0]['CBA-Upload']}
                         accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
-                        @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}></text-input>
+                        @file-upload=${(e: EventType) => this._getInputValue(e, 'File')}>
+            </text-input>
         </div>
         `
     }
 
+    
     render() {
-        console.log(this.in_negotiation)
+        console.log(`Inactive unit is set to in unit status section:`, this.inactive_unit_option)
+        console.log(`Wage adjustment is set to in unit status section:`, this.wage_adjustment_option)
+        console.log(`In negotiation is set to in unit status section:`, this.in_negotiation_option)
         return html`
             <form-header title=${COPY.UnitStatus[0]['Section-header']}></form-header>
             <div id="unit-section">
             <radio-input prompt=${COPY.UnitStatus[0]['Active-question']} 
                         .labels=${['Yes', 'No']} 
-                         defaultCheck=${'No'}
+                        defaultChecked="No"
+                        .selection=${this.inactive_unit_option}
                          @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'ActiveStatus')}>
             </radio-input>
-            ${this.inactive_unit === 'Yes' ?
+            ${this.inactive_unit_option === 'Yes' ?
                 nothing 
                 : html`
                     ${this._unit_meta()}
                     <radio-input prompt=${COPY.UnitStatus[0]['Wage-question']}
                                  .labels=${['Yes', 'No']}
+                                 .selection=${this.wage_adjustment_option}
                                  @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'WageStatus')}>
                     </radio-input>
 
-                    ${this.wage_adjustment === 'No' ?
+                    ${this.wage_adjustment_option === 'No' ?
                          html`
                             <radio-input prompt=${COPY.UnitStatus[0]['Bargaining-question']}
                             .labels=${['Yes', 'No']}
+                            
                             @retrieve-selection=${(e: EventType) => this._getInputValue(e, 'BargainingStatus')}>
                             </radio-input>
 
-                            ${this.in_negotiation === 'Yes'  || this.in_negotiation === 'No' ? html`<comment-section></comment-section>` : nothing}
+                            ${this.in_negotiation_option === 'Yes'  || this.in_negotiation_option === 'No' ? html`<comment-section @get-comment=${(e:EventType) => this._getInputValue(e, 'Comment')}></comment-section>` : nothing}
                         
                         ` : nothing}  
                 `
@@ -174,6 +187,9 @@ export class UnitStatusSection extends LitElement{
                 break;
             case 'File':
                 this.fileData = e.detail as File;
+                break;
+            case 'Comment':
+                this.comment = e.detail as string;
                 break;
             default:
                 return true;

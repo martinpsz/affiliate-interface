@@ -61,7 +61,6 @@ export class SpecialSection extends LitElement {
     }
 
     render() {
-        console.log(this._updatedSpecialWagesIncreases)
         return html`
             <form-header title=${COPY.Special[0]['Section-header']}></form-header>
             <div>

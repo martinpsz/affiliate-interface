@@ -43,6 +43,7 @@ export interface Unit {
     cbaFile?: File;
     regular_raise_events?: wageEvent[];
     special_raise_events?: wageEvent[];
+    comment?: string | null;
 }
 
 export interface UnitList extends Array<Unit>{}

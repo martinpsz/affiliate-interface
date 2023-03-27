@@ -63,7 +63,10 @@ export class RadioInput extends LitElement {
     labels!: string[]
 
     @property()
-    defaultCheck!: string;
+    selection!: string | undefined;
+
+    @property()
+    defaultChecked!: string | undefined;
 
     @property({type:Boolean})
     darkMode = false;
@@ -74,43 +77,63 @@ export class RadioInput extends LitElement {
     @property({type:Boolean})
     raiseSelection = false;
 
+    
+
     render() {
+        //console.log(this.selection)
         const classes = {darkMode : this.darkMode, dirColumn : this.dirColumn, raiseSelection : this.raiseSelection}
+        
         return html`
             <div class="radio-input ${classMap(classes)}">
                 <p>${this.prompt}</p>
                 <div>
                     ${this.labels?.length > 1 && this.labels.map(label => {
                         return html`
-                            ${label.toLowerCase() === this.defaultCheck?.toLowerCase() ? html`
-                                <input id=${label} type="radio" name="options" checked @input=${this._getInput}/>
-                                <label for=${label}>${label}</label>` : 
-                            html`
-                                <input id=${label} type="radio" name="options" @input=${this._getInput}/>
-                                <label for=${label}>${label}</label>      
-                        `}
-                        `
+                                <input id=${label} type="radio" name="options" .value=${label} ?checked=${this.selection === label}
+                                 @change=${this._getInput}/>
+                                <label for=${label}>${label}</label>`
                     })}
                 </div>
             </div>
         `
     }
 
-    _getInput = () => {
-        let selection;
-        const inputs = this.renderRoot.querySelectorAll('input')
-        for (let i=0; i<inputs.length; i++){
-            if (inputs[i].checked) {
-                selection = inputs[i].id
-            }
-        }
-        
+    _getInput = (e: {target: HTMLInputElement}) => {
+        this.selection = e.target.value;
+
         this.dispatchEvent(new CustomEvent('retrieve-selection', {
-            detail: selection,
+            detail: this.selection,
             composed: true,
             bubbles: true,
         }))
     }
+
+   
+    //if component updates, reset input checked to original value or this.defaultChecked
+    updated(changedProperties: Map<string | number | symbol, unknown>) {
+        if (changedProperties.has('selection')) {
+            this.shadowRoot?.querySelectorAll('input').forEach(input => {
+                if (input.value === this.selection) {
+                    input.checked = true;
+                } else {
+                    input.checked = false;
+                }
+            })
+        }
+    }
+
+    
+    
+
+    
+
+    
+
+
+    
+
+    
+
 }
 
 declare global {

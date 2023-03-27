@@ -31,10 +31,15 @@ export class CommentSection extends LitElement {
     `
 
     @property()
-    comment!: string | undefined;
+    comment!: string;
 
     @state()
     commentStatus!: 'Yes' | 'No';
+
+    constructor(){
+        super();
+        this.comment = '';
+    }
 
     protected render() {
         return html`
@@ -43,13 +48,19 @@ export class CommentSection extends LitElement {
                     title="Additional Comments">
                 </form-header>
                 <radio-input prompt="Is there any other info we need to properly record the report for this unit?" .labels=${['Yes', 'No']} @retrieve-selection=${this._setCommentStatus}></radio-input>
-                ${this.commentStatus === 'Yes' ? html`<textarea id="comment-textarea" placeholder="Enter comments here..." @input=${this._updateComment} .value=${''}></textarea>` : nothing}
+                ${this.commentStatus === 'Yes' ? html`<textarea id="comment-textarea" placeholder="Enter comments here..." @change=${this._updateComment.bind(this)} value=${this.comment}></textarea>` : nothing}
             </div>
         `;
     }
 
-    _updateComment(e: Event) {
-        this.comment = (e.target as HTMLTextAreaElement).value;
+    _updateComment(e:{target: HTMLTextAreaElement}) {
+        this.comment = e?.target.value;
+
+        this.dispatchEvent(new CustomEvent('get-comment', {
+            detail: this.comment,
+            bubbles: true,
+            composed: true
+        }));
     }
 
     _setCommentStatus(e: CustomEvent) {
