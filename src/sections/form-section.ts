@@ -92,8 +92,6 @@ export class FormSection extends LitElement {
     
     render() {
         const {master, unit_name, name, local, subunit, contact, number_of_members, agreement_eff_date, agreement_exp_date, inactive_unit='No', wage_adjustment=undefined, in_negotiation=undefined} = this.unitData;
-        //const updatedUnitData = {...this.unitData, inactive_unit, wage_adjustment};
-        console.log(this.unitData)
         return html`
             <div id="form-container">
                 <form-nav totalForms=${this.totalForms} currForm=${this.currForm}></form-nav>

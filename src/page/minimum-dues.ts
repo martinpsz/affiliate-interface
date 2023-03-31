@@ -4,6 +4,7 @@ import '../sections/header-section'
 import '../sections/footer-section'
 import '../sections/list-section'
 import '../sections/form-section'
+import { processData, generateContactList } from "../entry/preprocessing.js";
 
 import {Unit, UnitList} from '../interfaces/interfaces'
 import data from '../test-data.json' assert {type: "json"}
@@ -110,6 +111,7 @@ export class MinimumDues extends LitElement{
     
     
     render(){
+        processData(data)
         return html`
             <div class="container">
                 <header-section></header-section>
